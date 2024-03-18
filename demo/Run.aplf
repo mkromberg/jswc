@@ -3,7 +3,11 @@
  ⍝ web: 'Desktop' (0), 'Browser' (1) or 'Multi' (2)
 
  JSWC←##.JSWC
- JSWC.PORT←22322
+ :If 0<≢r←2 ⎕NQ'.' 'GetEnvironment' 'EWC_PORT'
+     JSWC.PORT←⍬⍴2⊃⎕VFI r
+ :Else
+     JSWC.PORT←22322
+ :EndIf
  root←{⊃⎕NPARTS ¯1↓⍵}⊃⎕NPARTS 4⊃5179⌶⊃⎕SI
  JSWC.RESOURCES←1 2⍴'images'(root,'/demo/images')
 
@@ -24,7 +28,7 @@
      ⎕SE.Posn←200 300
      DemoMenu 1
      :If JSWC.NOIDQ
-        r←eDQ'F1'
+         r←eDQ'F1'
      :EndIf
      ⍝ ⎕EX'F1'
      ⍝ JSWC.Stop
@@ -32,9 +36,9 @@
  :Case 1 ⍝ Browser
      ⎕←'Connect Browser now...'
      :Repeat
-        ⍞←'.'
-        ⎕DL 1
-     :Until 2=⎕NC '_JSWC.ID'
+         ⍞←'.'
+         ⎕DL 1
+     :Until 2=⎕NC'_JSWC.ID'
      ⎕←''
      :If '''Browser'''≡¯5↑2 ⎕NQ'.' 'GetEnvironment' 'LX'
          ⎕←r←eDQ'.'
@@ -46,6 +50,6 @@
          ∘∘∘ ⍝ Abnormal web termination
      :EndIf
 
-  :Case 2 ⍝ Multi
+ :Case 2 ⍝ Multi
      ⎕←'Running in Multi mode'
-  :EndSelect
+ :EndSelect
