@@ -1,0 +1,2 @@
+r←eWC_teardown sink
+⎕se.Link.Break #.tests

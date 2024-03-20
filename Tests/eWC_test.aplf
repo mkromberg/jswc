@@ -1,0 +1,93 @@
+ r←eWC_test sink;tests;demos;d;⎕TRAP;f;t;file;sup;rC;z;lastd;dl;de;from;to;arg
+ tests←#.tests.demo.⎕NL ¯3
+ tests←{((⊂'Test')≡¨4↑¨⍵)/⍵}tests
+ demos←{4↓2⊃⎕NPARTS ⍵}¨⊃0(⎕NINFO⍠1)dPath,'/Demo*.*'
+ r←⍬
+ arg←1↓##.args.Arguments   ⍝ 1st element of arg is the name of the .dylogtest
+ dl←⍬  ⍝ demo list we want to run
+ de←⍬  ⍝ demos we NOT want to run
+ :If 0<≢arg
+     :For d :In arg
+         :If '~'=⊃d
+             de,←⊂1↓d
+         :ElseIf ∨/'..'⍷d
+             (from to)←'|'(≠⊆⊢)' ',(⊃('(.*)\.\.(.*)'⎕S'\1|\2')d),' '
+             f←0
+             t←≢demos
+             :If 0<≢from
+                 f←demos⍳⊂1↓from
+             :EndIf
+             :If 0<≢to
+                 t←demos⍳⊂¯1↓to
+             :EndIf
+             dl,←(f-1)↓t↑demos
+         :Else
+             dl,←⊂d
+         :EndIf
+     :EndFor
+ :Else
+     dl←demos
+ :EndIf
+ demos←∪dl~de
+ lastd←'just started'
+ :For d :In demos
+     :If (⊂'~',d)∊##.args.Arguments
+         :Continue
+     :EndIf
+     :If 0=⎕NC'p'
+     :OrIf p{6::1 ⋄ ⍺⍎⍵}'HasEnded'
+         BROWSER eWC_createBrowser MODE
+     :EndIf
+     #.S.GoTo ROOT
+     ⎕←d
+    ⍝ {}⍞
+     z←#.S.Find'F1.MENU'
+     :If 326=⎕DR z
+         ⎕←'Find ',z
+         'F1.MENU'#.S.Select d      ⍝ select the test
+         {}⎕DL 1  ⍝ allow some time to load
+         z←#.S.Find'F1.MENU'
+         :If z≡0
+             r,←⊂d,': could not find F1.MENU'
+             :Leave
+         :Else
+             z←'F1.STOP'#.S.WaitFor'Stop'  ⍝ wait for the Stop button as an indication that the test has loaded indeed
+             ⎕←z
+             :If (⊂d)∊tests  ⍝ check if this demo has a test that we can run...
+        ⍝ run demo d
+             :EndIf
+
+    ⍝ also check if the test accesses all implemented pros / methods of the object
+    ⍝ C:\Git\jswc\JSWC\classes\button\Supported.apla
+    ⍝ C:\Git\jswc\JSWC\classes\button\SupportedEvents.apla
+             src←#.demo.⎕VR d
+             ⍝ the assumption that the testname matches the control that's being tested does
+    ⍝ not hold. check the source for ⎕wc instead to see what's created.
+    ⍝ probably we also need to look at this globally, not per test, since different
+    ⍝ tests might be written to test different aspects of the same control.
+    ⍝  :For f t :In ('Supported' 'properties')('SupportedEvents' 'events')
+    ⍝      :If ⎕NEXISTS file←##.TESTSOURCE,'../JSWC/classes/',(⎕C d),'/',f,'.apla'
+    ⍝          sup←1⊃⎕NGET file
+    ⍝ ⍝ find "relevant code" to examine (to avoid being misled by comments etc.)
+    ⍝          rC←('^.*(eW[C|S].*$)'⎕S'%1')src
+    ⍝          ∘∘∘
+    ⍝          z←sup⍷⍥⎕C¨⊂rC
+    ⍝          :If 0∊z
+    ⍝              z←~z
+    ⍝              r,←⊂'Supported ',t,' that were not referenced in the demo: ',¯2↓∊'"',¨(z/sup),¨⊂'", '
+    ⍝          :EndIf
+    ⍝      :Else
+    ⍝          r,←⊂'Did not find "',file,'"'
+    ⍝      :EndIf
+    ⍝  :EndFor
+
+         :EndIf
+     :Else
+         r,←⊂d,': could not even find F1.MENU, so probably something went wrong before (lastd=',lastd,')'
+     :EndIf
+    ⍝ :EndIf
+     lastd←d
+ :EndFor
+ ⎕TRAP←0'S' ⋄ (⎕lc[1]+1)⎕stop 1⊃⎕si
+ r←∊r,¨⎕UCS 10
+

@@ -1,0 +1,10 @@
+ r←eWC_init_Desktop
+ r←''
+ :Trap (~##.halt)/0
+     eWC_init_loader 1⊃1 ⎕NPARTS ##.TESTSOURCE,'../'
+     ROOT←'http://dyalog_root/index'
+     BROWSER←'HtmlRenderer'
+     MODE←0
+ :Else
+     r←⎕DMX.Message
+ :EndTrap
