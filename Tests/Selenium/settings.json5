@@ -27,6 +27,11 @@
               // DEPRECATED: this should be version specific - pls. move away from using the "plain" "HtmlRenderer"-config!
               v: '90.0.4430.2400'
             },
+            HeadlessHtmlRenderer: {
+              // DEPRECATED: this should be version specific - pls. move away from using the "plain" "HtmlRenderer"-config!
+              v: '90.0.4430.2400',
+              AddArguments: ['--headless --no-sandbox']
+            },
             HtmlRenderer182: {
               v: '90.0.4430.2400'
             },
