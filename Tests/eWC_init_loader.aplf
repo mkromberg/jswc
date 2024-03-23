@@ -21,10 +21,13 @@
 
  #.S←#.tests.Selenium.Selenium
 
-src←1⊃1 ⎕NPARTS ##.TESTSOURCE,'../'       ⍝ intentionally global!
- dPath←∊1 ⎕NPARTS ##.TESTSOURCE,'../demo'  ⍝ initentionally global!
+ EWC_HOME←1⊃1 ⎕NPARTS ##.TESTSOURCE,'../'       ⍝ intentionally global!
+ dPath←∊1 ⎕NPARTS EWC_HOME,'demo'  ⍝ intentionally global!
  '#.demo'⎕NS''
  IMPORT #.demo dPath   ⍝ load all demos
 
  #.S.QUIETMODE←##.quiet
- #.S.HOME←src,'Tests/Selenium/'
+ #.S.HOME←EWC_HOME,'Tests/Selenium/'
+
+ ⍝3 ⎕NDELETE⍠1⊢dPath,'*.png'
+ ⍝3 ⎕NDELETE⍠1⊢dPath,'*.log'

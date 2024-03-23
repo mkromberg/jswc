@@ -1,2 +1,7 @@
-r←eWC_teardown sink
-⎕se.Link.Break #.tests
+ r←eWC_teardown sink
+ :If 9=#.S.⎕NC'BROWSER'
+     #.S.BROWSER.Close
+     #.S.BROWSER.Quit
+ :EndIf
+ ⎕SE.Link.Break #.tests
+ r←''

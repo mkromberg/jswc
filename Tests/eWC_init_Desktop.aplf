@@ -3,7 +3,7 @@
  :Trap (~##.halt)/0
      eWC_init_loader 1⊃1 ⎕NPARTS ##.TESTSOURCE,'../'
      ROOT←'http://dyalog_root/index'
-     BROWSER←'HtmlRenderer'
+     BRWSR←'HtmlRenderer'
      MODE←0
  :Else
      r←⎕DMX.Message

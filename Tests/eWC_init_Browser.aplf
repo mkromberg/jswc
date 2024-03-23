@@ -3,7 +3,7 @@
  :Trap (~##.halt)/0
      eWC_init_loader 1⊃1 ⎕NPARTS ##.TESTSOURCE,'../'
      ROOT←'http://localhost:22344'
-     BROWSER←'LatestChrome'
+     BRWSR←'LatestChrome'
      MODE←1
  :Else
      r←(⎕json⍠'Compact'0)⎕DMX
