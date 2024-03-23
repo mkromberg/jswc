@@ -1,11 +1,20 @@
- r←eWC_test sink;tests;demos;d;⎕TRAP;f;t;file;sup;rC;z;lastd;dl;de;from;to;arg
+ r←eWC_test sink;tests;demos;d;⎕TRAP;f;t;file;sup;rC;z;lastd;dl;de;from;to;arg;msg;src;_Env
  tests←#.tests.demo.⎕NL ¯3
  tests←{((⊂'Test')≡¨4↑¨⍵)/⍵}tests
  demos←{4↓2⊃⎕NPARTS ⍵}¨⊃0(⎕NINFO⍠1)dPath,'/Demo*.*'
- r←⍬
- arg←1↓##.args.Arguments   ⍝ 1st element of arg is the name of the .dylogtest
+ r←''
  dl←⍬  ⍝ demo list we want to run
  de←⍬  ⍝ demos we NOT want to run
+ arg←1↓##.args.Arguments   ⍝ 1st element of arg is the name of the .dylogtest
+ _Env←{
+    ⍝ get value of environment variable or #-based variable (case-sensitive)
+     z←2 ⎕NQ #'GetEnvironment'⍵
+     ⍺←''
+     0=≢z:⍺
+     (⎕DR ⍺)∊80 160:⍵
+     2⊃⎕VFI ⍵
+ }
+
  :If 0<≢arg
      :For d :In arg
          :If '~'=⊃d
@@ -30,29 +39,47 @@
  :EndIf
  demos←∪dl~de
  lastd←'just started'
+ :If 1=1↑_Env'EWC_RANDOMORDER'
+     demos['eWC_order'##.RandomVal 2/≢demos]
+ :EndIf
  :For d :In demos
      :If (⊂'~',d)∊##.args.Arguments
          :Continue
      :EndIf
+     msg←''
      :If 0=⎕NC'p'
-     :OrIf p{6::1 ⋄ ⍺⍎⍵}'HasEnded'
-         BROWSER eWC_createBrowser MODE
+     :OrIf p{6::1 ⋄ ⍺⍎⍵}'HasExited'
+         BRWSR eWC_createBrowser MODE
+     :EndIf
+     :If lastd≢'just started'
+     :AndIf 0<pi←0 _Env'EWC_PROGRESSINDICATOR'
+        ⍝ 0= no info
+        ⍝ 1= show name of next test
+        ⍝ 2= AND wait for keypress
+         :Select ,pi
+         :Case ,1
+             ⎕←d
+         :Case ,2
+             {}⍞←'press <enter> for ',d
+         :EndSelect
      :EndIf
      #.S.GoTo ROOT
-     ⎕←d
-    ⍝ {}⍞
-     z←#.S.Find'F1.MENU'
+     z←'CssSelector'#.S.Find'[id$="MENU"]'
+
      :If 326=⎕DR z
-         ⎕←'Find ',z
-         'F1.MENU'#.S.Select d      ⍝ select the test
+         ('CssSelector' '[id$="MENU"]')#.S.Select d      ⍝ selecting the test will load it
          {}⎕DL 1  ⍝ allow some time to load
-         z←#.S.Find'F1.MENU'
+
+         z←'CssSelector'#.S.Find'[id$="MENU"]'             ⍝ check if loaded test also has a menu...
          :If z≡0
-             r,←⊂d,': could not find F1.MENU'
-             :Leave
+             msg←'could not find F1.MENU'
          :Else
-             z←'F1.STOP'#.S.WaitFor'Stop'  ⍝ wait for the Stop button as an indication that the test has loaded indeed
-             ⎕←z
+             z←('CssSelector' '[id$="STOP"]')#.S.WaitFor'Stop'  ⍝ wait for the Stop button as an indication that the test has loaded indeed
+             :If z≢''
+                 ⎕←'z=',z
+                 ⎕TRAP←0 'S' ⋄ (⎕LC[1]+1)⎕STOP 1⊃⎕SI
+             :EndIf
+
              :If (⊂d)∊tests  ⍝ check if this demo has a test that we can run...
         ⍝ run demo d
              :EndIf
@@ -83,11 +110,24 @@
 
          :EndIf
      :Else
-         r,←⊂d,': could not even find F1.MENU, so probably something went wrong before (lastd=',lastd,')'
+       ⍝ Checking '' against the errmsg will help to ensure halt with "-h"
+         msg←'could not find F1.MENU'  ⍝  , so probably something went wrong before (lastd=',lastd,')'
      :EndIf
-    ⍝ :EndIf
+     :If 0<≢msg
+         file←##.TESTSOURCE,d,'.png'
+         #.S.SaveScreenshot file
+         r,←⊂d,': ',msg,' - saved screenshot as ',file
+         :If ##.halt
+             ⎕←'test ',d,' failed!'
+             ⎕←'→',(⍕⎕LC[1]+2),'   ⍝ to continue'
+             ⎕TRAP←0 'S' ⋄ (⎕LC[1]+1)⎕STOP 1⊃⎕SI
+         :EndIf
+     :EndIf
      lastd←d
  :EndFor
- ⎕TRAP←0'S' ⋄ (⎕lc[1]+1)⎕stop 1⊃⎕si
- r←∊r,¨⎕UCS 10
-
+ :If 0<≢r
+     r←∊(⊂⎕UCS 13 10),¨r
+ :Else
+     ⎕←(⍕≢demos),' demo pages were opened and ',(⍕tests),' tests were excuted without issues!'
+     ⎕←'👍'   ⍝ emotional & motivational message
+ :EndIf
