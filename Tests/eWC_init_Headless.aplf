@@ -1,0 +1,10 @@
+ r←eWC_init_Headless;PORT
+ r←''
+ :Trap (~##.halt)/0
+     eWC_init_loader 1⊃1 ⎕NPARTS ##.TESTSOURCE,'../'
+     ROOT←'http://localhost:22344'
+     BRWSR←'HeadlessChrome'
+     MODE←1
+ :Else
+     r←(⎕json⍠'Compact'0)⎕DMX
+ :EndTrap
