@@ -563,7 +563,14 @@
     ∇ r←larg WaitFor args;f;text;msg;element
     ⍝ Retry until text/value of element begins with text
     ⍝ Return msg on failure, '' on success
-      :If 9≠⎕NC'larg' ⋄ larg←Find larg ⋄ :EndIf
+      :If 9≠⎕NC'larg'
+          :If 2=≡larg
+          :AndIf 2=≢larg
+              larg←(1⊃larg)Find 2⊃larg
+          :Else
+              larg←Find larg
+          :EndIf
+      :EndIf
       :If larg≡0 ⋄ r←'Did not find element "',(⍕larg),'"' ⋄ →0 ⋄ :EndIf
       element←larg
       args←eis args
@@ -779,7 +786,7 @@
 
     :section SETTINGS
     ∇ R←GetSettings;v;varnam
-      R←1⊃⎕nget _HOME,'settings.json5'
+      R←1⊃⎕NGET _HOME,'settings.json5'
       R←(⎕JSON⍠'Dialect' 'JSON5')R
       R.Browsers←Flatten R.Browsers
     ∇
