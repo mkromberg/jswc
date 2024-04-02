@@ -1,17 +1,19 @@
- r←eWC_test sink;tests;demos;d;⎕TRAP;f;t;file;sup;rC;z;lastd;dl;de;from;to;arg;msg;src;_Env
+ r←eWC_test sink;tests;demos;d;⎕TRAP;f;t;file;sup;rC;z;lastd;dl;de;from;to;arg;msg;src;_Env;DEFAULTS;v;pi
  tests←#.tests.demo.⎕NL ¯3
  tests←{((⊂'Test')≡¨4↑¨⍵)/⍵}tests
  demos←{4↓2⊃⎕NPARTS ⍵}¨⊃0(⎕NINFO⍠1)dPath,'/Demo*.*'
+ DEFAULTS←0(⎕JSON⍠'Dialect' 'JSON5')(1⊃⎕NGET ##.TESTSOURCE,'eWC_defaults.json5')
  r←''
  dl←⍬  ⍝ demo list we want to run
  de←⍬  ⍝ demos we NOT want to run
  arg←1↓##.args.Arguments   ⍝ 1st element of arg is the name of the .dylogtest
  _Env←{
-    ⍝ get value of environment variable or #-based variable (case-sensitive)
+    ⍝ get value of environment variable or #-based variable (case-sensitive, prefixed with 'EWC_')
+    ⍝ defaults taken from DEFAULTS ns.
      z←2 ⎕NQ #'GetEnvironment'⍵
-     ⍺←''
-     0=≢z:⍺
-     (⎕DR ⍺)∊80 160:⍵
+     def←{2=#.⎕NC'EWC_',⍵:#⍎'EWC_',⍵ ⋄ DEFAULTS⍎⍵}⍵
+     0=≢z:def
+     (⎕DR def)∊80 160:⍵
      2⊃⎕VFI ⍵
  }
 
@@ -39,7 +41,7 @@
  :EndIf
  demos←∪dl~de
  lastd←'just started'
- :If 1=1↑_Env'EWC_RANDOMORDER'
+ :If 1=1↑0 _Env'RANDOMORDER'
      demos['eWC_order'##.RandomVal 2/≢demos]
  :EndIf
  :For d :In demos
@@ -52,7 +54,7 @@
          BRWSR eWC_createBrowser MODE
      :EndIf
      :If lastd≢'just started'
-     :AndIf 0<pi←0 _Env'EWC_PROGRESSINDICATOR'
+     :AndIf 0<pi←0 _Env'PROGRESSINDICATOR'
         ⍝ 0= no info
         ⍝ 1= show name of next test
         ⍝ 2= AND wait for keypress
@@ -65,29 +67,34 @@
      :EndIf
      #.S.GoTo ROOT
      z←'CssSelector'#.S.Find'[id$="MENU"]'
-
-     :If 326=⎕DR z
-         ('CssSelector' '[id$="MENU"]')#.S.Select d      ⍝ selecting the test will load it
-         {}⎕DL 1  ⍝ allow some time to load
-
-         z←'CssSelector'#.S.Find'[id$="MENU"]'             ⍝ check if loaded test also has a menu...
-         :If z≡0
-             msg←'could not find F1.MENU'
+     :If 326 Check ⎕DR z    ⍝ check if we find the menu
+         msg←'could not find F1.MENU (possibly something went wrong before (lastd=',lastd,')'    ⍝ although that should be veeery unlikely now....
+     :Else
+         z←('CssSelector' '[id$="MENU"]')#.S.Select(5↓d)      ⍝ selecting the test will load it
+         :If z Check 1  ⍝ can we select the test in the menu
+             msg←'test not found in menu (attention: it is case-sensitive!)'
          :Else
-             z←('CssSelector' '[id$="STOP"]')#.S.WaitFor'Stop'  ⍝ wait for the Stop button as an indication that the test has loaded indeed
-             :If z≢''
-                 ⎕←'z=',z
-                 ⎕TRAP←0 'S' ⋄ (⎕LC[1]+1)⎕STOP 1⊃⎕SI
-             :EndIf
+             {}⎕DL 1  ⍝ allow some time to load
 
-             :If (⊂d)∊tests  ⍝ check if this demo has a test that we can run...
+             z←'CssSelector'#.S.Find'[id$="MENU"]'             ⍝ check if loaded test also has a menu...
+             :If 326 Check ⎕DR z
+                 msg←'could not find F1.MENU'
+             :Else
+                 z←('CssSelector' '[id$="STOP"]')#.S.WaitFor'Stop'
+                 :If ''Check z   ⍝ wait for the Stop button as an indication that the test has loaded indeed
+                     ⎕←msg←'could not find STOP button'
+                     ⎕←'z=',z
+                     ⎕TRAP←0 'S' ⋄ (⎕LC[1]+1)⎕STOP 1⊃⎕SI
+                 :Else
+
+                     :If (⊂d)∊tests  ⍝ check if this demo has a test that we can run...
         ⍝ run demo d
-             :EndIf
+                     :EndIf
 
     ⍝ also check if the test accesses all implemented pros / methods of the object
     ⍝ C:\Git\jswc\JSWC\classes\button\Supported.apla
     ⍝ C:\Git\jswc\JSWC\classes\button\SupportedEvents.apla
-             src←#.demo.⎕VR d
+                     src←#.demo.⎕VR d
              ⍝ the assumption that the testname matches the control that's being tested does
     ⍝ not hold. check the source for ⎕wc instead to see what's created.
     ⍝ probably we also need to look at this globally, not per test, since different
@@ -107,23 +114,33 @@
     ⍝          r,←⊂'Did not find "',file,'"'
     ⍝      :EndIf
     ⍝  :EndFor
-
+                 :EndIf
+             :EndIf
          :EndIf
-     :Else
-       ⍝ Checking '' against the errmsg will help to ensure halt with "-h"
-         msg←'could not find F1.MENU'  ⍝  , so probably something went wrong before (lastd=',lastd,')'
      :EndIf
-     :If 0<≢msg
+     :If 0<v←_Env'SCREENSHOT'
          file←##.TESTSOURCE,d,'.png'
-         #.S.SaveScreenshot file
-         r,←⊂d,': ',msg,' - saved screenshot as ',file
-         :If ##.halt
-             ⎕←'test ',d,' failed!'
-             ⎕←'→',(⍕⎕LC[1]+2),'   ⍝ to continue'
-             ⎕TRAP←0 'S' ⋄ (⎕LC[1]+1)⎕STOP 1⊃⎕SI
+         :If v=2  ⍝ always save screenshot
+             #.S.SaveScreenshot file
+             :If 0<≢msg  ⍝ if there was an error, add info abt screenshot
+                 msg,←' - saved screenshot as ',file
+             :EndIf
+         :ElseIf v=1
+             :If 0<≢msg
+                 #.S.SaveScreenshot file
+                 msg,←' - saved screenshot as ',file
+                 :If ##.halt
+                     ⎕←'test ',d,' failed!'
+                     ⎕←'→',(⍕⎕LC[1]+2),'   ⍝ to continue'
+                     ⎕TRAP←0 'S' ⋄ (⎕LC[1]+1)⎕STOP 1⊃⎕SI
+                 :EndIf
+             :EndIf
          :EndIf
      :EndIf
      lastd←d
+     :If 0<≢msg
+         r,←⊂d,': ',msg
+     :EndIf
  :EndFor
  :If 0<≢r
      r←∊(⊂⎕UCS 13 10),¨r
