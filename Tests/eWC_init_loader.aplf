@@ -1,5 +1,13 @@
  eWC_init_loader path;g
 ⍝ load the tools we need
+ :If 9=#.⎕NC'tests'
+     {}⎕SE.Link.Break #.tests
+     #.⎕ex'tests'
+ :EndIf
+ :If 9=#.⎕NC'demo'
+     {}⎕SE.Link.Break #.demo
+     #.⎕ex'demo'
+ :EndIf
  :If ~##.quiet
      LINK←{⍺←'NADA'
          ⍺≡'NADA':⎕SE.Link.Create ⍵
@@ -17,14 +25,15 @@
  :EndIf
  '#.tests'⎕NS''
  LINK #.tests(path,'/tests')
+ #.⎕ex'APLProcess'
  IMPORT #'APLProcess'
 
  #.S←#.tests.Selenium.Selenium
 
  EWC_HOME←1⊃1 ⎕NPARTS ##.TESTSOURCE,'../'       ⍝ intentionally global!
- dPath←∊1 ⎕NPARTS EWC_HOME,'demo'  ⍝ intentionally global!
+ dPath←∊1 ⎕NPARTS EWC_HOME,'demo'               ⍝ intentionally global!
  '#.demo'⎕NS''
- IMPORT #.demo dPath   ⍝ load all demos
+ LINK #.demo dPath   ⍝ load all demos
 
  #.S.QUIETMODE←##.quiet
  #.S.HOME←EWC_HOME,'Tests/Selenium/'
