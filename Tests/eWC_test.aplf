@@ -1,3 +1,14 @@
+⍝ this is admittedly an ugly hack - but I didn't want to waste time fixing it just now...
+⍝ the problem is that the DTest DSL assumes tests are executed in the ns that DTest created while running the test -
+⍝ but these tests are executed in #.tests.demo.
+⍝ So we make the most populare variables and functions available:
+ #.tests.demo.Check←Check
+ #.tests.demo.Assert←Assert
+ #.tests.halt←##.halt
+ #.tests.trace←##.trace
+ #.tests.verbose←##.verbose
+ #.tests.dtb←##.dtb  ⍝ needed by check
+
  tests←('D'#.tests.demo.⎕NL ¯3)~'DemoMenu' 'DemoDefault'
  tests←{((⊂'Test')≡¨4↑¨⍵)/⍵}tests
  demos←{2⊃⎕NPARTS ⍵}¨⊃0(⎕NINFO⍠1)EWC_DPATH,'/Demo*.*'
