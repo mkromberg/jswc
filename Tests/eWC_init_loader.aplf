@@ -31,12 +31,12 @@
  #.S←#.tests.Selenium.Selenium
 
  EWC_HOME←1⊃1 ⎕NPARTS ##.TESTSOURCE,'../'       ⍝ intentionally global!
- dPath←∊1 ⎕NPARTS EWC_HOME,'demo'               ⍝ intentionally global!
+ EWC_DPATH←∊1 ⎕NPARTS EWC_HOME,'demo'               ⍝ intentionally global!
  '#.demo'⎕NS''
- LINK #.demo dPath   ⍝ load all demos
+ LINK #.demo EWC_DPATH   ⍝ load all demos
 
  #.S.QUIETMODE←##.quiet
  #.S.HOME←EWC_HOME,'Tests/Selenium/'
 
- ⍝3 ⎕NDELETE⍠1⊢dPath,'*.png'
- ⍝3 ⎕NDELETE⍠1⊢dPath,'*.log'
+ ⍝3 ⎕NDELETE⍠1⊢EWC_DPATH,'*.png'
+ ⍝3 ⎕NDELETE⍠1⊢EWC_DPATH,'*.log'

@@ -1,7 +1,7 @@
  r←eWC_test sink;tests;demos;d;⎕TRAP;f;t;file;sup;rC;z;lastd;dl;de;from;to;arg;msg;src;_Env;DEFAULTS;v;pi
  tests←#.tests.demo.⎕NL ¯3
  tests←{((⊂'Test')≡¨4↑¨⍵)/⍵}tests
- demos←{4↓2⊃⎕NPARTS ⍵}¨⊃0(⎕NINFO⍠1)dPath,'/Demo*.*'
+ demos←{2⊃⎕NPARTS ⍵}¨⊃0(⎕NINFO⍠1)EWC_DPATH,'/Demo*.*'
  DEFAULTS←0(⎕JSON⍠'Dialect' 'JSON5')(1⊃⎕NGET ##.TESTSOURCE,'eWC_defaults.json5')
  r←''
  dl←⍬  ⍝ demo list we want to run
