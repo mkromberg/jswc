@@ -89,3 +89,5 @@
  :If ~0=⍴WS.WS.Properties.⎕NL-2
      sendObject WS WS.WS.ID
  :EndIf
+
+ 'w' Log '{Caller: "',(2⊃⎕si),'", Action:"WS", ID:"',WS.WS.ID,'", Properties:[',(¯1↓∊{'"',⍵,'",'}¨names),']},'

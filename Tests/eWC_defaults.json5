@@ -2,4 +2,6 @@
     SCREENSHOT: 2,        // 0: never, 1: on error, 2: always
     RANDOMORDER: 1,       // execute tests in random order?
     PROGRESSINDICATOR: 1, // no info, 1: show name of next test, 2: and wait for keypress
+    TRACE_DEMOS: 0,      // trace into the demos?
+    TRACE_TESTS: 1,      // trace into the tests?
 }

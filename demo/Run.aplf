@@ -22,6 +22,10 @@
  :EndTrap
 
  JSWC.NOIDQ←0 ⍝ Allow interactive DQ
+ ⍝ trace into demo functions?
+ :If 1≡⊃2⊃⎕VFI 2 ⎕NQ'.' 'GetEnvironment' 'EWC_TRACEDEMOS'
+     #.demo.({'Demo'≡4↑⍵:1 ⎕STOP ⍵}¨(⎕NL-3)~'DemoMenu' 'DemoDefault')
+ :EndIf
 
  :Select JSWC.MODE
  :Case 0 ⍝ Desktop
