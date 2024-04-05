@@ -117,6 +117,7 @@
  :EndIf
 
  'D' Log '*** CREATE ',WC.WC.Properties.Type,' ',WC.WC.ID,' at ',⍕3↑showCallStack
+ 'w' Log '{Caller: "',(2⊃⎕si),'", Action:"WC", ID:"',WC.WC.ID,'", Type:"',WC.WC.Properties.Type,'", Properties:[',(¯1↓∊{'"',⍵,'",'}¨propnames),']},'
  fixSendEvents WC.WC.(ID Properties)
  sendObject WC WC.WC.ID
 
