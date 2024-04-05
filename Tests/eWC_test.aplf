@@ -1,5 +1,4 @@
- r←eWC_test sink;tests;demos;d;⎕TRAP;f;t;file;sup;rC;z;lastd;dl;de;from;to;arg;msg;src;_Env;DEFAULTS;v;pi
- tests←#.tests.demo.⎕NL ¯3
+ tests←('D'#.tests.demo.⎕NL ¯3)~'DemoMenu' 'DemoDefault'
  tests←{((⊂'Test')≡¨4↑¨⍵)/⍵}tests
  demos←{2⊃⎕NPARTS ⍵}¨⊃0(⎕NINFO⍠1)EWC_DPATH,'/Demo*.*'
  DEFAULTS←0(⎕JSON⍠'Dialect' 'JSON5')(1⊃⎕NGET ##.TESTSOURCE,'eWC_defaults.json5')
