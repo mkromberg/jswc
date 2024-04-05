@@ -1,3 +1,4 @@
+ r←eWC_test sink;tests;demos;d;⎕TRAP;f;t;file;sup;rC;z;lastd;dl;de;from;to;arg;msg;src;_Env;DEFAULTS;v;pi;sp;Supported;PropList;up
 ⍝ this is admittedly an ugly hack - but I didn't want to waste time fixing it just now...
 ⍝ the problem is that the DTest DSL assumes tests are executed in the ns that DTest created while running the test -
 ⍝ but these tests are executed in #.tests.demo.
@@ -13,6 +14,7 @@
  tests←{((⊂'Test')≡¨4↑¨⍵)/⍵}tests
  demos←{2⊃⎕NPARTS ⍵}¨⊃0(⎕NINFO⍠1)EWC_DPATH,'/Demo*.*'
  DEFAULTS←0(⎕JSON⍠'Dialect' 'JSON5')(1⊃⎕NGET ##.TESTSOURCE,'eWC_defaults.json5')
+ '['⎕NPUT(EWC_HOME,'JSWC/objectlog.json5')1  ⍝ initialise this file so that we can append single log objects to it...
  r←''
  dl←⍬  ⍝ demo list we want to run
  de←⍬  ⍝ demos we NOT want to run
@@ -47,7 +49,7 @@
          :EndIf
      :EndFor
  :Else
-     dl←demos
+     dl←4↓¨(∊'Demo'∘≡¨4↑¨demos)/demos
  :EndIf
  demos←∪dl~de
  lastd←'just started'
@@ -80,7 +82,7 @@
      :If 326 Check ⎕DR z    ⍝ check if we find the menu
          msg←'could not find F1.MENU (possibly something went wrong before (lastd=',lastd,')'    ⍝ although that should be veeery unlikely now....
      :Else
-         z←('CssSelector' '[id$="MENU"]')#.S.Select(5↓d)      ⍝ selecting the test will load it
+         z←('CssSelector' '[id$="MENU"]')#.S.Select d      ⍝ selecting the test will load it
          :If z Check 1  ⍝ can we select the test in the menu
              msg←'test not found in menu (attention: it is case-sensitive!)'
          :Else
@@ -96,9 +98,14 @@
                      ⎕←'z=',z
                      ⎕TRAP←0 'S' ⋄ (⎕LC[1]+1)⎕STOP 1⊃⎕SI
                  :Else
-
-                     :If (⊂d)∊tests  ⍝ check if this demo has a test that we can run...
+                     t←'Test',d   ⍝ name of related test
+                     :If (⊂t)∊tests  ⍝ check if this demo has a test that we can run...
         ⍝ run demo d
+                         :If ##.trace
+                         :OrIf 1 _Env'TRACE_TESTS'
+                             1 #.tests.demo.⎕STOP t
+                         :EndIf
+                         msg,←#.tests.demo⍎t,' ⍬'
                      :EndIf
 
     ⍝ also check if the test accesses all implemented pros / methods of the object
@@ -129,7 +136,7 @@
          :EndIf
      :EndIf
      :If 0<v←_Env'SCREENSHOT'
-         file←##.TESTSOURCE,d,'.png'
+         file←∊1 ⎕NPARTS ##.TESTSOURCE,d,'.png'
          :If v=2  ⍝ always save screenshot
              #.S.SaveScreenshot file
              :If 0<≢msg  ⍝ if there was an error, add info abt screenshot
@@ -152,6 +159,35 @@
          r,←⊂d,': ',msg
      :EndIf
  :EndFor
+ ']'⎕NPUT(EWC_HOME,'JSWC/objectlog.json5')2
+ data1←1⊃⎕NGET EWC_HOME,'JSWC/objectlog.json5'
+
+⍝ all demos & tests executed - now check the controls that were created
+⍝ and the properties that were tested...
+⍝ also: it seems much better to do this analysis twice - once for the demos and once for the tests
+⍝ as these results answer different questions (which both (test- and demo-authors) should be interested in...
+ data←(⎕JSON⍠'Dialect' 'JSON5')data
+ get←{
+     ⍺{6::⍬
+         ⍺⍎⍵
+     }¨⊂⍵
+ }
+ :For ctl :In (∪data get'Type')~⊂⍬
+     up←(ctl∘≡¨data get'Type')/data get'Properties'   ⍝ used properties
+     up←∪⊃,/up
+     {}'(overwrite:1)'⎕SE.Link.Import(⎕THIS)(EWC_HOME,'JSWC/Classes/',(⎕C ctl),'/Supported.apla')
+     {}'(overwrite:1)'⎕SE.Link.Import(⎕THIS)(EWC_HOME,'JSWC/Classes/',(⎕C ctl),'/PropList.apla')
+     sp←Supported∩PropList
+     :If ∨/z←~sp∊up
+         msg,←'Supported props of "',ctl,'" that were not used in the demos or tests: ',¯1↓∊{'"',⍵,'" ,'}¨z/sp
+     :EndIf
+     ⍝ what else can we test...???
+     ⍝ - check that dynamic properties are set AND read
+     ⍝ also report the demos that don't have tests for (yet)
+
+ :EndFor
+
+
  :If 0<≢r
      r←∊(⊂⎕UCS 13 10),¨r
  :Else
