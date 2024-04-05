@@ -92,3 +92,5 @@
  :If 1=≡Props
      R←⊃R
  :EndIf
+
+ 'w' Log '{Caller: "',(2⊃⎕si),'", Action:"WG", ID:"', Name,'",Properties:[',(¯1↓∊{'"',⍵,'",'}¨p),']},'
