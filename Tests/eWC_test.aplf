@@ -1,4 +1,4 @@
- r←eWC_test sink;tests;demos;d;⎕TRAP;f;t;file;sup;rC;z;lastd;dl;de;from;to;arg;msg;src;_Env;DEFAULTS;v;pi;sp;Supported;PropList;up
+ r←eWC_test sink;tests;demos;d;⎕TRAP;f;t;file;sup;rC;z;lastd;dl;de;from;to;arg;msg;src;_Env;DEFAULTS;v;pi;sp;Supported;PropList;up;ctl;data;get
 ⍝ this is admittedly an ugly hack - but I didn't want to waste time fixing it just now...
 ⍝ the problem is that the DTest DSL assumes tests are executed in the ns that DTest created while running the test -
 ⍝ but these tests are executed in #.tests.demo.
@@ -10,7 +10,7 @@
  #.tests.verbose←##.verbose
  #.tests.dtb←##.dtb  ⍝ needed by check
 
- tests←('D'#.tests.demo.⎕NL ¯3)~'DemoMenu' 'DemoDefault'
+ tests←#.tests.demo.⎕NL ¯3
  tests←{((⊂'Test')≡¨4↑¨⍵)/⍵}tests
  demos←{2⊃⎕NPARTS ⍵}¨⊃0(⎕NINFO⍠1)EWC_DPATH,'/Demo*.*'
  DEFAULTS←0(⎕JSON⍠'Dialect' 'JSON5')(1⊃⎕NGET ##.TESTSOURCE,'eWC_defaults.json5')
@@ -49,8 +49,9 @@
          :EndIf
      :EndFor
  :Else
-     dl←4↓¨(∊'Demo'∘≡¨4↑¨demos)/demos
+     dl←(∊'Demo'∘≡¨4↑¨demos)/demos
  :EndIf
+ dl←4↓¨dl
  demos←∪dl~de
  lastd←'just started'
  :If 1=1↑0 _Env'RANDOMORDER'
@@ -60,9 +61,14 @@
      :If (⊂'~',d)∊##.args.Arguments
          :Continue
      :EndIf
-     msg←''
-     :If 0=⎕NC'p'
-     :OrIf p{6::1 ⋄ ⍺⍎⍵}'HasExited'
+     ⍝ inspect the demo to determine coverage of properties, methods and events
+     ⍝src←#.demo.⎕NR d
+     ⍝wc←('''(.*)''\s*eWC\s*''(.*)'''⎕S'\1')src  ⍝ list of controls that are created (and their names)
+     ⍝ws←('''(.*)''\s*eWC\s*''.*''\s*(''.*'')*'⎕S'\1')src  ⍝ props that were set (and names of related controls)
+     ⍝ nah, impossible - see email to MK
+     msg←''  ⍝ a global var (initialised in eWC_createBrowser)
+     :If 0=⎕NC'PROCESS'
+     :OrIf PROCESS{6::1 ⋄ ⍺⍎⍵}'HasExited'
          BRWSR eWC_createBrowser MODE
      :EndIf
      :If lastd≢'just started'
@@ -78,12 +84,13 @@
          :EndSelect
      :EndIf
      #.S.GoTo ROOT
+     #.S.
      z←'CssSelector'#.S.Find'[id$="MENU"]'
      :If 326 Check ⎕DR z    ⍝ check if we find the menu
          msg←'could not find F1.MENU (possibly something went wrong before (lastd=',lastd,')'    ⍝ although that should be veeery unlikely now....
      :Else
          z←('CssSelector' '[id$="MENU"]')#.S.Select d      ⍝ selecting the test will load it
-         :If z Check 1  ⍝ can we select the test in the menu
+         :If 1 Check z  ⍝ can we select the test in the menu
              msg←'test not found in menu (attention: it is case-sensitive!)'
          :Else
              {}⎕DL 1  ⍝ allow some time to load
@@ -107,30 +114,6 @@
                          :EndIf
                          msg,←#.tests.demo⍎t,' ⍬'
                      :EndIf
-
-    ⍝ also check if the test accesses all implemented pros / methods of the object
-    ⍝ C:\Git\jswc\JSWC\classes\button\Supported.apla
-    ⍝ C:\Git\jswc\JSWC\classes\button\SupportedEvents.apla
-                     src←#.demo.⎕VR d
-             ⍝ the assumption that the testname matches the control that's being tested does
-    ⍝ not hold. check the source for ⎕wc instead to see what's created.
-    ⍝ probably we also need to look at this globally, not per test, since different
-    ⍝ tests might be written to test different aspects of the same control.
-    ⍝  :For f t :In ('Supported' 'properties')('SupportedEvents' 'events')
-    ⍝      :If ⎕NEXISTS file←##.TESTSOURCE,'../JSWC/classes/',(⎕C d),'/',f,'.apla'
-    ⍝          sup←1⊃⎕NGET file
-    ⍝ ⍝ find "relevant code" to examine (to avoid being misled by comments etc.)
-    ⍝          rC←('^.*(eW[C|S].*$)'⎕S'%1')src
-    ⍝          ∘∘∘
-    ⍝          z←sup⍷⍥⎕C¨⊂rC
-    ⍝          :If 0∊z
-    ⍝              z←~z
-    ⍝              r,←⊂'Supported ',t,' that were not referenced in the demo: ',¯2↓∊'"',¨(z/sup),¨⊂'", '
-    ⍝          :EndIf
-    ⍝      :Else
-    ⍝          r,←⊂'Did not find "',file,'"'
-    ⍝      :EndIf
-    ⍝  :EndFor
                  :EndIf
              :EndIf
          :EndIf
@@ -160,33 +143,33 @@
      :EndIf
  :EndFor
  ']'⎕NPUT(EWC_HOME,'JSWC/objectlog.json5')2
- data1←1⊃⎕NGET EWC_HOME,'JSWC/objectlog.json5'
-
-⍝ all demos & tests executed - now check the controls that were created
-⍝ and the properties that were tested...
-⍝ also: it seems much better to do this analysis twice - once for the demos and once for the tests
-⍝ as these results answer different questions (which both (test- and demo-authors) should be interested in...
- data←(⎕JSON⍠'Dialect' 'JSON5')data
- get←{
-     ⍺{6::⍬
-         ⍺⍎⍵
-     }¨⊂⍵
- }
- :For ctl :In (∪data get'Type')~⊂⍬
-     up←(ctl∘≡¨data get'Type')/data get'Properties'   ⍝ used properties
-     up←∪⊃,/up
-     {}'(overwrite:1)'⎕SE.Link.Import(⎕THIS)(EWC_HOME,'JSWC/Classes/',(⎕C ctl),'/Supported.apla')
-     {}'(overwrite:1)'⎕SE.Link.Import(⎕THIS)(EWC_HOME,'JSWC/Classes/',(⎕C ctl),'/PropList.apla')
-     sp←Supported∩PropList
-     :If ∨/z←~sp∊up
-         msg,←'Supported props of "',ctl,'" that were not used in the demos or tests: ',¯1↓∊{'"',⍵,'" ,'}¨z/sp
-     :EndIf
+ data←1⊃⎕NGET EWC_HOME,'JSWC/objectlog.json5'
+ :If 0<≢data   ⍝ unlikely, but better be safe ;)
+    ⍝ all demos & tests executed - now check the controls that were created
+    ⍝ and the properties that were tested...
+    ⍝ also: it seems much better to do this analysis twice - once for the demos and once for the tests
+    ⍝ as these results answer different questions (which both (test- and demo-authors) should be interested in...
+     data←(⎕JSON⍠'Dialect' 'JSON5')data
+     get←{
+         ⍺{6::⍬
+             ⍺⍎⍵
+         }¨⊂⍵
+     }
+     :For ctl :In (∪data get'Type')~⊂⍬
+         up←(ctl∘≡¨data get'Type')/data get'Properties'   ⍝ used properties
+         up←∪⊃,/up
+         {}'(overwrite:1)'⎕SE.Link.Import(⎕THIS)(EWC_HOME,'JSWC/Classes/',(⎕C ctl),'/Supported.apla')
+         {}'(overwrite:1)'⎕SE.Link.Import(⎕THIS)(EWC_HOME,'JSWC/Classes/',(⎕C ctl),'/PropList.apla')
+         sp←Supported∩PropList
+         :If ∨/z←~sp∊up
+             msg,←'Supported props of "',ctl,'" that were not used in the demos or tests: ',¯1↓∊{'"',⍵,'" ,'}¨z/sp
+         :EndIf
      ⍝ what else can we test...???
      ⍝ - check that dynamic properties are set AND read
      ⍝ also report the demos that don't have tests for (yet)
 
- :EndFor
-
+     :EndFor
+ :EndIf
 
  :If 0<≢r
      r←∊(⊂⎕UCS 13 10),¨r

@@ -63,11 +63,11 @@ The file settings.json holds the configuration of drivers and spexcifies associa
   * **Newtonpath**: name of a subfolder (below DLLPATH= that has the DLLs for (Newtonsoft)[https://www.newtonsoft.com/json] (a dependency of Selenium)
 * a numeric field "**PORT**" defining the port that the browser uses to retrieve data
 * named configurations (settings of parameters) with these elements:
-  * **BROWSER**: the name of the brower
+  * **BRWSR**: the name of the brower
   * **DRIVER**: specifies the path where the driver-files are stored.  If drivers are available for different platforms, create subdirectories named `Linux`, `Win` and/or `Mac`..
   * [**PORT**]: while the first 2 settings are mandatory for a browser-configuration, this parameter
     as well as the following ones are optional.
-  * [**Executable**]: we assume that the required driverfile is BROWSER (lowercace),"driver". If this does not apply
+  * [**Executable**]: we assume that the required driverfile is BRWSR (lowercace),"driver". If this does not apply
       (the driver for Firefox is called geckodriver), this options enables you to specify the name directly (no extension!)
   * [**OptionsInstanceOf**]: (*advanced stuff*) if present, can be used to create additional parameters that are
     passed to the constructor of the browser-service that we're instiating.

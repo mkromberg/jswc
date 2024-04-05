@@ -11,7 +11,7 @@
 ⍝ 2021 02 22 MBaas: MAJOR UPDATE
 ⍝                   now using WebDriver4 and NuGet. This removes the need to distribute DLLs. (started development on branch "WebDriver4")
 ⍝                   - removed all paths from settings.json
-⍝                   - we're aiming to kewep all changes "under the cover". Selenium should behave as before.
+⍝                   - we're aiming to keep all changes "under the cover". Selenium should behave as before.
 ⍝ WIP:   There has been a change wrt FindElements - this needs to be fully implemented...
 ⍝      {}S.BROWSER.FindElementByClassName⊂'abc'
 ⍝  needs to be changed to
@@ -511,6 +511,7 @@
       :Else
           'type'DefaultTo'Id'
           ⍝ See auto-complete on BROWSER.F for a list of possible ways to find things
+          ⍝ ClassName CssSelector Id Name TagName XPath
           (id attr value)←{3↑⍵,(⍴⍵)↓'' '' ''}eis id
           :If search←~0∊⍴attr
               type,←('s'=¯1↑type)↓'s'
