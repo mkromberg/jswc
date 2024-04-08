@@ -1,4 +1,4 @@
- r←TestButtons sink;⎕TRAP;fruit;addon;t;z;f_ctl;lbl;f_status;fruit_name;c;exp;addon_ids;addons;addon_names;sel_a
+ r←TestButtons sink;⎕TRAP;fruit;addon;t;z;lbl;f_status;fruit_name;c;exp;addon_ids;addons;addon_names;sel_a
  r←''
  :If 0≡f_status←#.S.Find'F1.STATUS'
      r←'Cannot find F1.STATUS (#136)'
@@ -12,7 +12,6 @@
      :If fruit≢''
          z←#.S.Click fruit
          ⎕DL 1   ⍝ bad and ugly hack - but we need to give eWS some time to update the status field, otherwise the test will fail!
-         f_ctl←#.S.Find fruit
          lbl←'XPath'#.S.Find'//input[@id="',fruit,'"]/following-sibling::div'   ⍝ the div that immediately follows the input has the label
          fruit_name←lbl.Text                                                    ⍝ read label's text
          t←f_status.Text
@@ -25,7 +24,6 @@
          {6::⍬ ⋄ c←#.S.Find ⍵ ⋄ c.Selected:c.Click}¨addon_ids  ⍝ make sure all options are unselected
          sel_a←2 2⊤addon  ⍝ bit flags for selected addons
 
-         ⍝ get names of addons: the div that immediately follows the input has the label
          :For c :In sel_a/addon_ids
              :If 1 Check #.S.Click c  ⍝ were we able to click the addon?
                  r,←⊂'could not select addon "',c,'"'

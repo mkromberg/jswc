@@ -107,6 +107,8 @@
                  :Else
                      t←'Test',d   ⍝ name of related test
                      :If (⊂t)∊tests  ⍝ check if this demo has a test that we can run...
+                     t←'Test',d   ⍝ name of related test
+                     :If (⊂t)∊tests  ⍝ check if this demo has a test that we can run...
         ⍝ run demo d
                          :If ##.trace
                          :OrIf 1 _Env'TRACE_TESTS'
@@ -140,6 +142,7 @@
      lastd←d
      :If 0<≢msg
          r,←⊂d,': ',msg
+         :EndIf
      :EndIf
  :EndFor
  ']'⎕NPUT(EWC_HOME,'JSWC/objectlog.json5')2
