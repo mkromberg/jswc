@@ -1,0 +1,13 @@
+r←TestSplitters sink;⎕Trap;status;s1;s2
+⍝ waiting for a fix of #152:  The div element created for a splitter should also have an id attribute (matching the one used when creating the control) 
+
+status←#.S.Find'F1.RIGHT.TOP.Average'
+s1←#.S.Find'F1.SPLIT'
+s2←#.S.Find'F1.RIGHT.SPLIT'
+
+s1 #.S.DragAndDropToOffset 10 0
+s2 #.S.DragAndDropToOffset 0 10
+
+    ⎕TRAP←0'S' ⋄ (⎕lc[1]+1)⎕stop 1⊃⎕si
+
+    ∘∘∘
