@@ -52,10 +52,10 @@
      dl←(∊'Demo'∘≡¨4↑¨demos)/demos
  :EndIf
  dl←4↓¨dl
- demos←∪dl~de
+ demos←∪dl~de∪'Menu' 'Default'
  lastd←'just started'
  :If 1=1↑0 _Env'RANDOMORDER'
-     demos['eWC_order'##.RandomVal 2/≢demos]
+     demos[('eWC_order_',⍕≢demos)##.RandomVal 2/≢demos]
  :EndIf
  :For d :In demos
      :If (⊂'~',d)∊##.args.Arguments
