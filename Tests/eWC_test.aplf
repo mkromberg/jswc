@@ -147,6 +147,11 @@
          :EndIf
      :EndIf
  :EndFor
+ ⍝ kill it here (already) instead of leaving that to teardown
+ ⍝ to make sure that the objectlog does not get added to (yes, it happened!)
+ :If ~PROCESS.HasExited
+     PROCESS.(Kill Proc.Id)
+ :EndIf
  ']'⎕NPUT(EWC_HOME,'JSWC/objectlog.json5')2
  data←1⊃⎕NGET EWC_HOME,'JSWC/objectlog.json5'
  :If 0<≢data   ⍝ unlikely, but better be safe ;)
