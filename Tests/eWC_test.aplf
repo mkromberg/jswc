@@ -1,4 +1,4 @@
- r←eWC_test sink;tests;demos;d;⎕TRAP;f;t;file;sup;rC;z;lastd;dl;de;from;to;arg;msg;src;_Env;DEFAULTS;v;pi;sp;Supported;PropList;up;ctl;data;get
+ r←eWC_test sinkListOfTests;demos;d;⎕TRAP;f;t;file;sup;rC;z;lastd;dl;de;from;to;arg;msg;src;_Env;DEFAULTS;v;pi;sp;Supported;PropList;up;ctl;data;get;ListOfTests;tested
 ⍝ this is admittedly an ugly hack - but I didn't want to waste time fixing it just now...
 ⍝ the problem is that the DTest DSL assumes tests are executed in the ns that DTest created while running the test -
 ⍝ but these tests are executed in #.tests.demo.
@@ -10,8 +10,9 @@
  #.tests.verbose←##.verbose
  #.tests.dtb←##.dtb  ⍝ needed by check
 
- tests←#.tests.demo.⎕NL ¯3
- tests←{((⊂'Test')≡¨4↑¨⍵)/⍵}tests
+ ListOfTests←#.tests.demo.⎕NL ¯3
+ ListOfTests←{((⊂'Test')≡¨4↑¨⍵)/⍵}ListOfTests
+ tested←⍬   ⍝ list of executed tests
  demos←{2⊃⎕NPARTS ⍵}¨⊃0(⎕NINFO⍠1)EWC_DPATH,'/Demo*.*'
  DEFAULTS←0(⎕JSON⍠'Dialect' 'JSON5')(1⊃⎕NGET ##.TESTSOURCE,'eWC_defaults.json5')
  '['⎕NPUT(EWC_HOME,'JSWC/objectlog.json5')1  ⍝ initialise this file so that we can append single log objects to it...
@@ -84,64 +85,65 @@
          :EndSelect
      :EndIf
      #.S.GoTo ROOT
-     #.S.
-     z←'CssSelector'#.S.Find'[id$="MENU"]'
+     z←'CssSelector'#.S.Find'[id$="MENU"]'  ⍝ use CssSelector to find ids ending with MENU because the menu is sometimes located in a subform
      :If 326 Check ⎕DR z    ⍝ check if we find the menu
          msg←'could not find F1.MENU (possibly something went wrong before (lastd=',lastd,')'    ⍝ although that should be veeery unlikely now....
      :Else
-         z←('CssSelector' '[id$="MENU"]')#.S.Select d      ⍝ selecting the test will load it
+         z←z #.S.Select d      ⍝ selecting the test will load it
          :If 1 Check z  ⍝ can we select the test in the menu
              msg←'test not found in menu (attention: it is case-sensitive!)'
          :Else
-             {}⎕DL 1  ⍝ allow some time to load
+             ⍝ {}⎕DL 1  ⍝ allow some time to load
 
              z←'CssSelector'#.S.Find'[id$="MENU"]'             ⍝ check if loaded test also has a menu...
              :If 326 Check ⎕DR z
                  msg←'could not find F1.MENU'
              :Else
-                 z←('CssSelector' '[id$="STOP"]')#.S.WaitFor'Stop'
-                 :If ''Check z   ⍝ wait for the Stop button as an indication that the test has loaded indeed
+                 t←('CssSelector' '[id$="STOP"]')#.S.WaitFor'Stop'
+                 :If ''Check t   ⍝ wait for the Stop button as an indication that the test has loaded indeed
                      ⎕←msg←'could not find STOP button'
-                     ⎕←'z=',z
+                     ⎕←'t=',t
                      ⎕TRAP←0 'S' ⋄ (⎕LC[1]+1)⎕STOP 1⊃⎕SI
                  :Else
                      t←'Test',d   ⍝ name of related test
-                     :If (⊂t)∊tests  ⍝ check if this demo has a test that we can run...
-                     t←'Test',d   ⍝ name of related test
-                     :If (⊂t)∊tests  ⍝ check if this demo has a test that we can run...
-        ⍝ run demo d
+                     :If (⊂t)∊ListOfTests  ⍝ check if this demo has a test that we can run...
+                           ⍝ run demo d
                          :If ##.trace
                          :OrIf 1 _Env'TRACE_TESTS'
                              1 #.tests.demo.⎕STOP t
                          :EndIf
-                         msg,←#.tests.demo⍎t,' ⍬'
+                         :Trap ##.halt↓0
+                             msg,←#.tests.demo⍎t,' ⍬'
+                             tested,←⊂t
+                         :Else
+                             msg←'error while executing test "',t,'": ',(⎕JSON⍠'Compact' 0)⎕DMX
+                         :EndTrap
                      :EndIf
                  :EndIf
              :EndIf
          :EndIf
-     :EndIf
-     :If 0<v←_Env'SCREENSHOT'
-         file←∊1 ⎕NPARTS ##.TESTSOURCE,d,'.png'
-         :If v=2  ⍝ always save screenshot
-             #.S.SaveScreenshot file
-             :If 0<≢msg  ⍝ if there was an error, add info abt screenshot
-                 msg,←' - saved screenshot as ',file
-             :EndIf
-         :ElseIf v=1
-             :If 0<≢msg
+         :If 0<v←_Env'SCREENSHOT'
+             file←∊1 ⎕NPARTS ##.TESTSOURCE,d,'.png'
+             :If v=2  ⍝ always save screenshot
                  #.S.SaveScreenshot file
-                 msg,←' - saved screenshot as ',file
-                 :If ##.halt
-                     ⎕←'test ',d,' failed!'
-                     ⎕←'→',(⍕⎕LC[1]+2),'   ⍝ to continue'
-                     ⎕TRAP←0 'S' ⋄ (⎕LC[1]+1)⎕STOP 1⊃⎕SI
+                 :If 0<≢msg  ⍝ if there was an error, add info abt screenshot
+                     msg,←' - saved screenshot as ',file
+                 :EndIf
+             :ElseIf v=1
+                 :If 0<≢msg
+                     #.S.SaveScreenshot file
+                     msg,←' - saved screenshot as ',file
+                     :If ##.halt
+                         ⎕←'test ',d,' failed!'
+                         ⎕←'→',(⍕⎕LC[1]+2),'   ⍝ to continue'
+                         ⎕TRAP←0 'S' ⋄ (⎕LC[1]+1)⎕STOP 1⊃⎕SI
+                     :EndIf
                  :EndIf
              :EndIf
          :EndIf
-     :EndIf
-     lastd←d
-     :If 0<≢msg
-         r,←⊂d,': ',msg
+         lastd←d
+         :If 0<≢msg
+             r,←⊂d,': ',msg
          :EndIf
      :EndIf
  :EndFor
@@ -177,6 +179,5 @@
  :If 0<≢r
      r←∊(⊂⎕UCS 13 10),¨r
  :Else
-     ⎕←(⍕≢demos),' demo pages were opened and ',(⍕tests),' tests were excuted without issues!'
-     ⎕←'👍'   ⍝ emotional & motivational message
+     ⎕←(⍕≢demos),' demo pages were opened and ',(⍕≢tested),' tests were excuted without issues!'
  :EndIf
