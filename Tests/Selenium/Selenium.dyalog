@@ -567,13 +567,14 @@
       :If 9≠⎕NC'larg'
           :If 2=≡larg
           :AndIf 2=≢larg
-              larg←(1⊃larg)Find 2⊃larg
+              element←(1⊃larg)Find 2⊃larg
           :Else
-              larg←Find larg
+              element←Find larg
           :EndIf
+      :Else
+          element←larg
       :EndIf
-      :If larg≡0 ⋄ r←'Did not find element "',(⍕larg),'"' ⋄ →0 ⋄ :EndIf
-      element←larg
+      :If element≡0 ⋄ r←'Did not find element "',(⍕larg),'"' ⋄ →0 ⋄ :EndIf
       args←eis args
       (text msg)←2↑args,(⍴args)↓'Thank You!' 'Expected output did not appear'
       f←'{∨/''',((1+text='''')/text),'''','≡⍷'[1+×⍴,text]
