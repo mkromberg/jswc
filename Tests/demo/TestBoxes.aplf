@@ -1,0 +1,42 @@
+ r←TestBoxes sink;f_clr;z;b_hd;c_poly;i_rows;i_cols;b_go
+ r←''
+ :If 326 Check ⎕DR f_clr←#.S.Find'F1.CLR'
+     r←'Cannot find F1.CLR'
+     →end    ⍝ not much we can sensibly test w/o the ability to control the feedback!
+ :EndIf
+ f_clr.Click
+ :If 326 Check ⎕DR z←#.S.Find'F1.STOP'
+     r←⊂'#137 not yet fixed!'
+   ⍝ continue anyway...
+     #.S.GoTo(1⊃⎕RSI).ROOT
+     z←'CssSelector'#.S.Find'[id$="MENU"]'
+     z←z #.S.Select'Boxes'
+     :If 1 Check z
+         r,←⊂'could not re-load Boxes!'
+         →end
+     :EndIf
+ :EndIf
+
+ :If 326 Check ⎕DR b_hd←#.S.Find'F1.HIDE'
+     r,←⊂'Cannot find F1.HIDE'
+     →end
+ :EndIf
+ :If 326 Check ⎕DR c_poly←#.S.Find'F1.LOGO'
+     r,←'Cannot find F1.LOGO (#153 not yet fixed!)'
+ :EndIf
+ b_hd.Click
+⍝ check that F1.LOGO disappears and re-appears when clicking again
+
+ :If 326 326 Check ⎕DR¨(i_rows i_cols b_go)←#.S.Find¨'F1.ROWS' 'F1.COLS' 'F1.GO'
+     r,←'couldn''t find F1.ROWS, F1.COLS or F1.GO'
+     →end
+ :EndIf
+
+⍝ enter some values for rows/cols and test that matching number of boxes is drawn
+
+
+
+end:
+ :If 0<≢r
+     r←¯1↓∊(⊆r),¨⎕UCS 10
+ :EndIf
