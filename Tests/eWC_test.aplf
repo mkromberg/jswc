@@ -16,7 +16,7 @@
  tested←⍬   ⍝ list of executed tests
  ListOfDemos←demos←{2⊃⎕NPARTS ⍵}¨⊃0(⎕NINFO⍠1)EWC_DPATH,'/Demo*.*'
  ListOfDemos←{((⊂'Demo')≡¨4↑¨⍵)/⍵}ListOfDemos   ⍝ insist on "Demo" prefix (demo... are subroutines!)
- 
+
  DEFAULTS←0(⎕JSON⍠'Dialect' 'JSON5')(1⊃⎕NGET ##.TESTSOURCE,'eWC_defaults.json5')
  '['⎕NPUT(EWC_HOME,'JSWC/objectlog.json5')1  ⍝ initialise this file so that we can append single log objects to it...
  r←''
@@ -93,7 +93,7 @@
          msg←'could not find F1.MENU (possibly something went wrong before (lastd=',lastd,')'    ⍝ although that should be veeery unlikely now....
      :Else
          z←z #.S.Select d      ⍝ selecting the test will load it
-         :If 1 Check z  ⍝ can we select the test in the menu
+         :If 1 Check z  ⍝ can we select the test in the menu?
              msg←'test not found in menu (attention: it is case-sensitive!)'
          :Else
              ⍝ {}⎕DL 1  ⍝ allow some time to load
@@ -121,6 +121,9 @@
                          :Else
                              msg←'error while executing test "',t,'": ',(⎕JSON⍠'Compact' 0)⎕DMX
                          :EndTrap
+                     :ElseIf ##.halt
+                         ⎕←'no test found for demo Demo',d   ⍝ interrupt if -halt switch was set
+                         ∘∘∘
                      :EndIf
                  :EndIf
              :EndIf
