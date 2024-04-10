@@ -8,6 +8,7 @@
  #.tests.halt←##.halt
  #.tests.trace←##.trace
  #.tests.verbose←##.verbose
+ #.tests.RandomVal←##.RandomVal
  #.tests.dtb←##.dtb  ⍝ needed by check
 
  ListOfTests←#.tests.demo.⎕NL ¯3
