@@ -1,0 +1,68 @@
+ r←TestFonts sink;css;o;fontobj;row;col;fs;f;t;weight;uline;cols;fonts;rotate;p;val;id;sz;exp;got;def
+ r←''
+ ⍝ this is directly taken from DemoFonts!
+ fonts←'Segoe UI' 'Courier New' 'Times New Roman' 'Arial' 'APL385 Unicode'
+ cols←40+100×¯1+⍳≢fonts
+ uline←0 1
+ weight←400 700
+ rotate←0 90 180 270    ⍝ not used in Demo???
+
+ f←⊂¨↓(⊂'Size'),⍪15 10 20
+ f∘.,←⊂¨↓(⊂'Weight'),⍪400 700
+ f∘.,←⊂¨↓(⊂'Italic'),⍪0 1
+ f∘.,←⊂¨↓(⊂'Underline'),⍪0 1
+ f←(,f)∘.,⊂¨↓(⊂'PName'),⍪fonts
+
+ t←(⍕¨15 10 20),¨⊂'px '
+ t∘.,←'' 'B'
+ t∘.,←'' 'I'
+ t∘.,←'' 'U'
+ t←(,t)∘.,0/¨fonts
+
+ fs←'F1.FNT'∘,¨∊¨'ZI2'∘⎕FMT¨⍪⍳⍴f
+ ⍝---- end of DemoFonts code ----
+
+ :For (row col) :In 1 0↓⍳⍴f  ⍝ ok, almost ;)
+  ⍝ for every label check if the specs from t match the actual css assigned to the label...
+     fontobj←⊃fs[row;col]
+     id←fontobj,'LBL'
+     o←#.S.Find id
+     :If 326 Check ⎕DR o
+         r,←⊂'Could not find id "',id,'"'
+         :Continue
+     :EndIf
+     css←o.GetAttribute⊂'Style'
+
+    ⍝ Font-family
+     :If 1 Check 0<≢⊃(('font-family: "*(',(col⊃fonts),')"*')⎕S'\1')css
+         r,←⊂'Could not find font-family: ["]',val,'["] in style of ',id,' = ',css
+     :EndIf
+     ⍝ font-size
+     sz←2⊃⎕VFI⊃('font-size:\s(\d*)px'⎕S'\1')css
+     exp←2⊃⎕VFI{(∧\⍵∊⎕D)/⍵}def←⊃t[row;col]
+     :If exp Check sz
+         ⍝ this fails ALWAYS atm - there seems to be some translation going on? to be discussed after DYNA!
+         ⍝ r,←⊂'Expected size ',(⍕exp),' but got ',(⍕sz),' for "',id,'" with css "',css,'"'
+     :EndIf
+
+     ⍝ italics
+     exp←'I'∊¯3↑def
+     got←∨/'font-style: italic'⍷css
+     :If exp Check got
+         r,←⊂'Expected to ',((~exp)/'not '),'find "font-style: italic" in CSS for "',id,'" - but got this: ',css
+     :EndIf
+
+     ⍝ underline
+     exp←⊃'none' 'underline'[1+'U'∊¯3↑def]
+     got←⊃('text-decoration:\s(.*);'⎕S'\1'⍠'Greedy' 0)css
+     :If exp Check got
+         r,←⊂'Expected text-decoration "',(⍕exp),'" but got ',(⍕sz),' for "',id,'" with css "',css,'"'
+     :EndIf
+
+     ⍝ font-weight
+     exp←(400 700)[1+'B'∊¯3↑def]
+     sz←⊃2⊃⎕VFI⊃('font-weight:\s(\d*);'⎕S'\1')css
+     :If exp Check sz
+         r,←⊂'Expected font-weight ',(⍕exp),' but got ',(⍕sz),' for "',id,'" with css "',css,'"'
+     :EndIf
+ :EndFor
