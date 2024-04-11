@@ -1,0 +1,19 @@
+ r←TestRibbon sink;xp;n;b
+ r←''
+ ⍝ this is directly taken from DemoFonts!
+ :If 0≡f_status←#.S.Find'F1.Average'
+     r←'Cannot find F1.Average'
+     →end    ⍝ not much we can sensibly test w/o the ability to control the feedback!
+ :EndIf
+
+ xp←'(//div[@style="cursor:pointer"][./svg and ./div])[n]'   ⍝ select nth button
+⍝ nice in theory - but for some reason does not work as expected
+⍝ forge this when we have ids on the divs as suggested in
+⍝ https://github.com/mqasim23/jswc-web/issues/157  
+ :For n :In ⍳12
+     b←'XPath'#.S.Find('[n]'⎕R'[',(⍕n),']')xp
+     ∘∘∘
+ :EndFor
+
+
+end:
