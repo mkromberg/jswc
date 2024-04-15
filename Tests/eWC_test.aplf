@@ -1,4 +1,4 @@
- r←eWC_test sinkListOfTests;demos;d;⎕TRAP;f;t;file;sup;rC;z;lastd;dl;de;from;to;arg;msg;src;_Env;DEFAULTS;v;pi;sp;Supported;PropList;up;ctl;data;get;ListOfTests;tested;ListOfDemos;Dynamic
+ r←eWC_test sinkListOfTests;demos;d;⎕TRAP;f;t;file;sup;rC;z;lastd;dl;de;from;to;arg;msg;src;_Env;DEFAULTS;v;pi;sp;Supported;PropList;up;ctl;data;get;ListOfTests;tested;ListOfDemos;Dynamic;logs
 ⍝ this is admittedly an ugly hack - but I didn't want to waste time fixing it just now...
 ⍝ the problem is that the DTest DSL assumes tests are executed in the ns that DTest created while running the test -
 ⍝ but these tests are executed in #.tests.demo.
@@ -10,7 +10,7 @@
  #.tests.verbose←##.verbose
  #.tests.RandomVal←##.RandomVal
  #.tests.dtb←##.dtb  ⍝ needed by check
-
+ logs←~⍬
  ListOfTests←#.tests.demo.⎕NL ¯3
  ListOfTests←{((⊂'Test')≡¨4↑¨⍵)/⍵}ListOfTests
  tested←⍬   ⍝ list of executed tests
@@ -152,6 +152,8 @@
              r,←⊂d,': ',msg
          :EndIf
      :EndIf
+     ⍝ ⎕trap←0'S'
+     ⍝ logs,←⊂#.S.GetLogs 'browser' 'driver'
  :EndFor
  ⍝ kill it here (already) instead of leaving that to teardown
  ⍝ to make sure that the objectlog does not get added to (yes, it happened!)
