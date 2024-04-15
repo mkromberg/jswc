@@ -37,6 +37,7 @@
 
  #.S.QUIETMODE←##.quiet
  #.S.HOME←EWC_HOME,'Tests/Selenium/'
+ CMD_SRV_SUFFIX←''    ⍝ will be appened to the command line used to launch the server
 
  ⍝3 ⎕NDELETE⍠1⊢EWC_DPATH,'*.png'
  ⍝3 ⎕NDELETE⍠1⊢EWC_DPATH,'*.log'

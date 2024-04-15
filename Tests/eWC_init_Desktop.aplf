@@ -2,9 +2,10 @@
  r←''
  :Trap (~##.halt)/0
      eWC_init_loader 1⊃1 ⎕NPARTS ##.TESTSOURCE,'../'
-     ROOT←'http://dyalog_root/index'
-     BRWSR←'HtmlRenderer'
-     MODE←0
+     ROOT←'http://localhost:22344'
+     BRWSR←'HtmlRenderer190'
+     CMD_SRV_SUFFIX←' -cef --remote-debugging-port=8080'
+     MODE←0   ⍝ jswc in desktop mode
  :Else
      r←⎕DMX.Message
  :EndTrap
