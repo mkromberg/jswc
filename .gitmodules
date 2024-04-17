@@ -1,0 +1,4 @@
+[submodule "Tests/Selenium"]
+	path = Tests/Selenium
+	url = https://github.com/Dyalog/Selenium
+	branch = WebDriver4
