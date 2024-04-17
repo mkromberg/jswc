@@ -1,3 +1,0 @@
-[submodule "Tests/Selenium"]
-	path = Tests/Selenium
-	url = git@github.com:Dyalog/Selenium.git
