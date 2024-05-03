@@ -3,6 +3,7 @@
  'Points'
  'Radius'
  'Start'
+ 'End'
  'ArcMode'
  'FCol'
  'FStyle'

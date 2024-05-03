@@ -3,14 +3,17 @@
  e←Event.Event←⎕NS''
  e.(ID EventName Info)←(2↑args),⊂2↓args
 
-
  :If 'KeyPress'≡2⊃args
- :AndIf 'F1.Holdings.'≡12↑1⊃args ⍝ One of the INPUTs of the grid
-     move←('UC' 'DC' 'LC' 'RC'⍳args[3])⊃(¯1 0)(1 0)(0 ¯1)(0 1)(0 0)
-     (curcell values)←'F1.Holdings' eWG 'CurCell' 'Values'
-     curcell←1⌈(⍴values)⌊curcell+move
-     eNQ 'F1.Holdings' 'CellMove',curcell
-     →0
+     :If (10↑1⊃args)≡'F1.Players' ⍝
+         ⎕←'KEYPRESS:'args
+         →0
+     :ElseIf (12↑1⊃args)≡'F1.Holdings.' ⍝ An input within the grid
+         move←('UC' 'DC' 'LC' 'RC'⍳args[3])⊃(¯1 0)(1 0)(0 ¯1)(0 1)(0 0)
+         (curcell values)←'F1.Holdings'eWG'CurCell' 'Values'
+         curcell←1⌈(⍴values)⌊curcell+move
+         eNQ'F1.Holdings' 'CellMove',curcell
+         →0
+     :EndIf
  :EndIf
 
  :Select 1⊃args

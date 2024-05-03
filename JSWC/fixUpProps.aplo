@@ -1,7 +1,7 @@
  values←names(type fixUpProps)values;special;i;ixs;ns;n;ix;val;c;v;m;txt
 ⍝ Massage properties that can have multiple formats into regular structures for JS
 
- special←'Event' 'Points' 'Radius' 'LWidth' 'LStyle' 'FStyle' 'Visible' 'Active' 'Interval' 'File' 'FileNames' 'Picture'  'TitleHeight' 'TitleWidth' 'Values' 'Input' 'Text'
+ special←'Event' 'Points' 'Radius' 'LWidth' 'LStyle' 'FStyle' 'Visible' 'Active' 'Interval' 'File' 'FileNames' 'Picture'  'TitleHeight' 'TitleWidth' 'Values' 'Input' 'Text' 'Start' 'End'
  :If (⊂type)∊'rect' 'circle' 'ellipse' 'poly' 'font'
      special,←'FCol' 'BCol' 'FillCol' 'ArcMode' 'Start' 'End' 'Size'
  :EndIf
@@ -13,23 +13,29 @@
      :Select ⊃n
      :Case 'Event'
          values[ix]←normaliseEvents values[ix]
+     :Case 'Input'
+         values[ix]←⊂,⊆⊃values[ix]
      :CaseList 'Points' 'Radius' 'Size'
          :If type≡'font'
              (ix⊃values)←⌊0.5+0.85×ix⊃values ⍝ Adjust font size down
          :ElseIf 2=⍴⍴val←ix⊃values
-             (ix⊃values)←↓[1]val
+             (ix⊃values)←,⊂↓[1]val
          :Else
-             (ix⊃values)←,,¨val
+             val←ix⊃values
+             :If (type≡'poly')∧2=≡val←,¨val
+                 val←,⊂val
+             :EndIf
+             (ix⊃values)←val
          :EndIf
      :Case 'Text'
          :If type≡'text'
          :AndIf 2≠≡txt←ix⊃values ⍝ Not already nested
-            (ix⊃values)←,⊂↓(¯2↑1 1,⍴txt)⍴txt
+            (ix⊃values)←↓(¯2↑1 1,⍴txt)⍴txt
          :EndIf
      :CaseList 'BCol' 'FCol' 'FillCol'
          (ix⊃values)←,⊆ix⊃values
-     :CaseList 'LStyle' 'FStyle' 'LWidth'
-         ⍝ Do nothing?
+     :CaseList 'LStyle' 'FStyle' 'LWidth' 'Start' 'End'
+         (ix⊃values)←,ix⊃values ⍝ Always make a list
      :CaseList 'Visible' 'Active' 'Interval' 'TitleHeight' 'TitleWidth'
          (ix⊃values)←⊃ix⊃values ⍝ Must be scalar
      :Case 'Picture'

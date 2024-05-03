@@ -2,4 +2,7 @@
  'Type'
  'Visible'
  'Size'
+ 'FCol'
+ 'BCol'
+ 'TitleBCol'
 )

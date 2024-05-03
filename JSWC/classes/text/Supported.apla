@@ -3,7 +3,9 @@
  'Text'
  'Points'
  'FCol'
+ 'BCol'
  'Visible'
  'Font'
  'FontObj'
+ 'Rotate'
  )

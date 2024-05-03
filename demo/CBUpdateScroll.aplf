@@ -6,8 +6,8 @@
 
  :Select 1⊃args
  :CaseList 'F1.UPDOWN' 'F1.LEFTRIGHT' ⍝ Scroll
-     top←'F1.UPDOWN' eWG 'THUMB'
-     left←'F1.LEFTRIGHT' eWG 'THUMB'
+     top←¯1+'F1.UPDOWN' eWG 'THUMB'
+     left←¯1+'F1.LEFTRIGHT' eWG 'THUMB'
      'F1.VGRID' eWS ('Values' ((⍕¨top+⍳n)∘.,'/',¨⍕¨left+⍳n))('RowTitles' ('Row '∘,¨⍕¨top+⍳n))('ColTitles' ((↓'ZI4' ⎕FMT ⍪left+⍳n)))
  :Else
      ⎕←'Unexpected message: ',args

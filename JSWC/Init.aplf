@@ -2,7 +2,8 @@
  ⎕IO←⎕ML←1
 
  ⎕TRAP←0 'S'
- :Select ≢args←,⊆args
+ :If 80=⎕DR args ⋄ args←⊆args ⋄ :EndIf
+ :Select ≢args←,args
  :Case 1 ⋄ mode←⊃args ⋄ CODELOCATION←⊃⎕RSI
  :Case 2 ⋄ (mode CODELOCATION)←args
  :Else
@@ -65,6 +66,9 @@
  :If 0=⎕NC'BREAK'
      BREAK←⍬ ⍬ ⍝ IDs Events
  :EndIf
+ :If 0=⎕NC'SHOWDEVTOOLS'
+     SHOWDEVTOOLS←0
+ :EndIf
 
 ⍝ Establish API in calling space unless prefix≡''
  :If 0≠≢prefix
@@ -105,7 +109,7 @@
 
  allocateTokens
 
- HRBorder←63 17  ⍝ Additional space required for HR chrome
+ HRBorder←40 17  ⍝ Additional space required for HR chrome
  MENUOffset←23 0 ⍝ Space to allow for menu
  NOIDQ←1      ⍝ No interactive DQ
  WGID←0
@@ -113,7 +117,7 @@
  SESSIONS←⍬ ⍬ ⍝ (IDs, Connections, SessionData)
  QUEUEIDS←QUEUEDATA←⍬
 
- (EVENTNUMS EVENTNAMES)←↓⍉↑2031⌶0
+ (EVENTNUMS EVENTNAMES)←↓⍉EVENTS
  eventNames←⎕C EVENTNAMES
 
  (JSKeys APLKeys)←↓⍉keyMap
@@ -123,7 +127,7 @@
      (⍕z)⎕SIGNAL 11
  :EndIf
 
- :If 4≥⍴devCaps←'.'⎕WG'DevCaps'
+ :If 4≤⍴devCaps←'.' ⎕WG 'DevCaps'
      DPR←100÷⍨4⊃devCaps
  :Else
      DPR←1

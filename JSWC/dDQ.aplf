@@ -2,7 +2,9 @@
 
  ⎕TRAP←0 'S'
  names←,⊆names
- caller←⊃⎕RSI
+ caller←findCaller
+ names←caller removeCaller¨names
+
  :If ~∧/names∊'.' '#'
      ⎕SIGNAL(2.1∨.≠caller.⎕NC names,¨⊂'.Type')/11
  :EndIf
@@ -44,6 +46,6 @@
  ⍝:EndHold
 
  :If 0≠≢R
-     R←(⊢/R).Event.((ID EventName),Info) ⍝ /// Need a proper queue
+     R←(⊢/R).Event.((ID EventName),{6::⍵ ⋄ Info}⍬) ⍝ /// Need a proper queue
  :EndIf
  'INTERRUPT'⎕SIGNAL interrupt/999

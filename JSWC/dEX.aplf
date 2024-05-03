@@ -1,7 +1,7 @@
  {R}←∆EX names;caller;msg;ex;EX;z;⎕TRAP;cn;n;ID;conn
  ⎕TRAP←0 'S'
  names←,⊆names
- n←≢cn←⍕caller←⊃⎕RSI~⎕THIS
+ n←≢cn←⍕caller←findCaller
  names←((1+n)×(n↑¨names)∊⊂cn)↓¨names
  (ID conn)←getConnection caller names
 

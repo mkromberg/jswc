@@ -1,9 +1,15 @@
- {end}←processEvent ns;Info;ID;Event;event;events;fns;info;fn;z;async;class;e;code;res
+ {end}←processEvent ns;Info;ID;Event;event;events;fns;info;fn;z;async;class;e;code;res;gui
 
  :If 2=ns.⎕NC'CodeLocation'
      code←⍎ns.CodeLocation
  :Else
      code←CODELOCATION
+ :EndIf
+
+ :If 9=code.⎕NC '_JSWC_GUI_NS'
+     gui←code._JSWC_GUI_NS
+ :Else
+     gui←code
  :EndIf
 
  end←0
@@ -15,7 +21,7 @@
  :EndIf
 
  :Trap 6
-     event←code⍎z←ID,'.Event'
+     event←gui⍎z←ID,'.Event'
  :Else
      'E'Log'*** Unable to find ',z,', cannot process ',⎕JSON ns
      →0

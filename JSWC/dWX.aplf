@@ -7,7 +7,7 @@
      (⊃Info)←,⊂txt ⍝ Make vector a 1-element list
  :EndIf
 
- caller←⊃⎕RSI
+ caller←findCaller
  Name←caller removeCaller Name
 
  (ID conn)←getConnection caller Name

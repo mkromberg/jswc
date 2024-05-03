@@ -4,8 +4,8 @@
  n←10
 
  'F1'eWC'Form' 'Virtual Grid'(50 50)(500 800)('Coord' 'Pixel')
- 'F1.UPDOWN'eWC'Scroll'('Align' 'Right')('Event' 'Scroll' 'CBUpdateScroll')('Range' 1000)('Thumb' 1)
- 'F1.LEFTRIGHT'eWC'Scroll'('Align' 'Bottom')('Event' 'Scroll' 'CBUpdateScroll')('Range' 1000)('Thumb' 1)
+ 'F1.UPDOWN'eWC'Scroll'('Align' 'Right')('Event' 'Scroll' 'CBUpdateScroll')('Range' 1000)('Thumb' 1)('Size' (480 20))
+ 'F1.LEFTRIGHT'eWC'Scroll'('Align' 'Bottom')('Event' 'Scroll' 'CBUpdateScroll')('Range' 1000)('Thumb' 1)('Size' (20 780))
  'F1.VGRID'eWC'Grid' ('Values' ((⍕¨⍳n)∘.,'/',¨⍕¨⍳n))(150 100) (270 610)('CellWidths' 50)('Event' 'KeyPress' 'CBUpdateScroll')('RowTitles' ('Row '∘,¨⍕¨⍳n))('ColTitles' (↓'ZI4' ⎕FMT ⍪⍳n))
  'F1.VGRID'eWS'CurCell' (1 1)
 

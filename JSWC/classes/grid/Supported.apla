@@ -17,6 +17,7 @@
  'Visible'
  'CurCell'
  'CellWidths'
+ 'CellHeights'
  'RowTitles'
  'FormatString'
  'FCol'
