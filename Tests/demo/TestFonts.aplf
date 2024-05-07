@@ -21,6 +21,7 @@
 
  fs←'F1.FNT'∘,¨∊¨'ZI2'∘⎕FMT¨⍪⍳⍴f
  ⍝---- end of DemoFonts code ----
+ ⎕SE.Link.Import #(((1⊃⎕RSI).EWC_HOME),'JSWC/fixUpProps.aplo') ⍝ we need that to compute the font size to expect...
 
  :For (row col) :In 1 0↓⍳⍴f  ⍝ ok, almost ;)
   ⍝ for every label check if the specs from t match the actual css assigned to the label...
@@ -37,12 +38,13 @@
      :If 1 Check 0<≢⊃(('font-family: "*(',(col⊃fonts),')"*')⎕S'\1')css
          r,←⊂'Could not find font-family: ["]',val,'["] in style of ',id,' = ',css
      :EndIf
+
      ⍝ font-size
      sz←2⊃⎕VFI⊃('font-size:\s(\d*)px'⎕S'\1')css
      exp←2⊃⎕VFI{(∧\⍵∊⎕D)/⍵}def←⊃t[row;col]
+     exp←(,⊂'Size')('font'#.fixUpProps)(,exp)  ⍝ call MK's fn to "fix up" the font size - see https://github.com/mqasim23/jswc-web/issues/170
      :If exp Check sz
-         ⍝ this fails ALWAYS atm - there seems to be some translation going on? to be discussed after DYNA!
-         ⍝ r,←⊂'Expected size ',(⍕exp),' but got ',(⍕sz),' for "',id,'" with css "',css,'"'
+         r,←⊂'Expected size ',(⍕exp),' but got ',(⍕sz),' for "',id,'" with css "',css,'"'
      :EndIf
 
      ⍝ italics
