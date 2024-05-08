@@ -6,6 +6,7 @@
      BRWSR←'HtmlRenderer190'
      CMD_SRV_SUFFIX←' -cef --remote-debugging-port=8080'
      MODE←0   ⍝ jswc in desktop mode
+     EWC_SHOWDEVTOOLS←1
  :Else
      r←⎕DMX.Message
  :EndTrap
