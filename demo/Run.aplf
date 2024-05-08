@@ -8,7 +8,11 @@
  :Else
      JSWC.PORT←22322
  :EndIf
- JSWC.SHOWDEVTOOLS←0
+ :If 1≡⊃2⊃⎕VFI 2 ⎕NQ'.' 'GetEnvironment' 'EWC_SHOWDEVTOOLS'
+     JSWC.SHOWDEVTOOLS←1
+ :Else
+     JSWC.SHOWDEVTOOLS←0
+ :EndIf
  root←{⊃⎕NPARTS ¯1↓⍵}⊃⎕NPARTS 4⊃5179⌶⊃⎕SI
  JSWC.RESOURCES←1 2⍴'images'(root,'/demo/images')
 
