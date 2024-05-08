@@ -34,10 +34,8 @@
 
 ⍝ enter some values for rows/cols and test that matching number of boxes is drawn
  :For size :In (2 3)(4 4)(3 2)(2 4)
-     i_rows.Click
-     i_rows #.S.SendKeys #.S.Keys.Delete,⍕size[1]
-     i_cols.Click
-     i_cols #.S.SendKeys #.S.Keys.Delete,⍕size[2]
+     i_rows #.S.SetInputValue ⍕size[1]
+     i_cols #.S.SetInputValue ⍕size[2]
      b_go.Click
      ⎕DL 1  ⍝ allow some time for processing
      bx←#.S.Find'F1.BX.R1'
