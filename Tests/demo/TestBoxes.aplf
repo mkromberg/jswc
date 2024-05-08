@@ -1,4 +1,4 @@
- r←TestBoxes sink;f_clr;z;b_hd;c_poly;i_rows;i_cols;b_go
+ r←TestBoxes sink;f_clr;z;b_hd;c_poly;i_rows;i_cols;b_go;⎕TRAP;bx;size;ih;coords;size∆
  r←''
  :If 326 Check ⎕DR f_clr←#.S.Find'F1.CLR'
      r←'Cannot find F1.CLR'
@@ -22,20 +22,32 @@
      →end
  :EndIf
  :If 326 Check ⎕DR c_poly←#.S.Find'F1.LOGO'
-     r,←'Cannot find F1.LOGO (#153 not yet fixed!)'
+     r,←⊂'Cannot find F1.LOGO (#153 not yet fixed!)'
  :EndIf
  b_hd.Click
-⍝ check that F1.LOGO disappears and re-appears when clicking again
 
- :If 326 326 Check ⎕DR¨(i_rows i_cols b_go)←#.S.Find¨'F1.ROWS' 'F1.COLS' 'F1.GO'
-     r,←'couldn''t find F1.ROWS, F1.COLS or F1.GO'
+⍝ check that F1.LOGO disappears and re-appears when clicking again
+ :If 326 326 326 Check ⎕DR¨(i_rows i_cols b_go)←#.S.Find¨'F1.ROWS' 'F1.COLS' 'F1.GO'
+     r,←⊂'couldn''t find F1.ROWS, F1.COLS or F1.GO'
      →end
  :EndIf
 
 ⍝ enter some values for rows/cols and test that matching number of boxes is drawn
-
-
-
+ :For size :In (2 3)(4 4)(3 2)(2 4)
+     i_rows.Click
+     i_rows #.S.SendKeys #.S.Keys.Delete,⍕size[1]
+     i_cols.Click
+     i_cols #.S.SendKeys #.S.Keys.Delete,⍕size[2]
+     b_go.Click
+     ⎕DL 1  ⍝ allow some time for processing
+     bx←#.S.Find'F1.BX.R1'
+     ih←bx.GetAttribute⊂'innerHTML'
+     coords←('<rect.*\sx="(\d*)"\sy="(\d*)"'⎕S'\2|\1'⍠'Greedy' 0)ih
+     size∆←≢¨∪¨↓[1]↑'|'{⍺(≠⊆⊢)⍵}¨coords   ⍝ actual number of different coordinates on y and x
+     :If size Check size∆
+         r,←⊂'Expected to find ',(∊(⍕¨size),¨' rows x ' ' cols'),', but got ',(∊(⍕¨size∆),¨' rows x ' ' cols')
+     :EndIf
+ :EndFor
 end:
  :If 0<≢r
      r←¯1↓∊(⊆r),¨⎕UCS 10
