@@ -1,16 +1,22 @@
- r←TestGrids nul;rows;cols;f_status;cell;ir;ic;xp;o_cell;exp;t;xcell;src;ip;html;val;sel
+ r←TestGrids nul;rows;cols;f_status;cell;ir;ic;xp;o_cell;exp;t;xcell;src;ip;html;val;sel;ID
  (rows cols)←3 6
+r←''
 
  :If 0≡f_status←#.S.Find'F1.Average'
-     r←'Cannot find F1.Average'
+     r,←⊂'Cannot find F1.Average'
      →end    ⍝ not much we can sensibly test w/o the ability to control the feedback!
  :EndIf
 
+:if 'Total value'Check 11↑f_status.Text
+r,←⊂'F1.Average does not contain expected text "Total value..." but "',f_status.Text,'"'
+:endif
+
  :For cell :In 'GridCells'##.RandomVal 2⍴rows×cols   ⍝ click through cells in random order
      (ir ic)←2 1+3 6⊤¯1+cell                         ⍝ compute coordinates in grid (row[1;] are headers, so we needed to increment the offset)
-     ⍝ cells don't have ids, so find the correct cell using xpath expression:
-     xp←'//*[@id="F1.Holdings"]/div[',(⍕ir),']//div[contains(@class, "cell")][',(⍕ic),']'
-     o_cell←'XPath'#.S.Find xp
+    ⍝ xp←'//*[@id="F1.Holdings"]/div[',(⍕ir),']//div[contains(@class, "cell")][',(⍕ic),']'
+    ⍝ o_cell←'XPath'#.S.Find xp
+     ID←'F1.Holdings.r',(⍕ir+1),'.c',⍕ic+1
+     o_cell←#.S.Find ID
      val←o_cell.Text
 
      :If ic=2⍝ inspect the cell to see if we have a checkbox in it
@@ -44,6 +50,12 @@
      :If ''Check t←f_status #.S.WaitFor exp
          r,←⊂'Moving to ',(⍕ir),'/',(⍕ic),' did not give status "',exp,'" but "',f_status.Text,'" (#130)'
      :EndIf
+
+     :if ic∊3 4 6 ⍝ test if values in the columns are right-aligned
+     ∘∘∘
+     :endif
+
+     ⍝ test editing!?
  :EndFor
 
 ⍝ also: click row/col in F1.Table and check that the correct cells are highlighted (css: background: rgb(199, 233, 255) - WIBNI there was a class for that?)
