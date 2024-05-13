@@ -1,4 +1,4 @@
- r←eWC_test sinkListOfTests;demos;d;⎕TRAP;f;t;file;sup;rC;z;lastd;dl;de;from;to;arg;msg;src;_Env;DEFAULTS;v;pi;sp;Supported;PropList;up;ctl;data;get;ListOfTests;tested;ListOfDemos;Dynamic;logs
+ r←eWC_test sinkListOfTests;demos;d;⎕TRAP;f;t;file;sup;rC;z;lastd;dl;de;from;to;arg;msg;src;_Env;DEFAULTS;v;pi;sp;Supported;PropList;up;ctl;data;get;ListOfTests;tested;ListOfDemos;Dynamic;logs;NL
 ⍝ this is admittedly an ugly hack - but I didn't want to waste time fixing it just now...
 ⍝ the problem is that the DTest DSL assumes tests are executed in the ns that DTest created while running the test -
 ⍝ but these tests are executed in #.tests.demo.
@@ -16,6 +16,7 @@
  tested←⍬   ⍝ list of executed tests
  ListOfDemos←demos←{2⊃⎕NPARTS ⍵}¨⊃0(⎕NINFO⍠1)EWC_DPATH,'/Demo*.*'
  ListOfDemos←{((⊂'Demo')≡¨4↑¨⍵)/⍵}ListOfDemos   ⍝ insist on "Demo" prefix (demo... are subroutines!)
+ NL←⎕UCS 10
 
  DEFAULTS←0(⎕JSON⍠'Dialect' 'JSON5')(1⊃⎕NGET ##.TESTSOURCE,'eWC_defaults.json5')
  '['⎕NPUT(EWC_HOME,'JSWC/objectlog.json5')1  ⍝ initialise this file so that we can append single log objects to it...
@@ -189,6 +190,10 @@
              ⍺⍎⍵
          }¨⊂⍵
      }
+     :If 0<≢z←⍸(⊂'error'){⍺≡⍥⎕C ⍵}¨data get'Type'
+         r,←⊂'Caught these errors while running the tests: ',NL,(⎕JSON data[z]),NL
+         data←data[(⍳≢data)~z]
+     :EndIf
 
      :For ctl :In (∪data get'Type')~⊂⍬
          up←(ctl∘≡¨data get'Type')/data get'Properties'   ⍝ used properties
