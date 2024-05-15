@@ -1,0 +1,36 @@
+ r←TestTextSize sink;t;src;id;t11;t1
+ r←''
+
+ :For id :In 'F1.HW' 'F1.H'
+     t←#.S.Find'F1.HW'
+     :If 326 Check ⎕DR t
+         r,←⊂'Could not find text object "',id,'"'
+     :EndIf
+ :EndFor
+
+⍝ how to get the source of the current page?
+⍝ src←#.S.BROWSER.PageSource - is the code that was loaded (but with our dynamic tests, that might not be what we're seeing!)
+⍝ but this works:
+
+ t←'CssSelector'#.S.Find'body'
+ src←t.GetAttribute⊂'outerHTML'
+
+ :For t :In 'Hello to' 'all of the world' 'Hello everyone, JSWC Rocks!'
+     t1←t
+     t1[⍸t1=' ']←⊂'&nbsp;'
+     t1←∊t1
+     :If 1 Check∨/∊t t1⍷¨⊂src
+         r,←⊂'Could not find text "',t,'" in source code of the page!'
+     :EndIf
+ :EndFor
+
+⍝ what else could we test?
+⍝ I don't think the boxes on the page add anything, so I'll ignore them.
+⍝ Perhaps the Demo page could instead have an input for the text size
+⍝ and we could then dynamically change it. Maybe even the text could be
+⍝ entered into an input control?!
+
+end:
+ :If 0<≢r
+     r←¯1↓∊(⊆r),¨⎕UCS 10
+ :EndIf
