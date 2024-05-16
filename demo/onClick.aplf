@@ -1,0 +1,11 @@
+    onClick;value
+    value ← F1.Input.Value
+    :If value>100
+            Caption←'Heat Wave' ⋄ Text←'Please stay inside temprature is high'
+           'Msg' ⎕WC 'MsgBox' Caption Text 'Warn' ⋄ ⎕DQ 'Msg'
+
+
+    :Else 
+       
+    :EndIf
+        ''

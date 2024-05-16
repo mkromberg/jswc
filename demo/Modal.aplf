@@ -1,0 +1,7 @@
+    Modal
+     TITLE←'Modal'
+    'F1' ⎕WC 'Form' TITLE (68 50)(30 40)
+    'F1.Label' ⎕WC'Label' 'Hello World'(10 10)
+    'F1.Input' ⎕WC 'Edit' '' (10 40)(⍬ 20)('FieldType' 'Numeric')
+     FB←'Button' 'Click Me' (10 70)('Event' 'Select' 'onClick')
+    'F1.Btn'⎕WC FB
