@@ -2,7 +2,7 @@
  r←''
 
  :For id :In 'F1.HW' 'F1.H'
-     t←#.S.Find'F1.HW'
+     t←#.S.Find id
      :If 326 Check ⎕DR t
          r,←⊂'Could not find text object "',id,'"'
      :EndIf
@@ -15,7 +15,7 @@
  t←'CssSelector'#.S.Find'body'
  src←t.GetAttribute⊂'outerHTML'
 
- :For t :In 'Hello to' 'all of the world' 'Hello everyone, JSWC Rocks!'
+ :For t :In 'Hello to' 'all of the World' 'Hello everyone, JSWC Rocks!'
      t1←t
      t1[⍸t1=' ']←⊂'&nbsp;'
      t1←∊t1
