@@ -1,4 +1,4 @@
- r←eWC_test sinkListOfTests;demos;d;⎕TRAP;f;t;file;sup;rC;z;lastd;dl;de;from;to;arg;msg;src;_Env;DEFAULTS;v;pi;sp;Supported;PropList;up;ctl;data;get;ListOfTests;tested;ListOfDemos;Dynamic;logs;NL;log
+ r←eWC_test sinkListOfTests;demos;d;⎕TRAP;f;t;file;sup;rC;z;lastd;dl;de;from;to;arg;msg;src;_Env;DEFAULTS;v;pi;sp;Supported;PropList;up;ctl;data;get;ListOfTests;tested;ListOfDemos;Dynamic;logs;NL;log;f_olog
 ⍝ this is admittedly an ugly hack - but I didn't want to waste time fixing it just now...
 ⍝ the problem is that the DTest DSL assumes tests are executed in the ns that DTest created while running the test -
 ⍝ but these tests are executed in #.tests.demo.
@@ -60,7 +60,7 @@
  demos←∪dl~de∪'Menu' 'Default'
  lastd←'just started'
  :If 1=1↑0 _Env'RANDOMORDER'
-     demos[('eWC_order_',⍕≢demos)##.RandomVal 2/≢demos]
+     demos←demos[('eWC_order_',⍕≢demos)##.RandomVal 2/≢demos]
  :EndIf
 
  :For d :In demos
@@ -94,7 +94,7 @@
      :EndIf
      ctl←'CssSelector'#.S.Find'[id$="MENU"]'  ⍝ use CssSelector to find ids ending with MENU because the menu is sometimes located in a subform
      :If 326 Check ⎕DR ctl    ⍝ check if we find the menu
-         msg←'could not find F1.MENU (possibly something went wrong before (lastd=',lastd,')'    ⍝ although that should be veeery unlikely now....
+         msg←'could not find F1.MENU (possibly something went wrong before (lastd=',lastd,')',NL  ⍝ although that should be veeery unlikely now....
      :Else
          :If ##.trace
              ⎕←'next: select test "',d,'"'
@@ -103,7 +103,7 @@
 
          z←ctl #.S.Select d      ⍝ selecting the test will load it
          :If 1 Check z  ⍝ can we select the test in the menu?
-             msg←'test not found in menu (attention: it is case-sensitive!)'
+             msg←'test not found in menu (attention: it is case-sensitive!)',NL
          :Else
              {}⎕DL 1  ⍝ allow some time to load
              :Trap 90  ⍝ check if Htmlrenderer is still alive and kicking...
@@ -116,8 +116,8 @@
                  :EndIf
              :EndTrap
 
-             z←'CssSelector'#.S.Find'[id$="MENU"]'             ⍝ check if loaded test also has a menu...
-             :If 326 Check ⎕DR z
+             z←'CssSelector'#.S.Find'[id$="MENU"]'
+             :If 326 Check ⎕DR z  ⍝ check if loaded test also has a menu...
                  msg←'could not find F1.MENU'
              :Else
                  t←('CssSelector' '[id$="STOP"]')#.S.WaitFor'Stop'
@@ -136,49 +136,67 @@
                          :Trap ##.halt↓0
                              msg,←#.tests.demo⍎t,' ⍬'
                              tested,←⊂t
+                             :If 0<≢msg    ⍝ msg should be a simple NL-separated vector.
+                             :AndIf 1<≡msg ⍝ if it isn't,
+                                 msg←∊msg,¨NL ⍝ make it so
+                             :EndIf
                          :Else
-                             msg←'error while executing test "',t,'": ',(⎕JSON⍠'Compact' 0)⎕DMX
+                             msg,←'error while executing test "',t,'": ',(⎕JSON⍠'Compact' 0)⎕DMX
                          :EndTrap
                      :ElseIf ##.halt
                          ⎕←'no test found for demo Demo',d   ⍝ interrupt if -halt switch was set
                          ∘∘∘
                      :EndIf
+
+                     :If 0<v←_Env'SCREENSHOT'
+                         file←∊1 ⎕NPARTS ##.TESTSOURCE,d,'.png'
+                         :If v=2  ⍝ always save screenshot
+                             #.S.SaveScreenshot file
+                             :If 0<≢msg  ⍝ if there was an error, add info abt screenshot
+                                 msg,←' - saved screenshot as ',file,NL
+                             :EndIf
+                         :ElseIf v=1
+                             :If 0<≢msg
+                                 #.S.SaveScreenshot file
+                                 msg,←' - saved screenshot as ',file,NL
+                             :EndIf
+                         :EndIf
+                     :EndIf
+
+
+                     ⍝ list of objects that we DO NOT expect to find on the HTML page:
+                     exceptions←'Font' 'Timer'
+
                      log←(1⊃⎕NGET(EWC_HOME,'JSWC/objectlog.json5')),']'  ⍝ get the log
                      log←0(⎕JSON⍠'Dialect' 'JSON5')log
-                     log←((log.Action≡¨⊂'WC')∧log.Caller≡¨⊂'Demo',d)/log
+                     log←((log.Action≡¨⊂'WC')∧(log.Caller≡¨⊂'Demo',d)∧~log{0=⍺.⎕NC'Type':0 ⋄ (⊂⍺.Type)∊⍵}¨⊂exceptions)/log
                      ⍝ everything ⎕WC'ed by this test
-                     :For t :In ∪log.ID
+                     :For lg :In ∪log
+                         t←lg.ID
                          z←#.S.Find t
-                         :If 326 Check ⎕DR z
-                             msg,←'Object "',t,'" that was ⎕WC''ed by Demo "',d,'" could not be found by searching for the id'
+                         :If 326 Check ⎕DR z  ⍝ check if we can find the object t
+                             ⍝⎕←⎕JSON lg
+                             msg,←'Object "',t,'" (Type="',(lg.Type),'") that was ⎕WC''ed by Demo "',d,'" could not be found by searching for the id',NL
                          :EndIf
                      :EndFor
                  :EndIf
              :EndIf
          :EndIf
 
-         :If 0<v←_Env'SCREENSHOT'
-             file←∊1 ⎕NPARTS ##.TESTSOURCE,d,'.png'
-             :If v=2  ⍝ always save screenshot
-                 #.S.SaveScreenshot file
-                 :If 0<≢msg  ⍝ if there was an error, add info abt screenshot
-                     msg,←' - saved screenshot as ',file
-                 :EndIf
-             :ElseIf v=1
-                 :If 0<≢msg
-                     #.S.SaveScreenshot file
-                     msg,←' - saved screenshot as ',file
-                     :If ##.halt
-                         ⎕←'test ',d,' failed!'
-                         ⎕←'→',(⍕⎕LC[1]+2),'   ⍝ to continue'
-                         ⎕TRAP←0 'S' ⋄ (⎕LC[1]+1)⎕STOP 1⊃⎕SI
-                     :EndIf
-                 :EndIf
-             :EndIf
+         :If 0<≢msg
+         :AndIf ##.halt
+             ⎕←'test ',d,' failed!'
+             ⎕←'→',(⍕⎕LC[1]+4),'   ⍝ to continue'
+             ⎕←'⎕←msg              ⍝ to see error messages'
+             ⎕TRAP←0 'S' ⋄ (⎕LC[1]+1)⎕STOP 1⊃⎕SI
          :EndIf
          lastd←d
          :If 0<≢msg
-             r,←⊂d,': ',msg
+             :Trap 0
+                 r,←d,':',NL,∊((⊂'   '),¨NL(≠⊆⊢)msg),¨⊂NL
+             :Else
+                 ⎕←(⎕JSON⍠'Compact' 0)⎕DMX
+             :EndTrap
          :EndIf
      :EndIf
      ⍝ ⎕trap←0'S'
@@ -187,10 +205,10 @@
  ⍝ kill it here (already) instead of leaving that to teardown
  ⍝ to make sure that the objectlog does not get added to (yes, it happened!)
  :If ~PROCESS.HasExited
-     PROCESS.(Kill Proc.Id)
+     {}PROCESS.(Kill Proc.Id)
  :EndIf
  ']'⎕NPUT(EWC_HOME,'JSWC/objectlog.json5')2
- data←1⊃⎕NGET EWC_HOME,'JSWC/objectlog.json5'
+ data←1⊃⎕NGET f_olog←EWC_HOME,'JSWC/objectlog.json5'
  :If 0<≢data   ⍝ unlikely, but better be safe ;)
     ⍝ all demos & tests executed - now check the controls that were created
     ⍝ and the properties that were tested...
@@ -203,7 +221,7 @@
          }¨⊂⍵
      }
      :If 0<≢z←⍸(⊂'error'){⍺≡⍥⎕C ⍵}¨data get'Type'
-         r,←⊂'Caught these errors while running the tests: ',NL,(⎕JSON data[z]),NL
+         r,←'Caught ',(⍕≢z),' errors while running the tests (for details please search ',f_olog,' for "Error"): ',NL,∊((⊂'  '),¨∪data[z].Message),¨NL
          data←data[(⍳≢data)~z]
      :EndIf
 
@@ -216,22 +234,19 @@
         ⍝  sp←Supported∩PropList
          sp←Dynamic∩PropList
          :If ∨/z←~sp∊up
-             r,←⊂'Dynamic props of "',ctl,'" that were not used in the demos or tests: ',¯1↓∊{'"',⍵,'" ,'}¨z/sp
+             r,←'Dynamic props of "',ctl,'" that were not used in the demos or tests: ',(¯2↓∊{'"',⍵,'", '}¨z/sp),NL
          :EndIf
      ⍝ what else can we test...???
      ⍝ - check that dynamic properties are set AND read
 
      :EndFor
      :If ∨/z←~(4↓¨ListOfDemos)∊4↓¨ListOfTests
-         r,←⊂'No tests found for these demos: ',∊(z/ListOfDemos),¨⊂', '
+         r,←('No tests found for these demos: ',¯2↓∊(z/ListOfDemos),¨⊂', '),NL
      :EndIf
      :If ∨/z←~(4↓¨ListOfTests)∊4↓¨ListOfDemos  ⍝ SciFi, but test anyway...
-         r,←⊂'Tests without demos (possibly outdated?): ',,∊(z/ListOfTests),¨⊂', '
+         r,←('Tests without demos (possibly outdated?): ',¯2↓∊(z/ListOfTests),¨⊂', '),NL
      :EndIf
  :EndIf
-
- :If 0<≢r
-     r←∊(⊂⎕UCS 13 10),¨r
- :Else
+ :If 0=≢r
      ⎕←(⍕≢demos),' demo pages were opened and ',(⍕≢tested),' tests were excuted without issues!'
  :EndIf
