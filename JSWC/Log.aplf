@@ -13,7 +13,7 @@
  →((mode∊LOGMODES)∨('w'∊LOGMODES)∧mode≡'E')↓0
  ⎕←((,'ZI2,<:>,ZI2,<.>,ZI3'⎕FMT 1 3⍴¯3↑⎕TS),' ',mode,':')msg
  :If ('w'∊LOGMODES)∧mode≡'E'   ⍝ if an error was logged in mode "w" we need to transform the msg from simple txt to json!
-     msg←'{Type: "Error", Message: "',(⍕msg),'"},'
+     msg←'{Caller: "N/A", Action:"Error", Type: "Error", Message: "',(⍕msg),'"},'
      mode←'w'   ⍝ change it to enter next If!
  :EndIf
 
@@ -26,5 +26,6 @@
     ⍝ (see eWC Tests for example usage that deletes the file before running tests
     ⍝  and also adds the "[]" )
      msg←('(:.*,)(.*)$'⎕R('\1 TS: [',(∊(⍕¨¯4↑⎕TS),¨','),'],\2')⍠'Greedy' 0)msg
+     msg←(¯2↓msg),',Stack: [',(¯1↓∊{'"',(1⊃⍵),'[',(⍕2⊃⍵),']",'}¨↓⎕si,[1.5]⎕lc),']},'
      (⊂msg)⎕NPUT(JSWCFolder,'objectlog.json5')2
  :EndIf
