@@ -4,4 +4,6 @@
  'Icons'
  'Border'
  'Event'
+ 'ImageIndex'
+ 'Data'
 )

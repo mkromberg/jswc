@@ -1,12 +1,22 @@
- {R}←∆DQ names;⎕TRAP;caller;class;type;HR;timers;event;done;interrupt;tkn;m;i
+ {R}←∆DQ names;⎕TRAP;caller;class;type;HR;timers;event;done;interrupt;tkn;m;i;types;z;modal
 
  ⎕TRAP←0 'S'
  names←,⊆names
  caller←findCaller
  names←caller removeCaller¨names
+ modal←0
 
  :If ~∧/names∊'.' '#'
-     ⎕SIGNAL(2.1∨.≠caller.⎕NC names,¨⊂'.Type')/11
+     ⎕SIGNAL(∨/~(caller.⎕NC z←names,¨⊂'.Type')∊2.1 ¯2.6)/11
+     types←caller⍎¨z
+     :If modal←∧/types∊modalClasses
+        'Only one modal object at a time' ⎕SIGNAL (1≠≢names)/11
+        →0⊣R←dWX (⊃names) 'OnlyDQ' (⊃names)
+     :EndIf
+     :If ∨/m←types∊nativeClasses ⍝ TCPSocket or other things(?)
+         'Max not mix DQ of native and JSWC classes' ⎕SIGNAL (0∊m)/11
+        →0⊣R←caller.⎕DQ names
+     :EndIf
  :EndIf
 
  done←interrupt←0
@@ -47,5 +57,9 @@
 
  :If 0≠≢R
      R←(⊢/R).Event.((ID EventName),{6::⍵ ⋄ Info}⍬) ⍝ /// Need a proper queue
+ :EndIf
+
+ :If modal
+     z←dWX (⊃names) 'OnlyDQ' (0⍴⊂'')
  :EndIf
  'INTERRUPT'⎕SIGNAL interrupt/999

@@ -1,4 +1,4 @@
- DemoRibbonTabs connected;tb;sf;rb;captions;icons;sel;bcol;fcol;titlebcol;bordercol;activebcol;passivebcol
+ DemoRibbonTabs connected;tb;sf;rb;captions;icons;sel;bcol;fcol;titlebcol;bordercol;activebcol;passivebcol;datans
  JSWC.CONNECTED←connected
  ⎕PW←1000
  ⎕ex 'fonts' ⍝ In case left over by DemoTabs
@@ -15,15 +15,25 @@
 
  (tb←'F1.TC.T1')eWC'TabButton'('Caption' 'Locks and Macros')('Event' 'Select' 'CBUpdateTabs')
  (sf←'F1.TC.SF1')eWC'SubForm'('TabObj'tb),⊂bcol
- (rb←sf,'.Ribbon')eWC 'Ribbon' fcol bcol titlebcol
+ (rb←sf,'.Ribbon')eWC 'Ribbon' fcol bcol titlebcol ('Data' ('Ribbon' 1))
 
+ datans←⎕NS ''
  (rb,'.Item1')eWC'RibbonGroup' 'Locks'('Size' 2) bordercol
- (rb,'.Item1.GroupItem1')eWC'RibbonGroupItem' 12
- (rb,'.Item1.GroupItem1.LockButton')eWC'RibbonButton' 'Access' 'FcLock' 12 sel
+ (rb,'.Item1')eWS ('Data' datans)
+ (rb,'.Item1.GroupItem1')eWC'RibbonGroupItem' 12 ('Data' (⍳4))
+ (rb,'.Item1.GroupItem1.LockButton')eWC'RibbonButton' 'Access' 'FcLock' 12 sel ('Data' 99)
 
  (rb,'.Item2')eWC'RibbonGroup' 'Macros'('Size' 2) bordercol
  (rb,'.Item2.GroupItem1')eWC'RibbonGroupItem' 12
  (rb,'.Item2.GroupItem1.MacrosButton')eWC'RibbonButton' 'Macros' 'FcPlanner' 12 sel
+
+ ∘∘∘
+ :If ('Ribbon' 1)≢rb eWG 'Data'
+ :OrIf datans≢(rb,'.Item1') eWG 'Data'
+ :OrIf (⍳4)≢(rb,'.Item1.GroupItem1') eWG 'Data'
+ :OrIf 99≢(rb,'.Item1.GroupItem1.LockButton') eWG 'Data'
+    ∘∘∘ ⍝ Data not preserved
+ :EndIf
 
  (tb←'F1.TC.T2')eWC'TabButton'('Caption' 'Dashboard and Quality')('Event' 'Select' 'CBUpdateTabs')
  (sf←'F1.TC.SF2')eWC'SubForm'('TabObj'tb),⊂bcol

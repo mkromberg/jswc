@@ -25,3 +25,4 @@
      (sf,'.USEWIN32')eWC'Button' 'Win32'('Size'(23 50))('State'JSWC.USEWIN32)('Style' 'Check'),topright,noflex/⊂'Posn'(posn+22 0)
  :EndIf
  (sf,'.STOP')eWC'Button' 'Stop'('Size'(18 28))('Event' 'Select' 'CBRunDemo'),topright,noflex/⊂'Posn'(posn+22 55)
+(sf,'.DEVT')eWC 'Button' 'Inspect' ('Size'(18 43))('Event' 'Select' 'CBRunDemo'),topright,noflex/⊂'Posn' (posn+25 20)

@@ -1,8 +1,11 @@
-CBTimer args;state;f1
+{larg} CBTimer args;state;f1
 ⍝ Rotate the colours
 
 :Select ⊃args
 :Case 'F1.TM' ⍝ Timer
+   :If larg≢'Timer Larg'
+       ⎕←'CBTimer: incorrect left argument'
+   :EndIf
    'F1.T1' eWS 'FCol' (1⌽'F1.T1' eWG 'FCol')
    'F1.T1' eWS 'Text' (1⌽'F1.T1' eWG 'Text')
    f1←'F1.TM' eWG 'FireOnce'

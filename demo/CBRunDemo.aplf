@@ -1,4 +1,4 @@
- CBRunDemo args;e;scores;cols;fcol;pass;ii;ids;target;demo;sf;f
+ CBRunDemo args;e;scores;cols;fcol;pass;ii;ids;target;demo;sf;f;name
  Event←⎕NS''
  e←Event.Event←⎕NS''
  e.(ID EventName Info)←(2↑args),⊂2↓args
@@ -6,10 +6,16 @@
  f←{(-(⌽⍵)⍳'.')↓⍵}sf
  JSWC.USEWIN32←0 ⍝ ×(sf,'USEWIN32') eWG 'State'
 
- :If (sf,'STOP')≡1⊃args
+ :Select ¯4↑1⊃args
+ :Case  'STOP'
      eEX f
      →0
- :EndIf
+ :Case 'DEVT'
+     :If 9=⎕NC name←f,'.HR'
+         ⍎name,'.ShowDevTools 1'
+     :EndIf
+     →0
+ :EndSelect
 
  demo←'Demo',(3⊃args)⊃(⊃args)eWG'Items'
 

@@ -1,0 +1,13 @@
+ DemoApexCharts connected;options;o;series
+ JSWC.CONNECTED←connected
+ ⎕PW←1000
+
+ o←'{xaxis: {categories: ["1","2","3"]},'
+ o,←'yMin:0, yMax:20, Intervals:5,'
+ o,←'type:"bar"}'
+ options←⎕JSON⍠'Dialect' 'JSON5'⊢o ⍝ Looking forward to array notation!
+
+ series←10 18 13
+
+ 'F1'eWC'Form' 'Charts'(50 50)(800 1200)('Coord' 'Pixel')
+ 'F1.BAR'eWC'ApexChart'(10 10)(380 1180) series ('Options' options)

@@ -1,7 +1,7 @@
  values←names(type fixUpProps)values;special;i;ixs;ns;n;ix;val;c;v;m;txt
 ⍝ Massage properties that can have multiple formats into regular structures for JS
 
- special←'Event' 'Points' 'Radius' 'LWidth' 'LStyle' 'FStyle' 'Visible' 'Active' 'Interval' 'File' 'FileNames' 'Picture'  'TitleHeight' 'TitleWidth' 'Values' 'Input' 'Text' 'Start' 'End'
+ special←'Event' 'Points' 'Radius' 'LWidth' 'LStyle' 'FStyle' 'Visible' 'Active' 'Interval' 'File' 'FileNames' 'Picture'  'TitleHeight' 'TitleWidth' 'Values' 'Input' 'Text' 'Start' 'End' 'Options' 'Series'
  :If (⊂type)∊'rect' 'circle' 'ellipse' 'poly' 'font'
      special,←'FCol' 'BCol' 'FillCol' 'ArcMode' 'Start' 'End' 'Size'
  :EndIf
@@ -17,7 +17,7 @@
          values[ix]←⊂,⊆⊃values[ix]
      :CaseList 'Points' 'Radius' 'Size'
          :If type≡'font'
-             (ix⊃values)←⌊0.5+0.85×ix⊃values ⍝ Adjust font size down
+             (ix⊃values)←⌊0.5+ix⊃values ⍝ Adjust font size down
          :ElseIf 2=⍴⍴val←ix⊃values
              (ix⊃values)←,⊂↓[1]val
          :Else
@@ -38,6 +38,20 @@
          (ix⊃values)←,ix⊃values ⍝ Always make a list
      :CaseList 'Visible' 'Active' 'Interval' 'TitleHeight' 'TitleWidth'
          (ix⊃values)←⊃ix⊃values ⍝ Must be scalar
+     :Case 'Options' ⍝ ApexChart
+         :If 80=⎕DR data←ix⊃values ⍝ If text
+             (ix⊃values)←0 ⎕JSON data
+         :EndIf
+     :Case 'Series'  ⍝ ApexChart
+         data←ix⊃values
+         :If 9≠⎕NC 'data' ⍝ not a namespace
+             :If 80=⎕DR data ⍝ character
+                series←0 ⎕JSON data ⍝ probably JSON then
+             :Else
+                'series' ⎕NS 'data'
+             :EndIf
+             (ix⊃values)←series
+         :EndIf
      :Case 'Picture'
          (ix⊃values)←2↑(,⊆ix⊃values),3 ⍝ Default to Center
          n←≢c←(⍕caller),'.'
