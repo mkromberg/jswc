@@ -1,0 +1,47 @@
+ r←TestLines sink;t;src;id;t11;t1;z;ac;look4;l;el;c;s;fill
+ r←''
+ ac←#.S.Find'F1.AC' 
+ :if 0 Check ac≡0   ⍝ is there an "active" checkbox?
+        r,←⊂'Could not find the "active" checkbox' ⋄ :goto end
+        :endif
+ :If 1=ac.Selected   ⍝ if it is selected
+     z←#.S.Click ac  ⍝ click active to disable it (so that DOM doesn't change when the lines move)
+     :If 1 Check z   ⍝ did the click on "active" work?
+         r,←⊂'clicking F1.AC (the "active" checkbox) did not return 1' ⋄ :EndIf
+ :EndIf
+
+⍝ - look for <span with content "{color}"
+⍝   - is there only one?
+⍝   - does its parent text object have fill with the correct colour?
+⍝ NB: this makes assumptions about the way the objects are built which may not hold forever....
+ look4←1 2⍴'RED' 'rgb(255,0,0)'
+ look4⍪←'GREEN' 'rgb(0,255,0)'
+ look4⍪←'BLUE' 'rgb(0,0,255)'
+ :If 3 Check c←('TagNames'#.S.Find'g').Count   ⍝ there should be exactly 3 g tags on the page
+     r,←⊂'Did not find exactly 3 "g" tags on the page (but found ',(⍕c),')' ⋄ :EndIf
+ :For l :In ↓look4
+     c←3⍴0
+     :For g :In 'TagNames'#.S.Find'g'
+         :For s :In g.(FindElements(#.S.BROWSER.By.TagName)(⊂'tspan'))
+             c[1]+←1
+             :If s.Text≡1⊃l
+                 c[2]+←1
+                 fill←(s.FindElement(#.S.BROWSER.By.XPath(⊂'..'))).GetDomAttribute⊂'fill'
+                 :If (2⊃l)Check fill~' '  ⍝  does the fill attribute  match the expected colour?
+                     r,←⊂'Wrong colour for text "',(1⊃l),'". Expected "',(2⊃l),'" and got "',fill,'"' ⋄ :EndIf
+             :EndIf
+         :EndFor
+     :EndFor
+         :If 1 Check c[2]  ⍝ exactly 1 tspan found?
+             r,←⊂'Did not find exactly 1 tspan containing the text "',(1⊃l),'" (but found ',(⍕c[2]),')'
+         :EndIf
+ :EndFor
+
+⍝ anything else to test?
+⍝ - can we check the movements? (should we?)   - not sure how...
+⍝ - is the "once" checkbox relevant? I think it can be ignored in this test (checkbox-specific functionality should have a dedicated test)
+
+end:
+ :If 0<≢r
+     r←¯1↓∊(⊆r),¨⎕UCS 10
+ :EndIf
