@@ -42,6 +42,3 @@
 ⍝ - is the "once" checkbox relevant? I think it can be ignored in this test (checkbox-specific functionality should have a dedicated test)
 
 end:
- :If 0<≢r
-     r←¯1↓∊(⊆r),¨⎕UCS 10
- :EndIf
