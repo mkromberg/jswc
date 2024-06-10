@@ -1,19 +1,28 @@
- r←TestRibbon sink;xp;n;b
+ r←TestRibbon sink;f_status;ctls;c;t;ctl
  r←''
  ⍝ this is directly taken from DemoFonts!
  :If 0≡f_status←#.S.Find'F1.Average'
-     r←'Cannot find F1.Average'
+     r←'Cannot find F1.Average - test was not executed!'
      →end    ⍝ not much we can sensibly test w/o the ability to control the feedback!
  :EndIf
 
- xp←'(//div[@style="cursor:pointer"][./svg and ./div])[n]'   ⍝ select nth button
-⍝ nice in theory - but for some reason does not work as expected
-⍝ forge this when we have ids on the divs as suggested in
-⍝ https://github.com/mqasim23/jswc-web/issues/157  
- :For n :In ⍳12
-     b←'XPath'#.S.Find('[n]'⎕R'[',(⍕n),']')xp
-     ∘∘∘
- :EndFor
+ ctls←1 2⍴'F1.Ribbon.Item1.GroupItem1.LockButton' 'Access'
+ ctls⍪←'F1.Ribbon.Item2.GroupItem1.MacrosButton' 'Macros'
+ ctls⍪←'F1.Ribbon.Item3.GroupItem1.DashboardButton' 'Macros'
+ ctls⍪←'F1.Ribbon.Item4.GroupItem1.ArchiveButton' 'Archive'
+ ctls⍪←'F1.Ribbon.Item4.GroupItem2.DateButton' 'Date'
+ ctls⍪←'F1.Ribbon.Item4.GroupItem3.StockExchangeButton' 'Stock Exchange'
+ ctls⍪←'F1.Ribbon.Item4.GroupItem4.ButtonGroup1'('Share/option' 'Cooperative Dynamics')
+ ctls⍪←'F1.Ribbon.Item4.GroupItem5.ButtonGroup1'('Black and Scholes' 'Checking prices' 'VAR Analysis' 'Calculate Option Prices')
+ ctls⍪←'F1.Ribbon.Item5.GroupItem1.ButtonGroup1'('Local Data Quality' 'Overall Data Quality' 'FcHighPriority' 'FcHighPriority')
 
+ :For c t :In ↓ctls
+     ctl←#.S.Find c
+     :If 0 Check ctl≡0
+         r,←⊂'Cannot find ',c ⋄ :Continue ⋄ :EndIf
+     ctl.Click  ⍝ no result
+     :If ''Check'F1.Average'#.S.WaitFor'You selected "',t,'"'
+         r,←'Clicking "',ctl,'" did not change the status to "',t,'"' ⋄ :EndIf
+ :EndFor
 
 end:
