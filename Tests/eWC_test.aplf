@@ -1,4 +1,4 @@
- r←eWC_test sinkListOfTests;demos;d;⎕TRAP;f;t;file;sup;rC;z;lastd;dl;de;from;to;arg;msg;src;_Env;DEFAULTS;v;pi;sp;Supported;PropList;up;ctl;data;get;ListOfTests;tested;ListOfDemos;Dynamic;logs;NL;log;f_olog
+ r←eWC_test sinkListOfTests;demos;d;⎕TRAP;f;t;file;sup;rC;z;lastd;dl;de;from;to;arg;msg;src;_Env;DEFAULTS;v;pi;sp;Supported;PropList;up;ctl;data;get;ListOfTests;tested;ListOfDemos;Dynamic;logs;NL;log;f_olog;lg
 ⍝ this is admittedly an ugly hack - but I didn't want to waste time fixing it just now...
 ⍝ the problem is that the DTest DSL assumes tests are executed in the ns that DTest created while running the test -
 ⍝ but these tests are executed in #.tests.demo.
@@ -137,8 +137,8 @@
                              msg,←#.tests.demo⍎t,' ⍬'
                              tested,←⊂t
                              :If 0<≢msg    ⍝ msg should be a simple NL-separated vector.
-                             :AndIf 1<≡msg ⍝ if it isn't,
-                                 msg←∊msg,¨NL ⍝ make it so
+                             ⍝:AndIf 1<≡msg ⍝ if it isn't,
+                                 msg←∊(⊆msg),¨NL ⍝ make it so
                              :EndIf
                          :Else
                              msg,←'error while executing test "',t,'": ',(⎕JSON⍠'Compact' 0)⎕DMX
@@ -163,9 +163,12 @@
                          :EndIf
                      :EndIf
 
-
                      ⍝ list of objects that we DO NOT expect to find on the HTML page:
                      exceptions←'Font' 'Timer'
+
+                     ⍝ ignore children of these objects:  (like Grid, which may contain edit field)
+                     ignoreChildren←⊆'Grid'
+                     ignoreChildren_of←⍬
 
                      log←(1⊃⎕NGET(EWC_HOME,'JSWC/objectlog.json5')),']'  ⍝ get the log
                      log←0(⎕JSON⍠'Dialect' 'JSON5')log
@@ -173,10 +176,20 @@
                      ⍝ everything ⎕WC'ed by this test
                      :For lg :In ∪log
                          t←lg.ID
+                         :If (⊆lg.Type)∊ignoreChildren
+                             ignoreChildren_of,←t
+                         :EndIf
                          z←#.S.Find t
                          :If 326 Check ⎕DR z  ⍝ check if we can find the object t
-                             ⍝⎕←⎕JSON lg
+                                 ⍝⎕←⎕JSON lg
                              msg,←'Object "',t,'" (Type="',(lg.Type),'") that was ⎕WC''ed by Demo "',d,'" could not be found by searching for the id',NL
+                         :EndIf
+                         :If ~∨/∊ignoreChildren_of⍷¨⊆t
+                             z←#.S.Find t
+                             :If 326 Check ⎕DR z  ⍝ check if we can find the object t
+                             ⍝⎕←⎕JSON lg
+                                 msg,←'Object "',t,'" (Type="',(lg.Type),'") that was ⎕WC''ed by Demo "',d,'" could not be found by searching for the id',NL
+                             :EndIf
                          :EndIf
                      :EndFor
                  :EndIf
