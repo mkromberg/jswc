@@ -3,5 +3,7 @@
  'Posn'
  'Size'
  'Series'
+ 'ChartType'
  'Options'
+ 'Event'
 )

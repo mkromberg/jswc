@@ -75,6 +75,10 @@
      ⍎(⍕caller),'.',Name,expr ⍝ Update "server-side DOM"
  :EndIf
 
+ :If type≡'imagelist'
+     ⍎(⍕caller),'.',Name,'.(ImageCount←≢Files)' ⍝ Update read-only ImageCount
+ :EndIf
+
  :If RECORD ⍝ Collecting lists
      ref←⍎'Classes.',Name ⎕WG'Type'
      ref.Supported∪←1⊃¨Props

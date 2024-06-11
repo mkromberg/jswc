@@ -325,4 +325,7 @@
  996 'CoreDump'
  997 'DockSessionItem'
  998 'CloseSessionItem'
+5001 'click'
+5002 'legendclick'
+5003 'markerclick'
 ]

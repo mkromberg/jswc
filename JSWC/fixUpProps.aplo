@@ -40,18 +40,23 @@
          (ix⊃values)←⊃ix⊃values ⍝ Must be scalar
      :Case 'Options' ⍝ ApexChart
          :If 80=⎕DR data←ix⊃values ⍝ If text
-             (ix⊃values)←0 ⎕JSON data
+             (ix⊃values)←0 ⎕JSON⍠'Dialect' 'JSON5'⊣data
          :EndIf
      :Case 'Series'  ⍝ ApexChart
          data←ix⊃values
-         :If 9≠⎕NC 'data' ⍝ not a namespace
-             :If 80=⎕DR data ⍝ character
-                series←0 ⎕JSON data ⍝ probably JSON then
-             :Else
-                'series' ⎕NS 'data'
-             :EndIf
-             (ix⊃values)←series
+         :If 9=⎕NC 'data' ⍝ scalar namespace
+              series←,data   ⍝ Must be a list
+         :ElseIf 80=⎕DR data ⍝ character
+              series←0 ⎕JSON⍠'Dialect' 'JSON5'⊣data ⍝ probably JSON then
+         :ElseIf (10|⎕DR data)∊1 3 5 7 ⍝ Non-Complex numeric data
+              data←(¯2↑1 1,⍴data)⍴data   ⍝ Make vector 1-row matrix
+              series←⎕NS¨(≢data)⍴⊂''
+              series.data←↓data
+         :Else
+             series←data ⍝ This probably won't work
          :EndIf
+         (ix⊃values)←series
+
      :Case 'Picture'
          (ix⊃values)←2↑(,⊆ix⊃values),3 ⍝ Default to Center
          n←≢c←(⍕caller),'.'

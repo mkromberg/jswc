@@ -111,6 +111,10 @@
      SendSettings 2⊃getConnection caller Name
  :EndIf
 
+ :If type≡'imagelist'
+     ⍎(⍕caller),'.',Name,'.(ImageCount←≢Files)' ⍝ Update read-only ImageCount
+ :EndIf
+
  :If RECORD ⍝ Collecting lists
      :If ~9=⎕NC class←'Classes.',type←WC.WC.Properties.Type
          ref←⍎class ⎕NS''

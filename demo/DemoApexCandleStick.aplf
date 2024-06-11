@@ -1,0 +1,18 @@
+ DemoApexCandleStick connected;options;o;s;cd;data;series
+ JSWC.CONNECTED←connected
+ ⎕PW←1000
+
+ cd←demodata.candledata
+
+ data←⎕NS¨(≢cd)⍴⊂''
+ data.y←↓cd
+ data.x←1 12 ⎕DT (1 ⎕DT⊂4↑⎕TS)++\0,(¯1+≢cd)⍴÷96 ⍝ Every 15 minutes from last hour
+ (series←⎕NS '').data←data
+
+ o←'{chart:{type:"candlestick"},'
+ o,←'title: { text: "CandleStick Chart", align: "left"},'
+ o,←'xaxis: { type: "datetime"},'
+ o,←'yaxis: { tooltip: { enabled: true}}}'
+
+ 'F1'eWC'Form' 'Charts'(50 50)(600 800)('Coord' 'Pixel')
+ 'F1.BAR'eWC'ApexChart'(50 10)(540 780) ('Series' series) 'candlestick' ('Options' o)

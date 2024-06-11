@@ -27,7 +27,6 @@
  (rb,'.Item2.GroupItem1')eWC'RibbonGroupItem' 12
  (rb,'.Item2.GroupItem1.MacrosButton')eWC'RibbonButton' 'Macros' 'FcPlanner' 12 sel
 
- ∘∘∘
  :If ('Ribbon' 1)≢rb eWG 'Data'
  :OrIf datans≢(rb,'.Item1') eWG 'Data'
  :OrIf (⍳4)≢(rb,'.Item1.GroupItem1') eWG 'Data'

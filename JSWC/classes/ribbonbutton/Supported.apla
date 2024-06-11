@@ -5,6 +5,7 @@
  'Size'
  'Border'
  'Event'
+ 'ImageListObj'
  'ImageIndex'
  'Data'
 )
