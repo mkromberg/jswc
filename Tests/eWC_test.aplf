@@ -162,9 +162,23 @@
                              :EndIf
                          :EndIf
                      :EndIf
+                     :If 0=≢msg ⍝ if there were no errors testing the page! It might be worth taking/comparing screenshots to see if rendering was ok
+                         :If ~⎕NEXISTS file←∊1 ⎕NPARTS ##.TESTSOURCE,'/ReferenceScreenshots'  ⍝ create folder if it does not exist
+                             ⎕MKDIR file
+                         :EndIf
+                         file←file,'/',d,'.png'
+                         :If ~⎕NEXISTS file     ⍝ no  reference screenshot yet - use current one
+                             #.S.SaveScreenshot file
+                         :Else
+                             file2←(¯4↓file),'-curr.png'    ⍝ save screenshot under different name
+                             :If 0 Check file CompareScreenshots file2  ⍝ compare screenshots
+                                 r,←⊂'Current Screenshot of demo ("',file2,'") did not  match reference screenshot ("',file,'")'
+                             :EndIf
+                         :EndIf
+                     :EndIf
 
                      ⍝ list of objects that we DO NOT expect to find on the HTML page:
-                     exceptions←'Font' 'Timer'
+                     exceptions←'Bitmap' 'Font' 'Icon' 'ImageList' 'Menu' 'Menubar' 'Timer'
 
                      ⍝ ignore children of these objects:  (like Grid, which may contain edit field)
                      ignoreChildren←⊆'Grid'
@@ -172,19 +186,14 @@
 
                      log←(1⊃⎕NGET(EWC_HOME,'JSWC/objectlog.json5')),']'  ⍝ get the log
                      log←0(⎕JSON⍠'Dialect' 'JSON5')log
-                     log←((log.Action≡¨⊂'WC')∧(log.Caller≡¨⊂'Demo',d)∧~log{0=⍺.⎕NC'Type':0 ⋄ (⊂⍺.Type)∊⍵}¨⊂exceptions)/log
+                     log←((log.Action≡¨⊂'WC')∧(log.Caller≡¨⊂'Demo',d)∧~log{0=⍺.⎕NC'Type':0 ⋄ (⊂⎕c ⍺.Type)∊⍵}¨⎕c⊂exceptions)/log
                      ⍝ everything ⎕WC'ed by this test
                      :For lg :In ∪log
                          t←lg.ID
-                         :If (⊆lg.Type)∊ignoreChildren
-                             ignoreChildren_of,←t
+                         :If (⊆lg.Type)∊⍥⎕c ignoreChildren
+                             ignoreChildren_of,←⎕C t
                          :EndIf
-                         z←#.S.Find t
-                         :If 326 Check ⎕DR z  ⍝ check if we can find the object t
-                                 ⍝⎕←⎕JSON lg
-                             msg,←'Object "',t,'" (Type="',(lg.Type),'") that was ⎕WC''ed by Demo "',d,'" could not be found by searching for the id',NL
-                         :EndIf
-                         :If ~∨/∊ignoreChildren_of⍷¨⊆t
+                         :If ~∨/∊ignoreChildren_of⍷¨⊆⎕C t
                              z←#.S.Find t
                              :If 326 Check ⎕DR z  ⍝ check if we can find the object t
                              ⍝⎕←⎕JSON lg
