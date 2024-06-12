@@ -1,0 +1,18 @@
+ z←ref CompareScreenshots file;bool;fileStreamDifferenceMask;maskImage;encodedData
+⍝ z=0 Identical
+⍝ z=1 different
+z←0 ⋄ →0
+
+⍝ can't access .NEt methods - waiting for Bjorn's feedback...
+ bool←#.{Compare.ImagesAreEqual ⍵}file ref
+ ⎕TRAP←0 'S' ⋄ (⎕LC[1]+1)⎕STOP 1⊃⎕SI
+
+ :If bool
+     z←0
+ :Else
+     z←1
+     fileStreamDifferenceMask←#.{File.Create ⍵}∊(2↑⎕NPARTS file),'-diff.png'
+     maskImage←#.{SkiaSharpCompare.CalcDiffMaskImage ⍵}file ref
+     encodedData←maskImage.Encode(#.SKEncodedImageFormat.Png 100)
+     encodedData.SaveTo(fileStreamDifferenceMask)
+ :EndIf
