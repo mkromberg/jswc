@@ -120,7 +120,7 @@
  (EVENTNUMS EVENTNAMES)←↓⍉EVENTS
  eventNames←⎕C EVENTNAMES
 
- (JSKeys APLKeys)←↓⍉keyMap
+ (JSKeys APLKeys)←1 1 0 0⊂keyMap ⋄ JSKeys←,JSKeys
 
  z←WSS.Start 0
  :If 0≠⊃⊃z
