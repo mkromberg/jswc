@@ -28,6 +28,7 @@
 
          :Select ,ns.⎕NL 9
          :Case 'Event'
+             ns.Conn←con
              ns ⎕TPUT DQ_TOKENBASE+TOKENSTEP×1
              ⍝ /// Need something better than this from JD
              :If '*'∊1↓⎕STACK[;2] ⍝ A suspension in the client app

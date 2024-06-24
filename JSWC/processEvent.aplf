@@ -1,5 +1,5 @@
- {end}←processEvent ns;Info;ID;Event;event;events;fns;info;fn;z;async;class;e;code;res;gui;shift;k
-
+ {end}←processEvent ns;Info;ID;Event;event;events;fns;info;fn;z;async;class;e;code;res;gui;shift;k;i
+⍝ TRAP←0 'S' ⋄ ∘∘∘
  :If 2=ns.⎕NC'CodeLocation'
      code←⍎ns.CodeLocation
  :Else
@@ -16,6 +16,7 @@
  (Event ID Info)←ns.Event.(EventName ID({0::⍵ ⋄ Info}⍬))
 
  :If Event≡'KeyPress'
+     ns.Event.EventID←'123456'
  :AndIf (≢JSKeys)≥z←JSKeys⍳Info[1]
      shift←4⊃Info
      Info[1 2]←(k←⊃APLKeys[z;1+2⌊4⊃Info]) ({⍵×⍵∊8 9 10}3⊃Info)
@@ -82,10 +83,13 @@
      :EndIf
  :EndHold
 
- :If res≢⍬
- ⍝ :If ~(⊂res)∊⍬ 1 (,1)
+ :If 6=i←⍬ 1 (,1) 0 (,0) ⍳ ⊂res
  :AndIf res≢ID Event,Info
      'D'Log'Callback function ',fn,' returned modified event: ',⍕res
+ :EndIf
+
+ :If 2=ns.Event.⎕NC 'EventID' ⍝ Is client expecting a response?
+     sendCBResponse ns.Event.EventID (i≤3) ns.Conn ⍝ Proceed if res∊⍬ 1 (,1)
  :EndIf
 
  :If 1 ⍝ Recording events
