@@ -11,7 +11,13 @@
      types←caller⍎¨z
      :If modal←∧/types∊modalClasses
         'Only one modal object at a time' ⎕SIGNAL (1≠≢names)/11
-        →0⊣R←dWX (⊃names) 'OnlyDQ' (⊃names)
+        :If USEHR
+           ((⊃names),'.HR') caller.⎕WS 'Visible' 1
+        :EndIf
+        R←,⊆dWX (⊃names) 'OnlyDQ' (⊃names)
+        :If R≢1↑names ⍝ Validate echo-back
+            ∘∘∘ ⍝ Internal error
+        :EndIf
      :EndIf
      :If ∨/m←types∊nativeClasses ⍝ TCPSocket or other things(?)
          'Max not mix DQ of native and JSWC classes' ⎕SIGNAL (0∊m)/11
@@ -23,6 +29,7 @@
  :Trap 1000
      tkn←DQ_TOKENBASE+TOKENSTEP×1
      'N'Log'DQ: ',(⍕names),' at ',⍕showCallStack
+     ⍝ ⎕TRAP←0 'S' ⋄ ∘∘∘
      :Repeat
          :If 0=≢QUEUEIDS
          :OrIf ~∨/m←QUEUEIDS∊names
@@ -59,7 +66,10 @@
      R←(⊢/R).Event.((ID EventName),{6::⍵ ⋄ Info}⍬) ⍝ /// Need a proper queue
  :EndIf
 
- :If modal
+ :If modal ⍝ Exit from Modal mode
+     :If USEHR
+         ((⊃names),'.HR') caller.⎕WS 'Visible' 0
+     :EndIf
      z←dWX (⊃names) 'OnlyDQ' (0⍴⊂'')
  :EndIf
  'INTERRUPT'⎕SIGNAL interrupt/999

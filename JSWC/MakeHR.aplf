@@ -1,9 +1,10 @@
-err←MakeHR (home name);ns;count;maxtries;ok;cb;dpr;conn
+err←MakeHR (home name modal);ns;count;maxtries;ok;cb;dpr;conn
 ns←home⍎name
 home.⎕EX '_JSWC.conn'
 cb←(⍕⎕THIS),'.HRCallbacks'
 dpr←DPR
-'HR' ns.⎕WC 'HTMLRenderer' ('Caption' ns.Caption) ('URL' ('localhost:',⍕PORT)) ('Size' (dpr×ns.Size+HRBorder))('Coord' 'Pixel')('Posn' (dpr×ns.Posn))('Event' ('Close' 'Configure') cb)
+defaultPosnSize ns
+'HR' ns.⎕WC 'HTMLRenderer' ('Caption' ns.Caption) ('URL' ('localhost:',⍕PORT)) ('Size' (dpr×ns.Size+HRBorder))('Coord' ns.Coord)('Posn' (dpr×ns.Posn))('Event' ('Close' 'Configure') cb)('Visible' (~modal))
 'D' Log 'Created HTMLRenderer ',(⍕ns),'.HR'
 
 :If SHOWDEVTOOLS
@@ -26,6 +27,7 @@ count←ok←0 ⋄ maxtries←200
 err←(~ok)/'Unable to initialise HTMLRenderer'
 :If ~ok ⋄ ∘∘∘ ⋄ :EndIf
 
-ns.HR.Caption←ns.Caption,(~ns.Visible)/' [Invisible]'
+ns.HR.Caption,←ns.Caption,(~{0::0 ⋄ ⍵.Visible}ns)/' [Invisible]'
+
 ns.HR.ExecuteJavaScript 'document.body.style.overflow = "hidden"'
 'ns.HR._JSWC' ⎕NS home._JSWC ⍝ Give HR it's own copy
