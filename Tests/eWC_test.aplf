@@ -1,4 +1,4 @@
- r←eWC_test sinkListOfTests
+ r←eWC_test sinkListOfTests;IHaveRestarted;exceptions;ignoreChildren;ignoreChildren_of
  ;demos;d;⎕TRAP;f;t;file;sup;rC;z;lastd;dl;de;from;to;arg;msg;src;_Env
  ;DEFAULTS;v;pi;sp;Supported;PropList;up;ctl;data;get;ListOfTests;tested
  ;ListOfDemos;Dynamic;logs;NL;log;f_olog;lg
