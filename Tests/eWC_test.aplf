@@ -1,4 +1,7 @@
- r←eWC_test sinkListOfTests;demos;d;⎕TRAP;f;t;file;sup;rC;z;lastd;dl;de;from;to;arg;msg;src;_Env;DEFAULTS;v;pi;sp;Supported;PropList;up;ctl;data;get;ListOfTests;tested;ListOfDemos;Dynamic;logs;NL;log;f_olog;lg
+ r←eWC_test sinkListOfTests
+ ;demos;d;⎕TRAP;f;t;file;sup;rC;z;lastd;dl;de;from;to;arg;msg;src;_Env
+ ;DEFAULTS;v;pi;sp;Supported;PropList;up;ctl;data;get;ListOfTests;tested
+ ;ListOfDemos;Dynamic;logs;NL;log;f_olog;lg
 ⍝ this is admittedly an ugly hack - but I didn't want to waste time fixing it just now...
 ⍝ the problem is that the DTest DSL assumes tests are executed in the ns that DTest created while running the test -
 ⍝ but these tests are executed in #.tests.demo.
@@ -73,8 +76,10 @@
      ⍝ws←('''(.*)''\s*eWC\s*''.*''\s*(''.*'')*'⎕S'\1')src  ⍝ props that were set (and names of related controls)
      ⍝ nah, impossible - see email to MK
      msg←''  ⍝ a global var (initialised in eWC_createBrowser)
+     IHaveRestarted←0
      :If 0=⎕NC'PROCESS'
      :OrIf PROCESS{6::1 ⋄ ⍺⍎⍵}'HasExited'
+restart:
          BRWSR eWC_createBrowser MODE
      :EndIf
      :If lastd≢'just started'
@@ -90,11 +95,20 @@
          :EndSelect
      :EndIf
      :If ~⊃'HtmlRenderer'⍷BRWSR
-         #.S.GoTo ROOT
+         :Trap 11  ⍝ catch exception
+             #.S.GoTo ROOT
+         :EndTrap
      :EndIf
      ctl←'CssSelector'#.S.Find'[id$="MENU"]'  ⍝ use CssSelector to find ids ending with MENU because the menu is sometimes located in a subform
      :If 326 Check ⎕DR ctl    ⍝ check if we find the menu
          msg←'could not find F1.MENU (possibly something went wrong before (lastd=',lastd,')',NL  ⍝ although that should be veeery unlikely now....
+         :If IHaveRestarted=0
+             IHaveRestarted←1
+             →restart
+         :Else
+             msg←'even a restart did not help to fix the problem',NL
+             →0
+         :EndIf
      :Else
          :If ##.trace
              ⎕←'next: select test "',d,'"'
@@ -116,8 +130,9 @@
                  :EndIf
              :EndTrap
 
-             z←'CssSelector'#.S.Find'[id$="MENU"]'
-             :If 326 Check ⎕DR z  ⍝ check if loaded test also has a menu...
+             ⍝ z←'CssSelector'#.S.Find'[id$="MENU"]'
+             t←('CssSelector' '[id$="MENU"]')#.S.WaitFor'Pick a Demo'
+             :If ''Check t  ⍝ check if loaded test also has a menu...
                  msg←'could not find F1.MENU'
              :Else
                  t←('CssSelector' '[id$="STOP"]')#.S.WaitFor'Stop'
@@ -145,7 +160,6 @@
                          :EndTrap
                      :ElseIf ##.halt
                          ⎕←'no test found for demo Demo',d   ⍝ interrupt if -halt switch was set
-                         ∘∘∘
                      :EndIf
 
                      :If 0<v←_Env'SCREENSHOT'
@@ -158,7 +172,7 @@
                          :ElseIf v=1
                              :If 0<≢msg
                                  #.S.SaveScreenshot file
-                                 msg,←' - saved screenshot as ',file,NL
+                                 ('Type' 'I')##.Log'Saved refence screenshot "',file,'"'
                              :EndIf
                          :EndIf
                      :EndIf
@@ -169,6 +183,7 @@
                          file←file,'/',d,'.png'
                          :If ~⎕NEXISTS file     ⍝ no  reference screenshot yet - use current one
                              #.S.SaveScreenshot file
+                             ('Type' 'I')##.Log'Saved refence screenshot "',file,'"'
                          :Else
                              file2←(¯4↓file),'-curr.png'    ⍝ save screenshot under different name
                              :If 0 Check file CompareScreenshots file2  ⍝ compare screenshots
@@ -178,7 +193,7 @@
                      :EndIf
 
                      ⍝ list of objects that we DO NOT expect to find on the HTML page:
-                     exceptions←'Bitmap' 'Font' 'Icon' 'ImageList' 'Menu' 'Menubar' 'Timer'
+                     exceptions←'Bitmap' 'Font' 'Form' 'Icon' 'ImageList' 'Menu' 'Menubar' 'Timer'
 
                      ⍝ ignore children of these objects:  (like Grid, which may contain edit field)
                      ignoreChildren←⊆'Grid'
@@ -186,18 +201,19 @@
 
                      log←(1⊃⎕NGET(EWC_HOME,'JSWC/objectlog.json5')),']'  ⍝ get the log
                      log←0(⎕JSON⍠'Dialect' 'JSON5')log
-                     log←((log.Action≡¨⊂'WC')∧(log.Caller≡¨⊂'Demo',d)∧~log{0=⍺.⎕NC'Type':0 ⋄ (⊂⎕c ⍺.Type)∊⍵}¨⎕c⊂exceptions)/log
+                     log←((log.Action≡¨⊂'WC')∧(log.Caller≡¨⊂'Demo',d)∧~log{0=⍺.⎕NC'Type':0 ⋄ (⊂⎕C ⍺.Type)∊⍵}¨⎕C⊂exceptions)/log
                      ⍝ everything ⎕WC'ed by this test
                      :For lg :In ∪log
                          t←lg.ID
-                         :If (⊆lg.Type)∊⍥⎕c ignoreChildren
+                         :If (⊆lg.Type)∊⍥⎕C ignoreChildren
                              ignoreChildren_of,←⎕C t
                          :EndIf
                          :If ~∨/∊ignoreChildren_of⍷¨⊆⎕C t
                              z←#.S.Find t
                              :If 326 Check ⎕DR z  ⍝ check if we can find the object t
                              ⍝⎕←⎕JSON lg
-                                 msg,←'Object "',t,'" (Type="',(lg.Type),'") that was ⎕WC''ed by Demo "',d,'" could not be found by searching for the id',NL
+                                 ('Type' 'W')##.Log'Object "',t,'" (Type="',(lg.Type),'") that was ⎕WC''ed by Demo "',d,'" could not be found by searching for the id',NL
+                                 ⍝ msg,←'Object "',t,'" (Type="',(lg.Type),'") that was ⎕WC''ed by Demo "',d,'" could not be found by searching for the id',NL
                              :EndIf
                          :EndIf
                      :EndFor
@@ -256,19 +272,19 @@
         ⍝  sp←Supported∩PropList
          sp←Dynamic∩PropList
          :If ∨/z←~sp∊up
-             r,←'Dynamic props of "',ctl,'" that were not used in the demos or tests: ',(¯2↓∊{'"',⍵,'", '}¨z/sp),NL
+             ('Type' 'W')##.Log'Dynamic props of "',ctl,'" that were not used in the demos or tests: ',(¯2↓∊{'"',⍵,'", '}¨z/sp),NL
          :EndIf
      ⍝ what else can we test...???
      ⍝ - check that dynamic properties are set AND read
 
      :EndFor
      :If ∨/z←~(4↓¨ListOfDemos)∊4↓¨ListOfTests
-         r,←('No tests found for these demos: ',¯2↓∊(z/ListOfDemos),¨⊂', '),NL
+         ('Type' 'W')##.Log('No tests found for these demos: ',¯2↓∊(z/ListOfDemos),¨⊂', '),NL
      :EndIf
      :If ∨/z←~(4↓¨ListOfTests)∊4↓¨ListOfDemos  ⍝ SciFi, but test anyway...
-         r,←('Tests without demos (possibly outdated?): ',¯2↓∊(z/ListOfTests),¨⊂', '),NL
+         ('Type' 'W')##.Log('Tests without demos (possibly outdated?): ',¯2↓∊(z/ListOfTests),¨⊂', '),NL
      :EndIf
  :EndIf
  :If 0=≢r
-     ⎕←(⍕≢demos),' demo pages were opened and ',(⍕≢tested),' tests were excuted without issues!'
+     ('Type' 'I')##.Log(⍕≢demos),' demo pages were opened and ',(⍕≢tested),' tests were excuted without issues!'
  :EndIf
