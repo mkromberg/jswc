@@ -11,13 +11,14 @@
      types←caller⍎¨z
      :If modal←∧/types∊modalClasses
         'Only one modal object at a time' ⎕SIGNAL (1≠≢names)/11
-        :If USEHR
-           ((⊃names),'.HR') caller.⎕WS 'Visible' 1
-        :EndIf
         R←,⊆dWX (⊃names) 'OnlyDQ' (⊃names)
-        :If R≢1↑names ⍝ Validate echo-back
+        :If (1↑⊃R)≢1↑names ⍝ Validate echo-back
             ∘∘∘ ⍝ Internal error
         :EndIf
+        :If USEHR
+           ((⊃names),'.HR') caller.⎕WS ('Visible' 1)('Size' (HRBorder+1↓⊃R))
+        :EndIf
+
      :EndIf
      :If ∨/m←types∊nativeClasses ⍝ TCPSocket or other things(?)
          'Max not mix DQ of native and JSWC classes' ⎕SIGNAL (0∊m)/11
@@ -70,6 +71,6 @@
      :If USEHR
          ((⊃names),'.HR') caller.⎕WS 'Visible' 0
      :EndIf
-     z←dWX (⊃names) 'OnlyDQ' (0⍴⊂'')
+     z←dWX (⊃names) 'OnlyDQ'
  :EndIf
  'INTERRUPT'⎕SIGNAL interrupt/999

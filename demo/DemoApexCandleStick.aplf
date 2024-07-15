@@ -9,8 +9,7 @@
  data.x←1 12 ⎕DT (1 ⎕DT⊂4↑⎕TS)++\0,(¯1+≢cd)⍴÷96 ⍝ Every 15 minutes from last hour
  (series←⎕NS '').data←data
 
- o←'{chart:{type:"candlestick"},'
- o,←'title: { text: "CandleStick Chart", align: "left"},'
+ o←'{title: { text: "CandleStick Chart", align: "left"},'
  o,←'xaxis: { type: "datetime"},'
  o,←'yaxis: { tooltip: { enabled: true}}}'
 

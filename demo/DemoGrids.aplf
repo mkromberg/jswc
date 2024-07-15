@@ -30,7 +30,7 @@
  titles←'Ticker' 'Fixed' 'Price' 'Quantity' 'Value' 'Comments'
  widths←     40      30      50         60     100        200
 
- e←'Event' ('CellChanged' 'CellMove') 'JSWCUpdate'
+ e←'Event' ('CellChanged') 'JSWCUpdate'
  (g←'F1.Holdings') eWC'Grid'('ColTitles' titles)('Posn'(40 10))('Size'(100,(1+≢widths)++/widths))('TitleWidth' 0)e('CellWidths' widths)
  g eWS 'ShowInput' 0
 

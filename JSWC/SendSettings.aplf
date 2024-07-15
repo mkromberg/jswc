@@ -4,6 +4,14 @@ SendSettings CONN;S;z;msg
 
 S←⎕NS ''
 S.Options←⎕NS ''
+S.Options.ID←'Mode'
+S.Options.Properties←⎕NS ''
+S.Options.Properties.Desktop←USEHR
+z←CONN WSS.Send msg←⎕JSON S
+'T' Log msg
+
+S←⎕NS ''
+S.Options←⎕NS ''
 S.Options.ID←'Locale'
 S.Options.Properties←settings.Locale
 z←CONN WSS.Send msg←⎕JSON S
