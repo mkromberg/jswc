@@ -23,6 +23,10 @@
      rc←0
  :EndHold
 
+ :If 0=⎕NC 'code._JSWC'
+     'E' Log 'Handler: _JSWC not found in ',(⍕code)
+     →0
+ :EndIf
  ns←code._JSWC
  CONN←ns.ID←SESSIONID
  ns.addr←WSS.LDRC.GetProp obj'PeerAddr'

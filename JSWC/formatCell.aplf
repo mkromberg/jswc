@@ -9,6 +9,7 @@
      :AndIf ∧/2=⌊|obj.⎕NC'Values' 'FormatString' 'CellTypes'
          (val fmts cts)←obj.(Values FormatString CellTypes)
      :AndIf (cell←ns.FormatCell.Cell)∧.≤⍴fmts
+     :AndIf ns.FormatCell.Value≢⊂'null'
          ns.FormatCell.FormattedValue←,(fmts⊃⍨cell⌷cts)⎕FMT⍉⍪ns.FormatCell.Value
          r←1 ⎕JSON ns
      :Else

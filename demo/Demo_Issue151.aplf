@@ -7,4 +7,4 @@
  'F1.DUCKBMP2'eWC'BitMap'('File' '/images/rubberduck.png')
 
  'F1.DUCKIMG1'eWC'Image'('Picture' 'F1.DUCKBMP1')('Points'(10 10))
- 'F1.DUCKIMG2'eWC'Image'('Picture' 'F1.DUCKBMP2')('Points'(10 10))
+ 'F1.DUCKIMG2'eWC'Image'('Picture' 'F1.DUCKBMP2')('Points'(10 200))

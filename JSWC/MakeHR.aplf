@@ -27,7 +27,7 @@ count←ok←0 ⋄ maxtries←200
 err←(~ok)/'Unable to initialise HTMLRenderer'
 :If ~ok ⋄ ∘∘∘ ⋄ :EndIf
 
-ns.HR.Caption,←ns.Caption,(~{0::0 ⋄ ⍵.Visible}ns)/' [Invisible]'
+ns.HR.Caption←ns.Caption,(~modal∨{0::0 ⋄ ⍵.Visible}ns)/' [Invisible]'
 
 ns.HR.ExecuteJavaScript 'document.body.style.overflow = "hidden"'
 'ns.HR._JSWC' ⎕NS home._JSWC ⍝ Give HR it's own copy

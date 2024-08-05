@@ -1,4 +1,4 @@
- R←msg WaitForWG(Props ID WGID);j;⎕TRAP;p;seqok;nl;nlc;m;t;token;wx;z;ref
+ R←msg WaitForWG(Props ID WGID);j;⎕TRAP;p;seqok;nl;nlc;m;t;token;wx;z;ref;ok
 
  wx←Props≡'WX' ⍝ A WX rather than a WG
 
@@ -27,7 +27,7 @@ AGAIN:
 
     →wx/0⊣R←{⍵:ref.Info ⋄ ⍬}wx ⍝ Early exit if WX
 
- :AndIf ∧/(p←⎕C,⊆Props)∊nlc←⎕C nl←ref.Properties.⎕NL-2
+ :AndIf ∧/ok←(p←⎕C,⊆Props)∊nlc←⎕C nl←ref.Properties.⎕NL-2
      p←nl[nlc⍳p] ⍝ /// Should go when everything is lowercase
      R←j.WG.Properties⍎((1=≢p)/',⊂'),⍕p
      R←j.WG.ID MixTables p R
@@ -42,5 +42,8 @@ AGAIN:
      :If 2=⎕NC 'j.WG.NotSupported'
      :AndIf ∨/m←(t←Props~nl)∊j.WG.NotSupported
          ('Property not supported by JSWC: ',⍕m/t) ⎕SIGNAL 6
+     :EndIf
+     :If ~∧/ok
+         ('Not returned: ',,⍕(~ok)/,⊆Props) ⎕SIGNAL 11
      :EndIf
  :EndIf

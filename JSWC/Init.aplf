@@ -2,6 +2,7 @@
  ⎕IO←⎕ML←1
 
  ⎕TRAP←0 'S'
+
  :If 80=⎕DR args ⋄ args←⊆args ⋄ :EndIf
  :Select ≢args←,args
  :Case 1 ⋄ mode←⊃args ⋄ CODELOCATION←⊃⎕RSI
@@ -27,6 +28,8 @@
  :Else
      'JSWC only works with named namespaces'⎕SIGNAL 11
  :EndTrap
+
+ TOOLSPACES←⎕THIS,{0::⍬ ⋄ ∪#.DWI∩⎕RSI}⍬
 
  :If mode=2
      :If CODELOCATION∊# ⎕SE
@@ -106,6 +109,7 @@
  WSS.OnTimeout←(⍕⎕THIS),'.onTimeout'
  WSS.Handler←'Handler'
  WSS.Port←PORT
+ WSS.WaitTimeout←500
 
  allocateTokens
 

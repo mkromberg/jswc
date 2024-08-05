@@ -1,15 +1,35 @@
- r←CBUpdateScroll args;e;scores;cols;fcol;pass;top;left;cc;t;i
+ r←CBUpdateScroll args;e;scores;cols;fcol;pass;top;left;cc;t;i;scrolls;d
+ ⎕←'CBUpdateScroll:' args
  r←1 ⍝ By default OK
  Event←⎕NS''
  e←Event.Event←⎕NS''
  e.(ID EventName Info)←(2↑args),⊂2↓args
+
+ scrolls←'F1.UPDOWN' 'F1.LEFTRIGHT'
 
  top←¯1+'F1.UPDOWN'eWG'THUMB'
  left←¯1+'F1.LEFTRIGHT'eWG'THUMB'
  cc←'F1.VGRID'eWG'CurCell'
 
  :Select 1⊃args
- :CaseList 'F1.UPDOWN' 'F1.LEFTRIGHT' ⍝ Scroll
+ :CaseList scrolls ⍝ Scroll
+     :If args[3]∊1 ¯1           ⍝ Small movement
+         d←scrolls⍳args[1]      ⍝ 1=updown, 2=leftright
+         :If (cc[d]+args[3])∊⍳n ⍝ Staying within the grid?
+             cc[d]+←args[3]
+             1 eNQ 'F1.VGRID' 'CellMove',cc,1 ⍝ Move within the grid
+             eNQ 'F1.VGRID' 'GotFocus' (1⊃args)
+             →0 ⍝ Do not update
+         :Else                  ⍝ Window needs to move
+             :If d=1            ⍝ up/down
+                 top+←args[3]
+             :Else              ⍝ left/right
+                 left+←args[3]
+             :EndIf
+         :EndIf
+     :EndIf
+     eNQ 'F1.VGRID' 'GotFocus' (1⊃args)
+     →UPDATE
 
  :CaseList 'F1.VGRID' 'F1.VGRID.E1'
      :Select 2⊃args
@@ -26,13 +46,15 @@
          :ElseIf n'RC'≡t                ⍝ Right in col n
              left←max⌊left+1
          :ElseIf 3≠i←'DS' 'US'⍳args[3]
-             top←0⌈max⌊top+i⊃10 ¯10
+             top←1⌈1+max⌊top+i⊃10 ¯10
          :Else
              →0
          :EndIf
 
          'F1.UPDOWN'eWS'THUMB' (top+1)
          'F1.LEFTRIGHT'eWS'THUMB' (left+1)
+         →UPDATE
+
      :Case 'CellMove'
          ⎕←'CellMove: ',⍕args
          →0
@@ -42,4 +64,5 @@
      →0
  :EndSelect
 
+UPDATE:
  'F1.VGRID'eWS('Values'((⍕¨top+⍳n)∘.,'/',¨⍕¨left+⍳n))('RowTitles'('Row '∘,¨⍕¨top+⍳n))('ColTitles'((↓'ZI4'⎕FMT⍪left+⍳n)))('CurCell' cc)

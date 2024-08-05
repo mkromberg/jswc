@@ -1,4 +1,4 @@
- r←con Handler payload;ns;Event;ID;Info;events;fns;fn;event;reqfn;info;sns;i;code;conn;coni;sock;z;m;msg;sessionspace;form;hr;CALLER
+ r←con Handler payload;ns;Event;ID;Info;events;fns;fn;event;reqfn;info;sns;i;code;conn;coni;sock;z;m;msg;sessionspace;form;hr;CALLER;app
  ⎕TRAP←0 'S'
  'R'Log'#',(⍕con),': ',payload
  i←(2⊃SESSIONS)⍳con
@@ -16,13 +16,21 @@
      :EndIf
      fn←reqfn←(10↓payload)~'()'
      fn,←(0=≢fn)/'Initialise'
-     :If 3=code.⎕NC fn
-         (code⍎fn)&CONNECTED
+     app←code
+     :If 0≠app.⎕NC 'workNamespace' ⍝ /// change this name in DWI
+        app←app.workNamespace
+     :EndIf
+     :If 3=app.⎕NC fn
+         (app⍎fn)&CONNECTED
      :ElseIf 0≠≢reqfn ⍝ Explicit function requested
          'E'Log'Initialise: Function not found: ',(⍕code),'.',fn
      :EndIf
  :Else
      :Trap 999
+         :If 0=⎕NC 'code._JSWC'
+             'E' Log '_JSWC not found in ',⍕code
+             →0
+         :EndIf
          sns←code._JSWC ⍝ Session Namespace
          ns←0 ⎕JSON payload
 

@@ -26,7 +26,7 @@
      (⊃⎕DMX.DM)⎕SIGNAL⊃⎕DMX.EN
  :EndTrap
 
- JSWC.NOIDQ←0 ⍝ Allow interactive DQ
+ JSWC.NOIDQ←'Windows'≢7↑⊃'.'⎕WG'APLVersion' ⍝ Allow interactive DQ under Windows
  ⍝ trace into demo functions?
  :If 1≡⊃2⊃⎕VFI 2 ⎕NQ'.' 'GetEnvironment' 'EWC_TRACEDEMOS'
      #.demo.({'Demo'≡4↑⍵:1 ⎕STOP ⍵}¨(⎕NL-3)~'DemoMenu' 'DemoDefault')
@@ -45,8 +45,8 @@
  :Case 1 ⍝ Browser
      ⎕←'Connect Browser now...'
      :Repeat
-         ⍞←'.'
-         ⎕DL 1
+        ⍞←'.'
+        ⎕DL 1
      :Until 2=⎕NC'_JSWC.ID'
      ⎕←''
      :If '''Browser'''≡¯5↑2 ⎕NQ'.' 'GetEnvironment' 'LX'

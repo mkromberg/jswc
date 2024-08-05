@@ -5,6 +5,7 @@
  Name←⍕∊Name
 
  ⎕TRAP←0 'S'
+ LogCalls Name 'WS' Props
  :If (⊂,Name)∊,¨'⎕SE' '#' '.' ⍝ Pass WS of System properties through
      →0⊣R←Name ⎕WS Props
  :EndIf

@@ -2,7 +2,7 @@
  ⎕TRAP←0 'S'
  R←⍬
  deprecatedprops←,⊂'3D' ⍝ No longer appear in PropList
-
+ LogCalls Name 'WC' Props
  caller←findCaller
  Name←caller removeCaller Name
 

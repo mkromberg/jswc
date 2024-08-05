@@ -9,6 +9,7 @@
  (⊃Event)←caller removeCaller name ⍝ (2×'#.'≡2↑⊃Event)↓⊃Event
 
  :If 0=⎕NC'Mode' ⋄ Mode←0 ⋄ :EndIf
+ :If Mode=1 ⋄ Mode←0 ⋄ :EndIf ⍝ /// As an experiment, pretend they are the same
  :If (,¨1↑Event)∊,¨'.' '#' '⎕SE' ⍝ Pass NQ to system objects through
      →0⊣R←Mode ⎕NQ Event
  :EndIf

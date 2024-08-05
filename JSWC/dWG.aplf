@@ -78,7 +78,7 @@
          :If (≢p)≥i←p⍳⊂'Size'
          :AndIf USEHR
          :AndIf 'Form'≡class.ClassName
-            (i⊃R)-←HRBorder
+            ⍝ (i⊃R)-←HRBorder
          :EndIf
      :Else
          :Select (caller⍎Name,'.Type')Props
