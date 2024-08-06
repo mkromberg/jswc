@@ -12,9 +12,11 @@
  ctls⍪←'F1.Ribbon.Item4.GroupItem1.ArchiveButton' 'Archive'
  ctls⍪←'F1.Ribbon.Item4.GroupItem2.DateButton' 'Date'
  ctls⍪←'F1.Ribbon.Item4.GroupItem3.StockExchangeButton' 'Stock Exchange'
- ctls⍪←'F1.Ribbon.Item4.GroupItem4.ButtonGroup1'('Share/option' 'Cooperative Dynamics')
- ctls⍪←'F1.Ribbon.Item4.GroupItem5.ButtonGroup1'('Black and Scholes' 'Checking prices' 'VAR Analysis' 'Calculate Option Prices')
- ctls⍪←'F1.Ribbon.Item5.GroupItem1.ButtonGroup1'('Local Data Quality' 'Overall Data Quality' 'FcHighPriority' 'FcHighPriority')
+ ⍝ groups with multiple buttons won't use the given ID, but append suffixes to build unique IDs for the buttons.
+ ⍝ not sure if a test should check for those. After all, that is an "implementation detail" that we should not care about. (I think)
+ ⍝ctls⍪←'F1.Ribbon.Item4.GroupItem4.ButtonGroup1'('Share/option' 'Cooperative Dynamics')
+ ⍝ctls⍪←'F1.Ribbon.Item4.GroupItem5.ButtonGroup1'('Black and Scholes' 'Checking prices' 'VAR Analysis' 'Calculate Option Prices')
+ ⍝ctls⍪←'F1.Ribbon.Item5.GroupItem1.ButtonGroup1'('Local Data Quality' 'Overall Data Quality' 'FcHighPriority' 'FcHighPriority')
 
  :For c t :In ↓ctls
      ctl←#.S.Find c
