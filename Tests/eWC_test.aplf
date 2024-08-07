@@ -193,7 +193,9 @@ restart:
                      :EndIf
 
                      ⍝ list of objects that we DO NOT expect to find on the HTML page:
-                     exceptions←'Bitmap' 'Font' 'Form' 'Icon' 'ImageList' 'Menu' 'Menubar' 'Timer'
+                     ⍝ contains either controls that don't yet exist
+                     ⍝ or controls that are implemented in such a way that we don't find a 1:1 match of created controls and generated HTML elements
+                     exceptions←'ApexChart' 'Bitmap' 'Font' 'Form' 'Icon' 'ImageList' 'ListView' 'Menu' 'Menubar' 'TabButton' 'Text' 'Timer'
 
                      ⍝ ignore children of these objects:  (like Grid, which may contain edit field)
                      ignoreChildren←⊆'Grid'
