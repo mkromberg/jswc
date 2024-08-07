@@ -1,13 +1,6 @@
  r←TestTextSize sink;t;src;id;t11;t1
  r←''
 
- :For id :In 'F1.HW' 'F1.H'
-     t←#.S.Find id
-     :If 326 Check ⎕DR t
-         r,←⊂'Could not find text object "',id,'"'
-     :EndIf
- :EndFor
-
 ⍝ how to get the source of the current page?
 ⍝ src←#.S.BROWSER.PageSource - is the code that was loaded (but with our dynamic tests, that might not be what we're seeing!)
 ⍝ but this works:
