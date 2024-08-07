@@ -1,4 +1,4 @@
- r←TestGrids nul;rows;cols;f_status;cell;ir;ic;xp;o_cell;exp;t;xcell;src;ip;html;val;sel;ID
+ r←TestGrids nul;rows;cols;f_status;cell;ir;ic;xp;o_cell;exp;t;xcell;src;ip;html;val;sel;ID;btn_Where;ID_c;chkbx
  (rows cols)←3 6
  r←''
 
@@ -10,46 +10,52 @@
  :If 'Total value'Check 11↑f_status.Text
      r,←⊂'F1.Average does not contain expected text "Total value..." but "',f_status.Text,'"'
  :EndIf
+ :If 0≡btn_Where←#.S.Find'F1.Where'
+     r,←⊂'Cannot find F1.Where' ⋄ →end ⋄ :EndIf
 
  :For cell :In 'GridCells'##.RandomVal 2⍴rows×cols   ⍝ click through cells in random order
      (ir ic)←2 1+3 6⊤¯1+cell                         ⍝ compute coordinates in grid (row[1;] are headers, so we needed to increment the offset)
-    ⍝ xp←'//*[@id="F1.Holdings"]/div[',(⍕ir),']//div[contains(@class, "cell")][',(⍕ic),']'
+     ⍝ xp←'//*[@id="F1.Holdings"]/div[',(⍕ir),']//div[contains(@class, "cell")][',(⍕ic),']'
     ⍝ o_cell←'XPath'#.S.Find xp
-     ID←'F1.Holdings.r',(⍕ir+1),'.c',⍕ic+1
+     ID←'F1.Holdings.r',(⍕ir),'.c',⍕ic
+     ID_c←'F1.Holdings.CHECK.r',(⍕ir),'.c',⍕ic  ⍝ id of checkbox (if any)
      o_cell←#.S.Find ID
-     :If 323 Check ⎕DR o_cell  ⍝ did we find cell?
+     :If 326 Check ⎕DR o_cell  ⍝ did we find cell?
          r,←⊂'Could not find cell with id="',ID,'"' ⋄ :Continue ⋄ :EndIf
 
      val←o_cell.Text
 
      :If ic=2⍝ inspect the cell to see if we have a checkbox in it
-         o_cell.Click   ⍝ click cell to activate input
-         ip←'XPath'#.S.Find xp,'//input'
+         o_cell.Click
+         'DoubleClick'#.S.MoveToElement o_cell  ⍝ double click to activate input
          src←o_cell.GetAttribute⊂'innerHTML'    ⍝ the html of that cell
-         html←ip.GetAttribute⊂'outerHTML'
-         :If 1 Check∨/'type="checkbox"'⍷html
-             r,←⊂'Cell[',(⍕ir),';',(⍕ic),'] did not contain a checkbox but "',html,'"'
+         :If 1 Check∨/'type="checkbox"'⍷src
+             r,←⊂'Cell[',(⍕ir),';',(⍕ic),'] did not contain a checkbox but "',src,'"'
+             :continue  ⍝ we can't relly check this cell if it does not have a checkbox!
          :EndIf
-         html←ip.GetAttribute⊂'outerHTML'
          :If (⊂val)∊'Yes' 'No'
-         ⍝ check if the checkbos reflects that...
-             :If (sel←ip.Selected)Check ¯1+'No' 'Yes'⍳⊂val
+            ⍝ check if the checkbox reflects that...
+             chkbx←#.S.Find ID_c   ⍝ find the checkbox
+             :If (sel←chkbx.Selected)Check ¯1+'No' 'Yes'⍳⊂val
                  r,←⊂'Cell contained text "',val,'" but checkbox.Selected reported ',⍕ip.Selected
              :EndIf
-         ⍝ change the value
-             ip.Click
-             :If 1 Check sel≠ip.Selected
+             o_cell.Click   ⍝ change current  value
+             (#.S.Find'F1.Table.r1.c1').Click       ⍝ click elsewhere (leave the cell)
+             'DoubleClick'#.S.MoveToElement o_cell  ⍝ double click to activate input
+             chkbx←#.S.Find ID_c                    ⍝ find checkbox again (it has been re-created!)
+             :If 1 Check sel≠chkbx.Selected         ⍝ has the state changed?
                  r,←⊂'Value of cell[',(⍕ir),';',(⍕ic),'] did not change when clicking on it'
              :EndIf
-             ip.Click  ⍝ reset to initial value
+             chkbx.Click  ⍝ reset to initial value
          :Else
              r,←⊂'Value in cell[',(⍕ir),';',(⍕ic),'] was not ∊ Yes/No but "',val,'"'
          :End
      :EndIf
 
      o_cell.Click
+     btn_Where.Click
 
-     exp←'Current cell is ',(⍕ir),' ',⍕ic   ⍝ expected value in status field
+     exp←'Current cell is ',(⍕ir-1),' ',⍕ic   ⍝ expected value in status field
      :If ''Check t←f_status #.S.WaitFor exp
          r,←⊂'Moving to ',(⍕ir),'/',(⍕ic),' did not give status "',exp,'" but "',f_status.Text,'" (#130)'
      :EndIf
@@ -62,7 +68,7 @@
  :EndFor
 
 ⍝ also: click row/col in F1.Table and check that the correct cells are highlighted (css: background: rgb(199, 233, 255) - WIBNI there was a class for that?)
-⍝ anything else we can do with the 2nd grid? (not sure about the significance of the buttonds above - they seem to be not yet functional)
+⍝ anything else we can do with the 2nd grid?
 end:
  :If 0<≢r
      r←¯1↓∊(⊆r),¨⎕UCS 10
