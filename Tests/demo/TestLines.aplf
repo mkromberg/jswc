@@ -21,19 +21,19 @@
      r,←⊂'Did not find exactly 3 "g" tags on the page (but found ',(⍕c),')' ⋄ :EndIf
  :For l :In ↓look4
      c←3⍴0
-     :For g :In 'TagNames'#.S.Find'g'
-         :For s :In g.(FindElements(#.S.BROWSER.By.TagName)(⊂'text'))
+     :For g :In 'TagNames'#.S.Find'g'      ⍝ loop over all g tags
+         :For s :In g.(FindElements(#.S.BROWSER.By.TagName)(⊂'text'))    ⍝ find the text tag within the g tag
              c[1]+←1
-             :If s.Text≡1⊃l
+             :If s.Text≡1⊃l    ⍝ this is the text we're looking for!
                  c[2]+←1
-                 fill←s.GetDomAttribute⊂'fill'
+                 fill←s.GetDomAttribute⊂'fill'           ⍝ get its fill attribute
                  :If (2⊃l)Check fill~' '  ⍝  does the fill attribute  match the expected colour?
-                     r,←⊂'Wrong colour for text "',(1⊃l),'". Expected "',(2⊃l),'" and got "',fill,'"' ⋄ :EndIf
+                     r,←⊂'Wrong colour for text "',(1⊃l),'". Expected "',(2⊃l),'" and got "',fill,'". Reported text content="',s.Text,'"' ⋄ :EndIf
              :EndIf
          :EndFor
      :EndFor
-     :If 1 Check c[2]  ⍝ exactly 1 tspan found?
-         r,←⊂'Did not find exactly 1 tspan containing the text "',(1⊃l),'" (but found ',(⍕c[2]),')'
+     :If 1 Check c[2]  ⍝ exactly 1 <text> found?
+         r,←⊂'Did not find exactly 1 text tag containing the text "',(1⊃l),'" (but found ',(⍕c[2]),')'
      :EndIf
  :EndFor
 
