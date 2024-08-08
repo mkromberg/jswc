@@ -1,0 +1,17 @@
+ DemoLists connected;inputs;scores;TBL;GRID;z;colors;imagefiles;periods;names;expert;type;height;depth;width
+ JSWC.CONNECTED←connected
+ :If ~connected
+    JSWC.(CONNECTED USEWIN32 LOGMODES)←0 1 ⎕A  ⍝ /// While debugging
+ :EndIf
+
+ ⎕PW←1000
+
+ (depth width)←300 300
+ 'F1'eWC'Form' 'Lists'(0 0)(depth width)('Coord' 'Pixel')
+ 
+ 'F1.COLORS' eWC 'List' ('red' 'blue' 'green') (20 20) (50 50)('Border' 1)('SelItems' (0 0 1))('Attach' 'Top' 'Left' 'Top' 'Right')
+ 'F1.NUMBERS' eWC 'List' ('one' 'two' 'three') (80 80) (40 40)('Border' 1)('SelItems' (0 0 1))('Attach' 'Bottom' 'Left' 'Bottom' 'Right')
+
+ :If ~connected
+     ⎕EX 'F1.HR'
+ :EndIf
