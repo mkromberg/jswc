@@ -45,6 +45,19 @@
              left←0⌈left-1
          :ElseIf n'RC'≡t                ⍝ Right in col n
              left←max⌊left+1
+         :ElseIf 'DS'≡3⊃args            ⍝ Page down
+             :If cc[1]=n                ⍝ On bottom row
+                 top←max⌊top+n          ⍝ Move a page
+             :Else
+                 eNQ 'F1.VGRID' 'CellMove',n,cc[2],1 ⍝ Move to bottom row
+             :EndIf
+         :ElseIf 'US'≡3⊃args            ⍝ Page down
+             :If cc[1]=1                ⍝ On top row
+                 top←1⌈top-n          ⍝ Move a page
+             :Else
+                 eNQ 'F1.VGRID' 'CellMove',1,cc[2],1 ⍝ Move to top row
+             :EndIf
+
          :ElseIf 3≠i←'DS' 'US'⍳args[3]
              top←1⌈1+max⌊top+i⊃10 ¯10
          :Else
@@ -59,6 +72,9 @@
          ⎕←'CellMove: ',⍕args
          →0
      :EndSelect
+ :Case 'F1.GO500'
+     eNQ 'F1.UPDOWN' 'Scroll' 0 500
+     →0
  :Else
      ⎕←'Unexpected message: ',args
      →0

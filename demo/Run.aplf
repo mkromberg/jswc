@@ -2,6 +2,7 @@
  ⍝ Initialise the Demo application
  ⍝ web: 'Desktop' (0), 'Browser' (1) or 'Multi' (2)
 
+ COORD←'Pixel'
  JSWC←##.JSWC
  :If 0<≢r←2 ⎕NQ'.' 'GetEnvironment' 'EWC_PORT'
      JSWC.PORT←⍬⍴2⊃⎕VFI r
@@ -25,6 +26,7 @@
  :Else
      (⊃⎕DMX.DM)⎕SIGNAL⊃⎕DMX.EN
  :EndTrap
+ JSWC.NOIDQ←0 ⍝ Allow interactive DQ while running demo
 
  JSWC.NOIDQ←'Windows'≢7↑⊃'.'⎕WG'APLVersion' ⍝ Allow interactive DQ under Windows
  ⍝ trace into demo functions?
@@ -37,10 +39,8 @@
      ⎕SE.Posn←200 300
      DemoMenu 1
      :If JSWC.NOIDQ
-         r←eDQ'F1'
+        r←eDQ'F1'
      :EndIf
-     ⍝ ⎕EX'F1'
-     ⍝ JSWC.Stop
 
  :Case 1 ⍝ Browser
      ⎕←'Connect Browser now...'

@@ -7,6 +7,10 @@
  JSWC.USEWIN32←0 ⍝ ×(sf,'USEWIN32') eWG 'State'
 
  :Select ¯4↑1⊃args
+ :Case 'CALE' ⍝ SCALE
+    COORD←(1+(1⊃args)eWG 'State')⊃'Pixel' 'ScaledPixel'
+    →0
+
  :Case  'STOP'
      eEX f
      →0

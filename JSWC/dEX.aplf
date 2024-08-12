@@ -4,6 +4,7 @@
  n←≢cn←⍕caller←findCaller
  names←((1+n)×(n↑¨names)∊⊂cn)↓¨names
  (ID conn)←getConnection caller names
+ 'D' Log 'EX at ',⍕2↑showCallStack
 
  EX←⎕NS''
  ex←EX.EX←⎕NS''

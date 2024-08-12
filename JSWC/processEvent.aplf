@@ -44,6 +44,7 @@
  :EndIf
 
  fn←⊃info←(events⍳⊂Event)⊃fns
+ 'P' Log 'Action = ',(⍕fn),' for ',⎕JSON ns.Event
  →((fn≡¯1)∨end←fn≡1)⍴0
 
  async←'&'=¯1↑fn
@@ -60,6 +61,7 @@
      :If 3≠⎕NC fn
          'E'Log'Callback function not found: ',fn
      :ElseIf 1=≢info
+         'P'Log'    Monadic',(async/' async'),' call to ',fn
          :If async
              (⍎fn)&(ID Event),Info
          :ElseIf 0=1 2⊃⎕AT fn ⍝ Niladic fn
@@ -70,6 +72,7 @@
              :EndTrap
          :EndIf
      :ElseIf 2=≢info
+         'P'Log'    Dyadic',(async/' async'),' call to ',fn
          :If async
              (2⊃info)(⍎fn)&(ID Event),Info
          :Else

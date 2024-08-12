@@ -1,4 +1,4 @@
- r←con Handler payload;ns;Event;ID;Info;events;fns;fn;event;reqfn;info;sns;i;code;conn;coni;sock;z;m;msg;sessionspace;form;hr;CALLER;app
+ r←con Handler payload;ns;Event;ID;Info;events;fns;fn;event;reqfn;info;sns;i;code;conn;coni;sock;z;m;msg;sessionspace;form;hr;CALLER;app;new;old
  ⎕TRAP←0 'S'
  'R'Log'#',(⍕con),': ',payload
  i←(2⊃SESSIONS)⍳con
@@ -64,7 +64,11 @@
                      :If 9=⎕NC form,'.HR'
                          hr←⍎form,'.HR'
                          CALLER←code
-                         ∆NQ form 'Configure', hr.Posn,hr.Size-HRBorder
+                         old←⍎form,'.(Posn,Size)'
+                         new←hr.Posn,hr.Size-HRBorder
+                         :If old≢new
+                             ∆NQ form 'Configure',new
+                         :EndIf
                      :EndIf
                  :EndFor
              :EndIf

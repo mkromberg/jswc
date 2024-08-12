@@ -36,7 +36,7 @@
          :OrIf ~∨/m←QUEUEIDS∊names
              :If 0≠≢R←2 ⎕TGET tkn
                  :If 'N'∊LOGMODES
-                     'N'Log 'DQ: ',1 ⎕JSON⍠'HighRank' 'Split'⊢R
+                     'N'Log 'DQ of token ',(⍕tkn),': ',1 ⎕JSON⍠'HighRank' 'Split'⊢R
                  :EndIf
                  :If MODE=2
                      R.CodeLocation←⍕caller
