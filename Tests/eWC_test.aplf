@@ -112,7 +112,7 @@ restart:
      :Else
          :If ##.trace
              ⎕←'next: select test "',d,'"'
-             (⎕LC[1]+1)⎕STOP 1⊃⎕SI
+             (⎕LC[1]+1)⎕STOP 1⊃⎕XSI
          :EndIf
 
          z←ctl #.S.Select d      ⍝ selecting the test will load it
@@ -139,7 +139,7 @@ restart:
                  :If ''Check t   ⍝ wait for the Stop button as an indication that the test has loaded indeed
                      ⎕←msg←'could not find STOP button'
                      ⎕←'t=',t
-                     ⎕TRAP←0 'S' ⋄ (⎕LC[1]+1)⎕STOP 1⊃⎕SI
+                     ⎕TRAP←0 'S' ⋄ (⎕LC[1]+1)⎕STOP 1⊃⎕XSI
                  :Else
                      t←'Test',d   ⍝ name of related test
                      :If (⊂t)∊ListOfTests  ⍝ check if this demo has a test that we can run...
@@ -172,7 +172,7 @@ restart:
                          :ElseIf v=1
                              :If 0<≢msg
                                  #.S.SaveScreenshot file
-                                 ('Type' 'I')##.Log'Saved refence screenshot "',file,'"'
+                                 ('Type' 'I')##.Log'Saved screenshot "',file,'"'
                              :EndIf
                          :EndIf
                      :EndIf
@@ -228,7 +228,7 @@ restart:
              ⎕←'test ',d,' failed!'
              ⎕←'→',(⍕⎕LC[1]+4),'   ⍝ to continue'
              ⎕←'⎕←msg              ⍝ to see error messages'
-             ⎕TRAP←0 'S' ⋄ (⎕LC[1]+1)⎕STOP 1⊃⎕SI
+             ⎕TRAP←0 'S' ⋄ (⎕LC[1]+1)⎕STOP 1⊃⎕XSI
          :EndIf
          lastd←d
          :If 0<≢msg
