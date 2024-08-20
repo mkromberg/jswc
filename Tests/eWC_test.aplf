@@ -172,7 +172,7 @@ restart:
                          :ElseIf v=1
                              :If 0<≢msg
                                  #.S.SaveScreenshot file
-                                 ('Type' 'I')##.Log'Saved screenshot "',file,'"'
+                                 ('Type' 'I')##.Log'Saved screenshot of failed test "',file,'"'
                              :EndIf
                          :EndIf
                      :EndIf
