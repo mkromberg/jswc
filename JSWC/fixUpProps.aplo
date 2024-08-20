@@ -43,19 +43,7 @@
              (ix⊃values)←0 ⎕JSON⍠'Dialect' 'JSON5'⊣data
          :EndIf
      :Case 'Series'  ⍝ ApexChart
-         data←ix⊃values
-         :If 9=⎕NC 'data' ⍝ scalar namespace
-              series←,data   ⍝ Must be a list
-         :ElseIf 80=⎕DR data ⍝ character
-              series←0 ⎕JSON⍠'Dialect' 'JSON5'⊣data ⍝ probably JSON then
-         :ElseIf (10|⎕DR data)∊1 3 5 7 ⍝ Non-Complex numeric data
-              data←(¯2↑1 1,⍴data)⍴data   ⍝ Make vector 1-row matrix
-              series←⎕NS¨(≢data)⍴⊂''
-              series.data←↓data
-         :Else
-             series←data ⍝ This probably won't work
-         :EndIf
-         (ix⊃values)←series
+         (ix⊃values)←apexChartSeries ix⊃values
 
      :Case 'Picture'
          (ix⊃values)←2↑(,⊆ix⊃values),3 ⍝ Default to Center

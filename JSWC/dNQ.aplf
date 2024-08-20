@@ -21,7 +21,7 @@
      →0⊣R←Mode ⎕NQ Event
  :EndIf
 
- 'N' Log 'Mode ',(⍕Mode),', ',⍕Event
+ 'N' Log 'Mode ',(⍕Mode),', ',,⍕Event
  (type class objref)←getObj name
  ('Not a JSWC object: ',(⍕caller),'.',name)⎕SIGNAL(0=≢type)/11
  'Only Modes 0 1 or 2 are supported' ⎕SIGNAL (Mode∊0 1 2)↓11
@@ -29,7 +29,7 @@
  method←(⎕C Event[2])∊class.methodlist ⍝ Method rather than property
 
  :If (Mode∊2)∧Event[2]∊supportedMethods ⍝ 2 ⎕NQ 'obj' 'Methodname' [args]
-    'N' Log 'Invoking client-side method: ',⎕JSON Event
+    'N' Log 'Invoking client-side method: ',(⎕JSON⍠'HighRank' 'Split') Event
     →0⊣R←dWX Event
  :EndIf
 
@@ -58,13 +58,13 @@
      hr←objref.HR
      :Select ⎕C 2⊃Event
      :Case 'close'
-         'N' Log 'Expunging: ',name
+         'N' Log '    Expunging: ',name
          ∆EX name
          →0
      :Case 'configure'
          (hdr posn size)←1 0 1 0 1 0⊂6↑Event
          objref.HR.(Posn Size)←0 (HRBorder)+posn size
-         'N' Log 'Configure HTMLRenderer → ',⍕objref.HR.(Posn Size)
+         'N' Log '    Configure HTMLRenderer → ',⍕objref.HR.(Posn Size)
          Event[3 4]←MENUOffset ⍝ We always tell the client that Posn is (0,0) + Offset for Menu
      :EndSelect
  :EndIf

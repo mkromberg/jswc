@@ -1,10 +1,7 @@
- DemoApexMovAvg connected;options;series;data;smoothed;months;window
- JSWC.CONNECTED←connected
- ⎕PW←1000
-
+ DemoApexMovAvg connected;window;months;data;smoothed;series;options
 ⍝ Time series from https://github.com/yiyus/data-science-in-APL/blob/main/all.ipynb
 
- window←3
+ window←3                                              ⍝ Moving average window size
  months←¯1 12 ⎕DT 2↓¯10↓,(2018+⍳6)∘.,⍳12               ⍝ 2019-03 to 2024-02 in “Javascript data/time format”
 
  data←         291 272 278 346 284 283 364 262 283 340 ⍝ 2019
@@ -16,17 +13,12 @@
 
  smoothed←window÷⍨window+/data                         ⍝ Compute the moving average
 
- series←⎕NS¨'' ''
- series.data←{⎕NS¨(≢⍵)⍴⊂''}¨months smoothed            ⍝ One namespace per data point
- series.data.y←data smoothed
- series.data.x←0 (window-1)↓¨⊂months
- series.name←'Data' ((⍕window),'-month average')
- series.type←'line' 'line'
-
- 'F1'eWC'Form' 'Charts'(50 50)(600 800)('Coord' 'Pixel')
+ series←(data 'Searches' months) (smoothed '3-month avg' ((window-1)↓months))
+ ⍝ Triplets of (yvalues name xvalues)
 
  options←'{title: { text: "Searches for APL on Google", align: "center"},'
  options,←'yaxis:{type:"numeric",stepSize:25, decimalsInFloat: 0},'
  options,←'xaxis: { type: "datetime"}}'
 
+ 'F1'eWC'Form' 'Charts'(50 50)(600 800)('Coord' 'Pixel')
  'F1.MOVAVG'eWC'ApexChart'(50 10)(540 780)('Series'series)('Options'options)

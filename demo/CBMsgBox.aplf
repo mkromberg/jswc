@@ -9,5 +9,4 @@ btn←('123'⍳¯1↑2⊃R)⊃btns
 
 'MB2' eWC 'MsgBox' 'MsgBox Confirmation' ('You selected ',btn) 'Msg' 'OK' ('Event' ('MsgBtn1' 'MsgBtn2' 'MsgBtn3') 1)
 R←eDQ 'MB2'
-...
 eEX 'MB1' 'MB2'

@@ -1,4 +1,4 @@
- r←con Handler payload;ns;Event;ID;Info;events;fns;fn;event;reqfn;info;sns;i;code;conn;coni;sock;z;m;msg;sessionspace;form;hr;CALLER;app;new;old
+ r←con Handler payload;ns;Event;ID;Info;events;fns;fn;event;reqfn;info;sns;i;code;conn;coni;sock;z;m;msg;sessionspace;form;hr;CALLER;app;new;old;token
  ⎕TRAP←0 'S'
  'R'Log'#',(⍕con),': ',payload
  i←(2⊃SESSIONS)⍳con
@@ -37,10 +37,12 @@
          :Select ,ns.⎕NL 9
          :Case 'Event'
              ns.Conn←con
-             ns ⎕TPUT DQ_TOKENBASE+TOKENSTEP×1
+             ns ⎕TPUT token←DQ_TOKENBASE+TOKENSTEP×1
+             'N' Log 'NQ of token ',(⍕token),': ',⎕JSON ns
              ⍝ /// Need something better than this from JD
              :If '*'∊1↓⎕STACK[;2] ⍝ A suspension in the client app
              :AndIf 9=sns.⎕NC'TIMER'
+                 'N' Log '    Poking ',(⍕sns),'.TIMER'
                  sns.⎕NQ'TIMER' 1001 ⍝ Wake it up
              :EndIf
          :CaseList 'WG' 'WX'

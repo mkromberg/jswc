@@ -27,9 +27,13 @@
  :EndIf
 
  done←interrupt←0
+ tkn←DQ_TOKENBASE+TOKENSTEP×1
+ :Hold 'JSWC_DQTOKENS'
+     DQTOKENS,←tkn
+ :EndHold
+
  :Trap 1000
-     tkn←DQ_TOKENBASE+TOKENSTEP×1
-     'N'Log'DQ: ',(⍕names),' at ',⍕showCallStack
+     'N'Log'DQ: ',(⍕names),' - token ',(⍕tkn),'-  at ',⍕showCallStack
      ⍝ ⎕TRAP←0 'S' ⋄ ∘∘∘
      :Repeat
          :If 0=≢QUEUEIDS
@@ -59,9 +63,9 @@
      interrupt←1
  :EndTrap
 
- ⍝:Hold 'JSWC DQ'
- ⍝   DEQUEUEING←⍬
- ⍝:EndHold
+ :Hold 'JSWC_DQTOKENS'
+     DQTOKENS~←tkn
+ :EndHold
 
  :If 0≠≢R
      R←(⊢/R).Event.((ID EventName),{6::⍵ ⋄ Info}⍬) ⍝ /// Need a proper queue
