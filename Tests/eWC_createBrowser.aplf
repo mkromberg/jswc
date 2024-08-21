@@ -1,0 +1,6 @@
+ {larg}eWC_createBrowser rarg;cmd
+⍝ ⍵ corresponds to Run's ⍵
+
+ cmd←'LOAD=',EWC_HOME,' LX="demo.Run ',(⍕rarg),'" EWC_PORT=22344 EWC_LOGMODES=w',(1=0 _Env'TRACE_DEMOS')/' EWC_TRACEDEMOS=1'
+ p←⎕NEW #.APLProcess(''cmd 0 '' ''EWC_HOME)     ⍝ do not localise this!
+ #.S.InitBrowser larg

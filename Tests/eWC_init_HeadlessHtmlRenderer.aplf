@@ -1,0 +1,10 @@
+ r←eWC_init_HeadlessHtmlRenderer;PORT
+ r←''
+ :Trap (~##.halt)/0
+     eWC_init_loader 1⊃1 ⎕NPARTS ##.TESTSOURCE,'../'
+     ROOT←'http://dyalog_root/index'
+     BRWSR←'HeadlessHtmlRenderer'
+     MODE←0
+ :Else
+     r←(⎕json⍠'Compact'0)⎕DMX
+ :EndTrap

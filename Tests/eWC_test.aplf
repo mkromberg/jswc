@@ -1,0 +1,150 @@
+ r←eWC_test sink;tests;demos;d;⎕TRAP;f;t;file;sup;rC;z;lastd;dl;de;from;to;arg;msg;src;_Env;DEFAULTS;v;pi
+ tests←#.tests.demo.⎕NL ¯3
+ tests←{((⊂'Test')≡¨4↑¨⍵)/⍵}tests
+ demos←{4↓2⊃⎕NPARTS ⍵}¨⊃0(⎕NINFO⍠1)dPath,'/Demo*.*'
+ DEFAULTS←0(⎕JSON⍠'Dialect' 'JSON5')(1⊃⎕NGET ##.TESTSOURCE,'eWC_defaults.json5')
+ r←''
+ dl←⍬  ⍝ demo list we want to run
+ de←⍬  ⍝ demos we NOT want to run
+ arg←1↓##.args.Arguments   ⍝ 1st element of arg is the name of the .dylogtest
+ _Env←{
+    ⍝ get value of environment variable or #-based variable (case-sensitive, prefixed with 'EWC_')
+    ⍝ defaults taken from DEFAULTS ns.
+     z←2 ⎕NQ #'GetEnvironment'⍵
+     def←{2=#.⎕NC'EWC_',⍵:#⍎'EWC_',⍵ ⋄ DEFAULTS⍎⍵}⍵
+     0=≢z:def
+     (⎕DR def)∊80 160:⍵
+     2⊃⎕VFI ⍵
+ }
+
+ :If 0<≢arg
+     :For d :In arg
+         :If '~'=⊃d
+             de,←⊂1↓d
+         :ElseIf ∨/'..'⍷d
+             (from to)←'|'(≠⊆⊢)' ',(⊃('(.*)\.\.(.*)'⎕S'\1|\2')d),' '
+             f←0
+             t←≢demos
+             :If 0<≢from
+                 f←demos⍳⊂1↓from
+             :EndIf
+             :If 0<≢to
+                 t←demos⍳⊂¯1↓to
+             :EndIf
+             dl,←(f-1)↓t↑demos
+         :Else
+             dl,←⊂d
+         :EndIf
+     :EndFor
+ :Else
+     dl←demos
+ :EndIf
+ demos←∪dl~de
+ lastd←'just started'
+ :If 1=1↑0 _Env'RANDOMORDER'
+     demos['eWC_order'##.RandomVal 2/≢demos]
+ :EndIf
+ :For d :In demos
+     :If (⊂'~',d)∊##.args.Arguments
+         :Continue
+     :EndIf
+     msg←''
+     :If 0=⎕NC'p'
+     :OrIf p{6::1 ⋄ ⍺⍎⍵}'HasExited'
+         BRWSR eWC_createBrowser MODE
+     :EndIf
+     :If lastd≢'just started'
+     :AndIf 0<pi←0 _Env'PROGRESSINDICATOR'
+        ⍝ 0= no info
+        ⍝ 1= show name of next test
+        ⍝ 2= AND wait for keypress
+         :Select ,pi
+         :Case ,1
+             ⎕←d
+         :Case ,2
+             {}⍞←'press <enter> for ',d
+         :EndSelect
+     :EndIf
+     #.S.GoTo ROOT
+     z←'CssSelector'#.S.Find'[id$="MENU"]'
+     :If 326 Check ⎕DR z    ⍝ check if we find the menu
+         msg←'could not find F1.MENU (possibly something went wrong before (lastd=',lastd,')'    ⍝ although that should be veeery unlikely now....
+     :Else
+         z←('CssSelector' '[id$="MENU"]')#.S.Select(5↓d)      ⍝ selecting the test will load it
+         :If z Check 1  ⍝ can we select the test in the menu
+             msg←'test not found in menu (attention: it is case-sensitive!)'
+         :Else
+             {}⎕DL 1  ⍝ allow some time to load
+
+             z←'CssSelector'#.S.Find'[id$="MENU"]'             ⍝ check if loaded test also has a menu...
+             :If 326 Check ⎕DR z
+                 msg←'could not find F1.MENU'
+             :Else
+                 z←('CssSelector' '[id$="STOP"]')#.S.WaitFor'Stop'
+                 :If ''Check z   ⍝ wait for the Stop button as an indication that the test has loaded indeed
+                     ⎕←msg←'could not find STOP button'
+                     ⎕←'z=',z
+                     ⎕TRAP←0 'S' ⋄ (⎕LC[1]+1)⎕STOP 1⊃⎕SI
+                 :Else
+
+                     :If (⊂d)∊tests  ⍝ check if this demo has a test that we can run...
+        ⍝ run demo d
+                     :EndIf
+
+    ⍝ also check if the test accesses all implemented pros / methods of the object
+    ⍝ C:\Git\jswc\JSWC\classes\button\Supported.apla
+    ⍝ C:\Git\jswc\JSWC\classes\button\SupportedEvents.apla
+                     src←#.demo.⎕VR d
+             ⍝ the assumption that the testname matches the control that's being tested does
+    ⍝ not hold. check the source for ⎕wc instead to see what's created.
+    ⍝ probably we also need to look at this globally, not per test, since different
+    ⍝ tests might be written to test different aspects of the same control.
+    ⍝  :For f t :In ('Supported' 'properties')('SupportedEvents' 'events')
+    ⍝      :If ⎕NEXISTS file←##.TESTSOURCE,'../JSWC/classes/',(⎕C d),'/',f,'.apla'
+    ⍝          sup←1⊃⎕NGET file
+    ⍝ ⍝ find "relevant code" to examine (to avoid being misled by comments etc.)
+    ⍝          rC←('^.*(eW[C|S].*$)'⎕S'%1')src
+    ⍝          ∘∘∘
+    ⍝          z←sup⍷⍥⎕C¨⊂rC
+    ⍝          :If 0∊z
+    ⍝              z←~z
+    ⍝              r,←⊂'Supported ',t,' that were not referenced in the demo: ',¯2↓∊'"',¨(z/sup),¨⊂'", '
+    ⍝          :EndIf
+    ⍝      :Else
+    ⍝          r,←⊂'Did not find "',file,'"'
+    ⍝      :EndIf
+    ⍝  :EndFor
+                 :EndIf
+             :EndIf
+         :EndIf
+     :EndIf
+     :If 0<v←_Env'SCREENSHOT'
+         file←##.TESTSOURCE,d,'.png'
+         :If v=2  ⍝ always save screenshot
+             #.S.SaveScreenshot file
+             :If 0<≢msg  ⍝ if there was an error, add info abt screenshot
+                 msg,←' - saved screenshot as ',file
+             :EndIf
+         :ElseIf v=1
+             :If 0<≢msg
+                 #.S.SaveScreenshot file
+                 msg,←' - saved screenshot as ',file
+                 :If ##.halt
+                     ⎕←'test ',d,' failed!'
+                     ⎕←'→',(⍕⎕LC[1]+2),'   ⍝ to continue'
+                     ⎕TRAP←0 'S' ⋄ (⎕LC[1]+1)⎕STOP 1⊃⎕SI
+                 :EndIf
+             :EndIf
+         :EndIf
+     :EndIf
+     lastd←d
+     :If 0<≢msg
+         r,←⊂d,': ',msg
+     :EndIf
+ :EndFor
+ :If 0<≢r
+     r←∊(⊂⎕UCS 13 10),¨r
+ :Else
+     ⎕←(⍕≢demos),' demo pages were opened and ',(⍕tests),' tests were excuted without issues!'
+     ⎕←'👍'   ⍝ emotional & motivational message
+ :EndIf

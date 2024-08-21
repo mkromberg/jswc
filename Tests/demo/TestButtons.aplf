@@ -1,0 +1,26 @@
+ r←TestButtons sink;⎕TRAP;fruit;addon;t;z
+ r←''
+ :For fruit :In ''(⊂'F1.FRUIT.C'),¨⍕¨⍳3
+     :For addon :In '' 'F1.ICE' 'F1.CHOKO' 'F1.ICE&F1.CHOKO'
+         :If fruit≢''
+             z←#.S.Click fruit
+             :If t≢'You selected ',fruit
+                 r,←⊂'Click on ',fruit,' did not generate expected message but "',t,'"'
+             :EndIf
+         :EndIf
+         addon←'&'(≠⊆⊢)addon
+         t←Text'F1.STATUS'
+         :For c :In addon
+             z←#.S.Click c
+
+             :If..
+             :EndIf
+             t←Text'F1.STATUS'
+             :If t≢'You selected ',fruit,((×≢fruit⍴' '),addon)
+             :EndIf
+         :EndFor
+     :EndFor
+ :EndFor
+
+⍝ 
+r←∊r,¨⎕ucs 10

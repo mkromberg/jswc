@@ -4,7 +4,11 @@
 
  COORD←'Pixel'
  JSWC←##.JSWC
- JSWC.PORT←22322
+ :If 0<≢r←2 ⎕NQ'.' 'GetEnvironment' 'EWC_PORT'
+     JSWC.PORT←⍬⍴2⊃⎕VFI r
+ :Else
+     JSWC.PORT←22322
+ :EndIf
  JSWC.SHOWDEVTOOLS←0
  root←{⊃⎕NPARTS ¯1↓⍵}⊃⎕NPARTS 4⊃5179⌶⊃⎕SI
  JSWC.RESOURCES←1 2⍴'images'(root,'/demo/images')
@@ -18,7 +22,12 @@
  :Else
      (⊃⎕DMX.DM)⎕SIGNAL⊃⎕DMX.EN
  :EndTrap
- JSWC.NOIDQ←0 ⍝ Allow interactive DQ while running demo
+
+ JSWC.NOIDQ←0 ⍝ Allow interactive DQ
+ ⍝ trace into demo functions?
+ :If 1≡⊃2⊃⎕VFI 2 ⎕NQ'.' 'GetEnvironment' 'EWC_TRACEDEMOS'
+     #.demo.({'Demo'≡4↑⍵:1 ⎕STOP ⍵}¨(⎕NL-3)~'DemoMenu' 'DemoDefault')
+ :EndIf
 
  :Select JSWC.MODE
  :Case 0 ⍝ Desktop

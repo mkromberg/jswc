@@ -1,0 +1,42 @@
+ eWC_init_loader path;g
+⍝ load the tools we need
+ :If 9=#.⎕NC'tests'
+     {}⎕SE.Link.Break #.tests
+     #.⎕ex'tests'
+ :EndIf
+ :If 9=#.⎕NC'demo'
+     {}⎕SE.Link.Break #.demo
+     #.⎕ex'demo'
+ :EndIf
+ :If ~##.quiet
+     LINK←{⍺←'NADA'
+         ⍺≡'NADA':⎕SE.Link.Create ⍵
+         ⍺ ⎕SE.Link.Create ⍵}
+     IMPORT←{⍺←'NADA'
+         ⍺≡'NADA':⎕SE.Link.Import ⍵
+         ⍺ ⎕SE.Link.Import ⍵}
+ :Else
+     LINK←{⍺←'NADA'
+         ⍺≡'NADA':sink←⎕SE.Link.Create ⍵
+         sink←⍺ ⎕SE.Link.Create ⍵}
+     IMPORT←{⍺←'NADA'
+         ⍺≡'NADA':sink←⎕SE.Link.Import ⍵
+         sink←⍺ ⎕SE.Link.Import ⍵}
+ :EndIf
+ '#.tests'⎕NS''
+ LINK #.tests(path,'/tests')
+ #.⎕ex'APLProcess'
+ IMPORT #'APLProcess'
+
+ #.S←#.tests.Selenium.Selenium
+
+ EWC_HOME←1⊃1 ⎕NPARTS ##.TESTSOURCE,'../'       ⍝ intentionally global!
+ dPath←∊1 ⎕NPARTS EWC_HOME,'demo'               ⍝ intentionally global!
+ '#.demo'⎕NS''
+ LINK #.demo dPath   ⍝ load all demos
+
+ #.S.QUIETMODE←##.quiet
+ #.S.HOME←EWC_HOME,'Tests/Selenium/'
+
+ ⍝3 ⎕NDELETE⍠1⊢dPath,'*.png'
+ ⍝3 ⎕NDELETE⍠1⊢dPath,'*.log'

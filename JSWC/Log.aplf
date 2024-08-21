@@ -1,4 +1,4 @@
-mode Log msg
+ mode Log msg;json
 ⍝ Log modes: Controlled by JSWC.LOGMODES
 ⍝ D: Debug
 ⍝ E: Error
@@ -11,6 +11,19 @@ mode Log msg
 ⍝ N: Explicit NQ
 ⍝ P: ProcessEvent
 ⍝ G: WG
+⍝ w: log eW* object/property access (for testing)
 
-→(mode∊LOGMODES)↓0
-⎕←((,'ZI2,<:>,ZI2,<.>,ZI3' ⎕FMT 1 3⍴¯3↑⎕TS),' ',mode,':') msg
+
+ →(mode∊LOGMODES)↓0
+ ⎕←((,'ZI2,<:>,ZI2,<.>,ZI3'⎕FMT 1 3⍴¯3↑⎕TS),' ',mode,':')msg
+ :If mode≡'w'
+    ⍝ primitive: we collect json objects in that file - it's not "json" though...(needs to be enclosed in [])
+    ⍝ also we do not care about max file size, we just keep appending
+    ⍝ do it's the responsibility of the user to clean up the file.
+    ⍝ That's why mode='w' is useful - it's not part of the default (⎕A)
+    ⍝ and needs to be set explicitely!
+    ⍝ (see eWC Tests for example usage that deletes the file before running tests
+    ⍝  and also adds the "[]" )
+     msg←('(:.*,)(.*)$'⎕R('\1 TS: [',(∊(⍕¨¯4↑⎕TS),¨','),'],\2')⍠'Greedy' 0)msg
+     (⊂msg)⎕NPUT(JSWCFolder,'objectlog.json5')2
+ :EndIf

@@ -8,7 +8,7 @@
  :Case 1 ⋄ mode←⊃args ⋄ CODELOCATION←⊃⎕RSI
  :Case 2 ⋄ (mode CODELOCATION)←args
  :Else
-     'Right agument: mode [codelocation]'⎕SIGNAL 5
+     'Right argument: mode [codelocation]'⎕SIGNAL 5
  :EndSelect
 
  :If 0=⎕NC'prefix'
@@ -53,7 +53,9 @@
      MAXLOG←2000
  :EndIf
  :If 0=⎕NC'LOGMODES'
-     LOGMODES←⎕A ⍝ Log everything (see Log)
+     :If 0=≢LOGMODES←1⊃160⌶'EWC_LOGMODES'   ⍝ do we have a default in the environment?
+         LOGMODES←⎕A ⍝ Log everything (see Log)
+     :EndIf
  :EndIf
  :If 0=⎕NC'RESOURCES'
      RESOURCES←1 2⍴⊂''
@@ -86,7 +88,7 @@
      make_JSWC CODELOCATION ⍝ So create the timer here
  :EndIf
 
- :If 9=⎕NC 'WSS'
+ :If 9=⎕NC'WSS'
      ⎕←'Closing existing Web Socket Server...'
      WSS.Stop
      ⎕DL 5
@@ -130,7 +132,7 @@
      (⍕z)⎕SIGNAL 11
  :EndIf
 
- :If 4≤⍴devCaps←'.' ⎕WG 'DevCaps'
+ :If 4≥⍴devCaps←'.'⎕WG'DevCaps'
      DPR←100÷⍨4⊃devCaps
  :Else
      DPR←1
