@@ -1,0 +1,47 @@
+ r←TestEdit nul;rows;cols;f_status;cell;ir;ic;xp;o_cell;exp;t;xcell;src;ip;html;val;sel;ID;btn_Where;ID_c;chkbx;caps
+ (rows cols)←2 5
+ r←''
+
+ :If 0≡f_status←#.S.Find'F1.Average'
+     r,←⊂'Cannot find F1.Average'
+     →end    ⍝ not much we can sensibly test w/o the ability to control the feedback!
+ :EndIf
+
+ :If 'Average Score: 'Check 15↑f_status.Text
+     r,←⊂'F1.Average does not contain expected text "Average Score: " but "',f_status.Text,'"'
+ :EndIf
+
+ caps←{(#.S.Find'F1.Players.r1.c',⍕⍵).Text}¨⍳5   ⍝ captions (also ids of related inputs)
+ :For cell :In 'GridCells'##.RandomVal 2⍴rows×cols   ⍝ click through cells in random order
+     (ir ic)←2 1+(rows,cols)⊤¯1+cell                         ⍝ compute coordinates in grid (row[1;] are headers, so we needed to increment the offset)
+     ID←'F1.Players.r',(⍕ir),'.c',⍕ic
+     ID_c←'F1.Players.r',(⍕ir),'.c',⍕ic
+     o_cell←#.S.Find ID
+     :If 326 Check ⎕DR o_cell  ⍝ did we find cell?
+         r,←⊂'Could not find checkbox with id="',ID,'" in cell ',(⍕r),'/',(⍕c) ⋄ :Continue ⋄ :EndIf
+
+     val←o_cell.Text
+
+     :If ic=5⍝ inspect the cell to see if we have a checkbox in it
+         o_cell.Click
+         src←o_cell.GetAttribute⊂'innerHTML'    ⍝ the html of that cell
+         :If 1 Check∨/'type="checkbox"'⍷src
+             r,←⊂'Cell[',(⍕ir),';',(⍕ic),'] did not contain a checkbox but "',src,'"'
+             :Continue  ⍝ we can't relly check this cell if it does not have a checkbox!
+         :EndIf
+     :EndIf
+
+     :If ic∊4  ⍝ test if values in the columns are right-aligned
+         :If 0=≢⊃('text-align:\s*right'⎕S'&')o_cell.GetAttribute⊂'innerHTML'
+             r,←⊂'Cell[',(⍕ir),';',(⍕ic),'] does not seem to have style attributes to be right-aligned.' ⋄ :EndIf
+     :EndIf
+     ⍝ test editing!?
+ :EndFor
+
+⍝ also: click row/col in F1.Table and check that the correct cells are highlighted (css: background: rgb(199, 233, 255) - WIBNI there was a class for that?)
+⍝ Note: currently highlights entire row
+⍝ anything else we can do with the 2nd grid?
+end:
+ :If 0<≢r
+     r←¯1↓∊(⊆r),¨⎕UCS 10
+ :EndIf
