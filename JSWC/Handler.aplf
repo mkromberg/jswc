@@ -37,16 +37,16 @@
          :Select ,ns.⎕NL 9
          :Case 'Event'
              ns.Conn←con
-             ns ⎕TPUT token←DQ_TOKENBASE+TOKENSTEP×1
+             ns ⎕TPUT token←DQ_TOKENBASE+TOKENSTEP×1⌈sns.ID×MODE=2
              'N' Log 'NQ of token ',(⍕token),': ',⎕JSON ns
-             ⍝ /// Need something better than this from JD
-             :If '*'∊1↓⎕STACK[;2] ⍝ A suspension in the client app
-             :AndIf 9=sns.⎕NC'TIMER'
-                 'N' Log '    Poking ',(⍕sns),'.TIMER'
-                 sns.⎕NQ'TIMER' 1001 ⍝ Wake it up
-             :EndIf
+             :Hold 'JSWC_DQTOKENS'
+                 :If 0=≢DQTOKENS ⍝ No active DQ
+                    'N' Log '    Poking ',(⍕sns),'.TIMER'
+                    sns.⎕NQ'TIMER' 1001 ⍝ Wake it up
+                 :EndIf
+             :EndHold
          :CaseList 'WG' 'WX'
-             ns ⎕TPUT WG_TOKENBASE+TOKENSTEP×1 ⍝ ⊃getConnection sns ns.WG.ID
+             ns ⎕TPUT WG_TOKENBASE+TOKENSTEP×1⌈sns.ID×MODE=2 ⍝ ⊃getConnection sns ns.WG.ID
          :Case 'FormatCell'
              :If 0≠≢msg←code formatCell ns
                  'T'Log('#',⍕con),': ',msg

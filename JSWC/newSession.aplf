@@ -35,8 +35,3 @@
 
  key←hdrs WSS.GetHeader'sec-websocket-key'
  'C' Log 'Session ',(⍕ns.ID),' created, socket ',(⍕ns.conn),', connected from ',(2 2⊃ns.addr), ', key: ',key
-
- :If 3=⎕NC'code.Init'
- :AndIf 0≠≢msg←code.Init ns
-     'W' Log 'Unable to Init session from ',ns.addr,': ',msg
- :EndIf

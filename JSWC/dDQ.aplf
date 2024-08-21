@@ -1,8 +1,9 @@
- {R}←∆DQ names;⎕TRAP;caller;class;type;HR;timers;event;done;interrupt;tkn;m;i;types;z;modal
+ {R}←∆DQ names;⎕TRAP;caller;class;type;HR;timers;event;done;interrupt;tkn;m;i;types;z;modal;ID;conn;e;n
 
  ⎕TRAP←0 'S'
  names←,⊆names
  caller←findCaller
+ 'N' Log 'findCaller returned ',⍕caller
  names←caller removeCaller¨names
  modal←0
 
@@ -27,7 +28,8 @@
  :EndIf
 
  done←interrupt←0
- tkn←DQ_TOKENBASE+TOKENSTEP×1
+ (ID conn)←getConnection caller (⊃names)
+ tkn←DQ_TOKENBASE+TOKENSTEP×1⌈ID×MODE=2
  :Hold 'JSWC_DQTOKENS'
      DQTOKENS,←tkn
  :EndHold
@@ -53,9 +55,9 @@
              :EndIf
          :EndIf
 
-         :If (≢QUEUEIDS)≥i←⌊/QUEUEIDS⍳names
-             done←processEvent QUEUEDATA[i]
-             (QUEUEIDS QUEUEDATA)←(i≠⍳≢QUEUEIDS)∘/¨QUEUEIDS QUEUEDATA
+         :If (≢QUEUEIDS)≥i⊣n←(QUEUEIDS,⊂⍬)[i]⊣e←(QUEUEDATA,⊂⍬)[i]⊣i←⌊/QUEUEIDS⍳names
+             (QUEUEIDS QUEUEDATA)←(m←(⍳≢QUEUEIDS)≠QUEUEIDS⍳n)∘/¨QUEUEIDS QUEUEDATA
+             done←processEvent e
          :EndIf
          done∨←0∊caller.⎕NC names
      :Until done
@@ -68,7 +70,12 @@
  :EndHold
 
  :If 0≠≢R
-     R←(⊢/R).Event.((ID EventName),{6::⍵ ⋄ Info}⍬) ⍝ /// Need a proper queue
+     z←⊢/R
+     :If 9=⎕NC 'z.Event'
+         R←z.Event.((ID EventName),{6::⍵ ⋄ Info}⍬) ⍝ /// Need a proper queue
+     :Else
+         ∘∘∘
+     :EndIf ⍝ Else return R as is
  :EndIf
 
  :If modal ⍝ Exit from Modal mode

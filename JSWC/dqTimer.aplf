@@ -1,9 +1,9 @@
 dqTimer args;R;done;code;sns;token
 ⍝ Handle one Timer event for interactive operation
-⍝ /// Maybe check if a DQ is running?
 
-→NOIDQ⍴0
-token←DQ_TOKENBASE+TOKENSTEP×1
+→(NOIDQ∨MODE=2)⍴0
+
+token←DQ_TOKENBASE+TOKENSTEP×1⌈⊃⊃SESSIONS
 :Hold 'JSWC_DQTOKENS'
     →(token∊DQTOKENS)⍴0
 :EndHold

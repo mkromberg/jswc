@@ -16,6 +16,10 @@ topright←⍬
      sf←form
      topright←⊂'Attach' ('Top' 'Right' 'Top' 'Right')
 :EndIf
+ :If 2=⎕NC'demo'
+ :AndIf (⊂4↓demo)∊fns
+     topright,←⊂'SelItems'(fns≡¨⊂4↓demo)  ⍝ append it to this element ...
+ :EndIf
 (sf,'.MENU') eWC 'Combo' fns '' ('Size'(23 110))('Event' 'Select' 'CBRunDemo'),topright,noflex/⊂'Posn' (posn+0 0)
 :If 0∧'Windows'≡7↑⊃'.' ⎕WG 'APLVersion'
    (sf,'.USEWIN32') eWC 'Button' 'Win32' ('Size'(23 50))('State' JSWC.USEWIN32)('Style' 'Check'),topright,noflex/⊂'Posn' (posn+25 0)

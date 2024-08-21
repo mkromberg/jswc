@@ -43,7 +43,7 @@
      :EndIf
 
  :Case 1 ⍝ Browser
-     ⎕←'Connect Browser now...'
+     ⎕←'Connect Browser to port ',(⍕JSWC.PORT),' ...'
      :Repeat
         ⍞←'.'
         ⎕DL 1
@@ -59,6 +59,6 @@
          ∘∘∘ ⍝ Abnormal web termination
      :EndIf
 
- :Case 2 ⍝ Multi
-     ⎕←'Running in Multi mode'
- :EndSelect
+  :Case 2 ⍝ Multi
+     ⎕←'Running in Multi mode on port ',(⍕JSWC.PORT)
+  :EndSelect

@@ -11,6 +11,7 @@
 ⍝ w: log eW* object/property access (for testing)
 ⍝ N: Explicit NQ
 ⍝ P: ProcessEvent
+⍝ G: WG
 
  →((mode∊LOGMODES)∨('w'∊LOGMODES)∧mode≡'E')↓0
  ⎕←((,'ZI2,<:>,ZI2,<.>,ZI3'⎕FMT 1 3⍴¯3↑⎕TS),' ',mode,':')msg

@@ -82,7 +82,7 @@
      nq.⎕EX'Event'
      NQ.Event←nq
      NQ.⎕EX'NQ'
-     tkn←DQ_TOKENBASE+TOKENSTEP×1
+     tkn←DQ_TOKENBASE+TOKENSTEP×1⌈ID×MODE=2
      :If 'N'∊LOGMODES
          'N'Log'TPUT to token ',(⍕tkn),': ',msg←1 ⎕JSON⍠'HighRank' 'Split'⊢NQ
      :EndIf

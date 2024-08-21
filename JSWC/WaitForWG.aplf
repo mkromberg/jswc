@@ -2,13 +2,10 @@
 
  wx←Props≡'WX' ⍝ A WX rather than a WG
 
- token←WG_TOKENBASE+TOKENSTEP×1
+ token←WG_TOKENBASE+TOKENSTEP×1⌈ID×MODE=2
 AGAIN:
-⍝ :If 'DQ'≡(⎕JSON msg).WX.Method
-⍝     j←⎕TGET token
-⍝ :Else
-     j←WG_TIMEOUT ⎕TGET token
-⍝ :EndIf
+ 'G' Log 'WaitForWG waiting on token ',(⍕token),' for ',,⍕Props
+ j←WG_TIMEOUT ⎕TGET token
  :If 0=≢j
      'W' Log 'Client did not respond within ',(⍕WG_TIMEOUT),' seconds.'
      'W' Log 'Request was: ',msg

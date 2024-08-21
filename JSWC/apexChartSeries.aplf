@@ -42,7 +42,6 @@
      :If 0<≢i←⍸n≥2                          ⍝ Got name?
          series[i].name←2⊃¨data[i]
      :AndIf 0<≢i←⍸n≥3                       ⍝ Got xvalues?
-         'yvalue and xvalue lengths do not match' ⎕SIGNAL 501
          series[i].data.x←3⊃¨data[i]
      :AndIf 0<≢i←⍸n≥4                       ⍝ Got chart type
          series[i].type←4⊃¨data[i]
