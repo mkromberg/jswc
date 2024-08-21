@@ -1,5 +1,5 @@
 r←{X} ∆WN Y;⎕TRAP;caller
-caller←⊃⎕RSI~⎕THIS
+caller←findCaller
 
 :If Y∧.=' '
     →0 ⊣ r←⍬

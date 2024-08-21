@@ -4,7 +4,7 @@
 
  formsize←600 400
  (rows cols)←3 2
- 'F1'eWC'Form' 'Boxes and Lines'(50 50)(600 400)('Coord' 'Pixel')
+ 'F1'eWC'Form' 'Boxes and Lines'(50 50)(600 400)('Coord' COORD)
  'F1.FNT' eWC 'Font' 'Segoe UI' ('Size' 20)
 
  'F1.BX'eWC'SubForm'('Posn'(100 10))('Size'(formsize-110 20))('EdgeStyle' 'Groove') ⍝ To draw boxes in

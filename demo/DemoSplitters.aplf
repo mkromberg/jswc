@@ -12,7 +12,7 @@
  colors←'Red' 'Blue' 'Green'
 
  (depth width)←800 800
- 'F1'eWC'Form' 'Splitters and Groups'(50 50)(depth width)('Coord' 'Pixel')('Event' 'Configure' 'CBUpdateSplit')
+ 'F1'eWC'Form' 'Splitters and Groups'(0 0)(depth width)('Coord' 'Pixel')('Event' 'Configure' 'CBUpdateSplit')
  imagefiles←'/images/'∘,¨'Folder-Closed.png' 'Folder-Open.png' 'Price-Ticket.png'
  'IL'eWC'ImageList'('Size'(16 16))('Masked' 2)('Files' imagefiles)
 

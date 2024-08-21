@@ -1,8 +1,9 @@
- {R}←Name ∆WC Props;p;m;WC;msg;length;m2;m3;z;type;class;ref;propnames;temp;proplist;expr;caller;deprecatedprops;props;pn;f;tn;i;ns;okprops;⎕TRAP;depth;valid;values;lcp;pi;ix;PropList;allprops;AllProps;n;cp;v;conn;folder
+ {R}←Name ∆WC Props;p;m;WC;msg;length;m2;m3;z;type;class;ref;propnames;temp;proplist;expr;caller;deprecatedprops;props;pn;f;tn;i;ns;okprops;⎕TRAP;depth;valid;values;lcp;pi;ix;PropList;allprops;AllProps;n;cp;v;conn;folder;form;WS;hr;modal
  ⎕TRAP←0 'S'
+ R←⍬
  deprecatedprops←,⊂'3D' ⍝ No longer appear in PropList
-
- caller←⊃⎕RSI
+ LogCalls Name 'WC' Props
+ caller←findCaller
  Name←caller removeCaller Name
 
  Props←,⊆Props
@@ -85,17 +86,35 @@
      ⍝ (⍎R).⎕FX _trigger_ ⍝ Define trigger function
  :EndIf
 
- :If USEHR∧type≡'form'
+ modal←(⊂type)∊⎕C modalClasses
+ :If USEHR∧(type≡'form')∨modal
      :If 0≠≢z←MakeForm
          z ⎕SIGNAL 11
      :EndIf
  :EndIf
 
- :If type≡'form'
-     :If (caller⍎Name,'.Coord')≢'Pixel'
-         'Coord must be Pixel'⎕SIGNAL 11
+ :If type≡'menubar' ⍝ Move form to make room for new MenuBar
+     form←(-(⌽Name)⍳'.')↓Name
+     WS←⎕NS''
+     WS.WS←⎕NS''
+     WS.WS.(ID Properties)←form(⎕NS'')
+     WS.WS.Properties.Posn←(1+USEHR)⊃(caller⍎form,'.Posn') MENUOffset
+     sendObject WS form
+ :AndIf USEHR       ⍝ Need to adjust size of HTMLRenderer
+     hr←caller⍎form,'.HR'
+     hr.Size+←MENUOffset
+ :EndIf
+
+ :If (type≡'form')∨modal
+     :If 2=caller.⎕NC Name,'.Coord'
+     :AndIf ~(⊂caller⍎Name,'.Coord')∊'Pixel' 'ScaledPixel'
+         'Coord must be Pixel or ScaledPixel'⎕SIGNAL 11
      :EndIf
      SendSettings 2⊃getConnection caller Name
+ :EndIf
+
+ :If type≡'imagelist'
+     ⍎(⍕caller),'.',Name,'.(ImageCount←≢Files)' ⍝ Update read-only ImageCount
  :EndIf
 
  :If RECORD ⍝ Collecting lists

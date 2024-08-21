@@ -13,8 +13,15 @@
  'F1.MB.Col.Red'eWC'MenuItem' '&Red'('Event' 'Select' 'JSWCUpdate')
  'F1.MB.Col.Blue'eWC'MenuItem' '&Blue'('Event' 'Select' 'JSWCUpdate')
  'F1.MB.Col.Green'eWC'MenuItem' '&Green'('Event' 'Select' 'JSWCUpdate')
+ 'F1.MB.More'eWC'Menu' 'More'
+ 'F1.MB.More.MI1'eWC'MenuItem' '&Circle'
+ 'F1.MB.More.MI2'eWC'MenuItem' '&Howdy'
+ 'F1.MB.More.MI3'eWC'MenuItem' 'Pol&y'
+ 'F1.MB.More.MI4'eWC'MenuItem' '&Rect'
+ 'F1.MB.More.MI5'eWC'MenuItem' '&Text'
+ 'F1.MB.More.MI6'eWC'MenuItem' '&Help!'
 
- 'F1.Players'eWC'Grid'('ColTitles'('Name' 'Gender' 'Birthday' 'Score' 'Expert'))('Posn'(10 10))('Size'(100 480))('TitleWidth' 0)('ShowInput' 1)('Event' ('CellChanged' 'CellMove')'JSWCUpdate')
+ 'F1.Players'eWC'Grid'('ColTitles'('Name' 'Gender' 'Birthday' 'Score' 'Expert'))('Posn'(10 10))('Size'(100 480))('TitleWidth' 0)('ShowInput' 1)('Event' ('CellChanged' 'CellMove' 'KeyPress')'JSWCUpdate')
  'F1.Players.Name'eWC'Edit'('MaxLength' 10)('Size'(23 100))
  'F1.Players.Gender'eWC'Combo'('Items'('Male' 'Female'))('Size'(23 100))
  'F1.Players.DOB'eWC'Edit'('FieldType' 'Date')('Size'(23 100))⍝('ShowDatePicker' 1)

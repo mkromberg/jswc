@@ -1,14 +1,17 @@
  {R}←Name ∆WS Props;WS;msg;ws;i;z;ref;expr;caller;⎕TRAP;proplist;pname;names;values;PropList;m;class;type;ix;HR;e;objref
+ R←⍬
  ⎕SIGNAL (2>|≡Props)/11
  Props←,Props
  Name←⍕∊Name
 
  ⎕TRAP←0 'S'
+ LogCalls Name 'WS' Props
  :If (⊂,Name)∊,¨'⎕SE' '#' '.' ⍝ Pass WS of System properties through
      →0⊣R←Name ⎕WS Props
  :EndIf
 
- caller←⊃⎕RSI
+ caller←findCaller
+ Name←caller removeCaller Name
  (type class objref)←getObj Name
  ('Not a JSWC object: ',(⍕caller),'.',Name)⎕SIGNAL (0=≢type)/11
 
@@ -51,7 +54,7 @@
      :EndIf
  :EndIf
 
- values←names(type fixUpProps)values       ⍝ Regularise things for the poor JS code
+ values←names((⎕C type) fixUpProps)values       ⍝ Regularise things for the poor JS code
  :If 0≠i←(1+≢names)-(⌽names)⍳⊂'Event'      ⍝ Last Event
  :AndIf 0 0≢i⊃values                       ⍝ Reset
  :AndIf 0≢⍴e←caller⍎Name,'.Event'          ⍝ Event property is "additive"
@@ -71,6 +74,10 @@
  :ElseIf 0≠≢names
      expr←'.(',(⍕names),')←',(1≠≢values)↓'⊃values'
      ⍎(⍕caller),'.',Name,expr ⍝ Update "server-side DOM"
+ :EndIf
+
+ :If type≡'imagelist'
+     ⍎(⍕caller),'.',Name,'.(ImageCount←≢Files)' ⍝ Update read-only ImageCount
  :EndIf
 
  :If RECORD ⍝ Collecting lists

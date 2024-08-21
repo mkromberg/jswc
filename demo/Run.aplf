@@ -2,12 +2,14 @@
  ⍝ Initialise the Demo application
  ⍝ web: 'Desktop' (0), 'Browser' (1) or 'Multi' (2)
 
+ COORD←'Pixel'
  JSWC←##.JSWC
  :If 0<≢r←2 ⎕NQ'.' 'GetEnvironment' 'EWC_PORT'
      JSWC.PORT←⍬⍴2⊃⎕VFI r
  :Else
      JSWC.PORT←22322
  :EndIf
+ JSWC.SHOWDEVTOOLS←0
  root←{⊃⎕NPARTS ¯1↓⍵}⊃⎕NPARTS 4⊃5179⌶⊃⎕SI
  JSWC.RESOURCES←1 2⍴'images'(root,'/demo/images')
 
@@ -32,16 +34,16 @@
      ⎕SE.Posn←200 300
      DemoMenu 1
      :If JSWC.NOIDQ
-         r←eDQ'F1'
+        r←eDQ'F1'
+        JSWC.Stop
+        ⎕EX'F1'
      :EndIf
-     ⍝ ⎕EX'F1'
-     ⍝ JSWC.Stop
 
  :Case 1 ⍝ Browser
-     ⎕←'Connect Browser now...'
+     ⎕←'Connect Browser to port ',(⍕JSWC.PORT),' ...'
      :Repeat
-         ⍞←'.'
-         ⎕DL 1
+        ⍞←'.'
+        ⎕DL 1
      :Until 2=⎕NC'_JSWC.ID'
      ⎕←''
      :If '''Browser'''≡¯5↑2 ⎕NQ'.' 'GetEnvironment' 'LX'
@@ -54,6 +56,6 @@
          ∘∘∘ ⍝ Abnormal web termination
      :EndIf
 
- :Case 2 ⍝ Multi
-     ⎕←'Running in Multi mode'
- :EndSelect
+  :Case 2 ⍝ Multi
+     ⎕←'Running in Multi mode on port ',(⍕JSWC.PORT)
+  :EndSelect

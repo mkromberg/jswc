@@ -2,7 +2,9 @@
  ⎕IO←⎕ML←1
 
  ⎕TRAP←0 'S'
- :Select ≢args←,⊆args
+
+ :If 80=⎕DR args ⋄ args←⊆args ⋄ :EndIf
+ :Select ≢args←,args
  :Case 1 ⋄ mode←⊃args ⋄ CODELOCATION←⊃⎕RSI
  :Case 2 ⋄ (mode CODELOCATION)←args
  :Else
@@ -26,6 +28,8 @@
  :Else
      'JSWC only works with named namespaces'⎕SIGNAL 11
  :EndTrap
+
+ TOOLSPACES←⎕THIS,{0::⍬ ⋄ ∪#.DWI∩⎕RSI}⍬
 
  :If mode=2
      :If CODELOCATION∊# ⎕SE
@@ -65,6 +69,9 @@
  :If 0=⎕NC'BREAK'
      BREAK←⍬ ⍬ ⍝ IDs Events
  :EndIf
+ :If 0=⎕NC'SHOWDEVTOOLS'
+     SHOWDEVTOOLS←0
+ :EndIf
 
 ⍝ Establish API in calling space unless prefix≡''
  :If 0≠≢prefix
@@ -102,10 +109,12 @@
  WSS.OnTimeout←(⍕⎕THIS),'.onTimeout'
  WSS.Handler←'Handler'
  WSS.Port←PORT
+ WSS.WaitTimeout←500
 
  allocateTokens
+ DQTOKENS←⍬      ⍝ No tokens currently being DQ's
 
- HRBorder←63 17  ⍝ Additional space required for HR chrome
+ HRBorder←40 17  ⍝ Additional space required for HR chrome
  MENUOffset←23 0 ⍝ Space to allow for menu
  NOIDQ←1      ⍝ No interactive DQ
  WGID←0
@@ -113,10 +122,10 @@
  SESSIONS←⍬ ⍬ ⍝ (IDs, Connections, SessionData)
  QUEUEIDS←QUEUEDATA←⍬
 
- (EVENTNUMS EVENTNAMES)←↓⍉↑2031⌶0
+ (EVENTNUMS EVENTNAMES)←↓⍉EVENTS
  eventNames←⎕C EVENTNAMES
 
- (JSKeys APLKeys)←↓⍉keyMap
+ (JSKeys APLKeys)←1 1 0 0⊂keyMap ⋄ JSKeys←,JSKeys
 
  z←WSS.Start 0
  :If 0≠⊃⊃z

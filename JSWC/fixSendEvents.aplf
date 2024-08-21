@@ -4,7 +4,7 @@
 
  props.⎕EX'Data' ⍝ Never send Data property to JS client
 
- :If 0≠≢names←props.⎕NL-9              ⍝ Do not try to serialise namespaces
+ :If 0≠≢names←'Options' 'Series'~⍨props.⎕NL-9              ⍝ Do not try to serialise namespaces
      values←,props⍎⍕names
      values←(1+≢⍕caller)↓¨⍕¨values
      ⍎'props.(',(⍕names),')←',(1≠≢names)↓'⊃values'

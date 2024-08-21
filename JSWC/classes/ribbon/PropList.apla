@@ -2,4 +2,9 @@
  'Type'
  'Visible'
  'Size'
+ 'FCol'
+ 'BCol'
+ 'TitleBCol'
+ 'ImageListObj'
+ 'Data'
 )

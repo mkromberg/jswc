@@ -8,4 +8,6 @@
  'FontObj'
  'Visible'
  'Styles'
+ 'FCol'
+ 'BCol'
 )

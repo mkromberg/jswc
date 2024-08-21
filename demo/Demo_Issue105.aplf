@@ -57,6 +57,7 @@
  ⍝ (uAppW,'∆pP1.B31005') removed above
  (uAppW,'∆pP1.I99')(uAppW,'∆pP1.I1')(uAppW,'∆pP1.I999')(uAppW,'∆pP1.I0')eWS¨⊂('Event' 'Select' 'onISelect')('Event' 'KeyPress' 'onKeyPress')('Event' 'MouseUp' 'LastMouseClick' 4)
 
+ 'F1.∆pP1.B31001'eWS'Text' 'secret'
  'F1.∆pP1.B31003'eWS'Text' 'WS1'
  'F1.∆pP1.B31002'eWS'Text' 'SUPER'
 ⍝ 'F1.∆pP1.B31001'eWS'Text' ''

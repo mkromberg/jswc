@@ -2,6 +2,8 @@
  'Type'
  'Size'
  'Start'
+ 'End'
+ 'Points'
  'ArcMode'
  'FCol'
  'FStyle'

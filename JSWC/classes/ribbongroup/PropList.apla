@@ -2,4 +2,6 @@
  'Type'
  'Title'
  'Size'
+ 'BorderCol'
+ 'Data'
 )

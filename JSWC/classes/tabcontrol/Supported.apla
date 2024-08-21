@@ -5,4 +5,7 @@
  'MultiLine'
  'Visible'
  'Type'
+ 'FCol'
+ 'BCol'
+ 'ActiveBCol'
 )
