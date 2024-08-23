@@ -1,4 +1,4 @@
- r←eWC_test sinkListOfTests;IHaveRestarted;exceptions;ignoreChildren;ignoreChildren_of
+ r←eWC_test sinkListOfTests;IHaveRestarted;exceptions;ignoreChildren;ignoreChildren_of;file2
  ;demos;d;⎕TRAP;f;t;file;sup;rC;z;lastd;dl;de;from;to;arg;msg;src
  ;v;pi;sp;Supported;PropList;up;ctl;data;get;ListOfTests;tested
  ;ListOfDemos;Dynamic;logs;NL;log;f_olog;lg
@@ -140,15 +140,16 @@ restart:
                              1 #.tests.demo.⎕STOP t
                          :EndIf
                          :Trap ##.halt↓0
-                             msg,←#.tests.demo⍎t,' ⍬'
-                             ⎕dl 2   ⍝ allow some time 
+                             t_msg←#.tests.demo⍎t,' ⍬'
+                             ⎕DL 2   ⍝ allow some time
                              tested,←⊂t
-                             :If 0<≢msg    ⍝ msg should be a simple NL-separated vector.
+                             :If 0<≢t_msg    ⍝ msg should be a simple NL-separated vector.
                              ⍝:AndIf 1<≡msg ⍝ if it isn't,
-                                 msg←∊(⊆msg),¨NL ⍝ make it so
+                                 t_msg←∊(⊆t_msg),¨NL ⍝ make it so
+                             msg,←t_msg
                              :EndIf
                          :Else
-                             msg,←'error while executing test "',t,'": ',(⎕JSON⍠'Compact' 0)⎕DMX
+                             msg,←'error while executing test "',t,'": ',NL,(⎕JSON⍠'Compact' 0)⎕DMX
                          :EndTrap
                      :ElseIf ##.halt
                          ⎕←'no test found for demo Demo',d   ⍝ interrupt if -halt switch was set
@@ -177,9 +178,10 @@ restart:
                              #.S.SaveScreenshot file
                              ('Type' 'I')##.Log'Saved refence screenshot "',file,'"'
                          :Else
-                             file2←(¯4↓file),'-curr.png'    ⍝ save screenshot under different name
+                             file2←(1⊃⎕NPARTS ¯1↓1⊃⎕NPARTS file),(2⊃⎕NPARTS file),'-curr.png'    ⍝ save screenshot under different name
+                             #.S.SaveScreenshot file2
                              :If 0 Check file CompareScreenshots file2  ⍝ compare screenshots
-                                 r,←⊂'Current Screenshot of demo ("',file2,'") did not  match reference screenshot ("',file,'")'
+                                 r,←'Current Screenshot of demo ("',file2,'") did not match reference screenshot ("',file,'")',NL
                              :EndIf
                          :EndIf
                      :EndIf
@@ -253,6 +255,7 @@ restart:
          }¨⊂⍵
      }
      :If 0<≢z←⍸(⊂'error'){⍺≡⍥⎕C ⍵}¨data get'Type'
+     ⎕TRAP←0'S' ⋄ (⎕lc[1]+1)⎕stop 1⊃⎕xsi
          r,←'Caught ',(⍕≢z),' errors while running the tests (for details please search ',f_olog,' for "Error"): ',NL,∊((⊂'  '),¨∪data[z].Message),¨NL
          data←data[(⍳≢data)~z]
      :EndIf
