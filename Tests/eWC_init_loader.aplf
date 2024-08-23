@@ -1,12 +1,14 @@
  eWC_init_loader path;g
 ⍝ load the tools we need
+ #.DEFAULTS←0(⎕JSON⍠'Dialect' 'JSON5')(1⊃⎕NGET ##.TESTSOURCE,'eWC_defaults.json5')
+
  :If 9=#.⎕NC'tests'
      {}⎕SE.Link.Break #.tests
-     #.⎕ex'tests'
+     #.⎕EX'tests'
  :EndIf
  :If 9=#.⎕NC'demo'
      {}⎕SE.Link.Break #.demo
-     #.⎕ex'demo'
+     #.⎕EX'demo'
  :EndIf
  :If ~##.quiet
      LINK←{⍺←'NADA'
@@ -23,18 +25,25 @@
          ⍺≡'NADA':sink←⎕SE.Link.Import ⍵
          sink←⍺ ⎕SE.Link.Import ⍵}
  :EndIf
- '#.tests'⎕NS''
- LINK #.tests(path,'/tests')
- #.⎕ex'APLProcess'
- IMPORT #'APLProcess'
 
- #.S←#.tests.Selenium.Selenium
+ #.⎕EX'APLProcess'
+ IMPORT #'APLProcess'
 
  EWC_HOME←1⊃1 ⎕NPARTS ##.TESTSOURCE,'../'       ⍝ intentionally global!
  EWC_DPATH←∊1 ⎕NPARTS EWC_HOME,'demo'               ⍝ intentionally global!
+ 
+ '#.tests'⎕NS''
  '#.demo'⎕NS''
- LINK #.demo EWC_DPATH   ⍝ load all demos
 
+ :If _Env'DEVMODE'
+     LINK #.tests(path,'/tests')
+     LIKN #.demo EWC_DPATH   ⍝ load all demos
+ :Else
+     IMPORT #.tests(path,'/tests')
+     IMPORT #.demo EWC_DPATH   ⍝ load all demos
+ :EndIf
+
+ #.S←#.tests.Selenium.Selenium
  #.S.QUIETMODE←##.quiet
  #.S.HOME←EWC_HOME,'Tests/Selenium/'
  CMD_SRV_SUFFIX←''    ⍝ will be appened to the command line used to launch the server

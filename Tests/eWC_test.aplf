@@ -1,6 +1,6 @@
  r←eWC_test sinkListOfTests;IHaveRestarted;exceptions;ignoreChildren;ignoreChildren_of
- ;demos;d;⎕TRAP;f;t;file;sup;rC;z;lastd;dl;de;from;to;arg;msg;src;_Env
- ;DEFAULTS;v;pi;sp;Supported;PropList;up;ctl;data;get;ListOfTests;tested
+ ;demos;d;⎕TRAP;f;t;file;sup;rC;z;lastd;dl;de;from;to;arg;msg;src
+ ;v;pi;sp;Supported;PropList;up;ctl;data;get;ListOfTests;tested
  ;ListOfDemos;Dynamic;logs;NL;log;f_olog;lg
 ⍝ this is admittedly an ugly hack - but I didn't want to waste time fixing it just now...
 ⍝ the problem is that the DTest DSL assumes tests are executed in the ns that DTest created while running the test -
@@ -21,21 +21,12 @@
  ListOfDemos←{((⊂'Demo')≡¨4↑¨⍵)/⍵}ListOfDemos   ⍝ insist on "Demo" prefix (demo... are subroutines!)
  NL←⎕UCS 10
 
- DEFAULTS←0(⎕JSON⍠'Dialect' 'JSON5')(1⊃⎕NGET ##.TESTSOURCE,'eWC_defaults.json5')
  '['⎕NPUT(EWC_HOME,'JSWC/objectlog.json5')1  ⍝ initialise this file so that we can append single log objects to it...
  r←''
  dl←⍬  ⍝ demo list we want to run
  de←⍬  ⍝ demos we NOT want to run
  arg←1↓##.args.Arguments   ⍝ 1st element of arg is the name of the .dylogtest
- _Env←{
-    ⍝ get value of environment variable or #-based variable (case-sensitive, prefixed with 'EWC_')
-    ⍝ defaults taken from DEFAULTS ns.
-     z←2 ⎕NQ #'GetEnvironment'⍵
-     def←{2=#.⎕NC'EWC_',⍵:#⍎'EWC_',⍵ ⋄ DEFAULTS⍎⍵}⍵
-     0=≢z:def
-     (⎕DR def)∊80 160:⍵
-     2⊃⎕VFI ⍵
- }
+
 
  :If 0<≢arg
      :For d :In arg
