@@ -1,5 +1,6 @@
  DemoApexSimpleBar connected;series
-
+ ⎕RL←2017    ⍝ assign a non-zero value to ensure we get predictable random numbers (repeated in every test using ? to ensure repeatability independly of sequence of tests)
+ 
  series←+\?2 10⍴2
 
  'F1'eWC'Form' 'Charts'(50 50)(600 800)('Coord' 'Pixel')

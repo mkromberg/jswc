@@ -1,4 +1,5 @@
  DemoSplitters connected;inputs;scores;TBL;GRID;z;colors;imagefiles;periods;names;expert;type;height;depth;width
+ ⎕RL←2017    ⍝ assign a non-zero value to ensure we get predictable random numbers (repeated in every test using ? to ensure repeatability independly of sequence of tests)
  JSWC.CONNECTED←connected
  :If ~connected
     JSWC.(CONNECTED USEWIN32 LOGMODES)←0 1 ⎕A  ⍝ /// While debugging
