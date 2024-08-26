@@ -1,4 +1,4 @@
- r←TestGrids nul;rows;cols;f_status;cell;ir;ic;xp;o_cell;exp;t;xcell;src;ip;html;val;sel;ID;btn_Where;ID_c;chkbx
+r←TestGrids nul;rows;cols;f_status;cell;ir;ic;xp;o_cell;exp;t;xcell;src;ip;html;val;sel;ID;btn_Where;ID_c;chkbx
  (rows cols)←3 6
  r←''
 
@@ -31,7 +31,7 @@
          src←o_cell.GetAttribute⊂'innerHTML'    ⍝ the html of that cell
          :If 1 Check∨/'type="checkbox"'⍷src
              r,←⊂'Cell[',(⍕ir),';',(⍕ic),'] did not contain a checkbox but "',src,'"'
-             :continue  ⍝ we can't relly check this cell if it does not have a checkbox!
+             :Continue  ⍝ we can't relly check this cell if it does not have a checkbox!
          :EndIf
          :If (⊂val)∊'Yes' 'No'
             ⍝ check if the checkbox reflects that...
@@ -68,7 +68,17 @@
  :EndFor
 
 ⍝ also: click row/col in F1.Table and check that the correct cells are highlighted (css: background: rgb(199, 233, 255) - WIBNI there was a class for that?)
-⍝ anything else we can do with the 2nd grid?
+
+ :For ir :In 1+⍳10
+     :For ic :In 1+⍳10
+         ID←'F1.Table.r',(⍕ir),'.c',⍕ic
+         o_cell←#.S.Find ID
+         src←o_cell.GetAttribute⊂'outerHTML'    ⍝ the html of that cell
+         :If 'right'Check⊃('text-align:\s*(left|right)'⎕S'\1')src
+             r,←⊂'Cell [',(⍕ir),';',(⍕ic),'] does not seem to be right-aligned' ⋄ :EndIf
+     :EndFor
+ :EndFor
+
 end:
  :If 0<≢r
      r←¯1↓∊(⊆r),¨⎕UCS 10
