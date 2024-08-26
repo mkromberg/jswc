@@ -1,9 +1,9 @@
- _Env←{
-    ⍝ get value of environment variable or #-based variable (case-sensitive, prefixed with 'EWC_')
-    ⍝ defaults taken from DEFAULTS ns.
-     z←2 ⎕NQ #'GetEnvironment'⍵
+_Env←{
+    ⍝ get value of environment variable or #-based variable (case-sensitive, prefixed with 'EWC_test_')
+    ⍝ defaults taken from DEFAULTS ns. (using prefix 'EWC_')
+     z←2 ⎕NQ #'GetEnvironment'('EWC_test_',⍵)
      def←{2=#.⎕NC'EWC_',⍵:#⍎'EWC_',⍵ ⋄ #.DEFAULTS⍎⍵}⍵
      0=≢z:def
-     (⎕DR def)∊80 160:⍵
-     2⊃⎕VFI ⍵
+     (⎕DR z)∊80 160:2⊃⎕VFI z
+     z
  }
