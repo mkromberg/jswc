@@ -1,11 +1,17 @@
  DemoApexSineWave connected;options
 
- series←1○+\0,125⍴0.05 ⍝ Do not localise, needed by CBSineWave
+ ∆series←series←1○+\0,125⍴0.05 ⍝ Do not localise, needed by CBSineWave
 
  options←'{chart:{animations:{enabled:false}},'
  options,←'yaxis:{type:"numeric", min:-1, max:1, stepSize:0.25, decimalsInFloat: 2},'
  options,←'xaxis:{labels:{show:false}}}'
 
  'F1'eWC'Form' 'Charts'(50 50)(600 800)('Coord' 'Pixel')
+ 
+ 'F1.lblOFF'eWC'Label' ('Caption' 'Offset')('Posn' (10 10))('Size' (20 60))
+ 'F1.inpOFF'eWC'Edit'('FieldType' 'Numeric')('Value' 0)('Posn' (10 100))('Size' (20 20))('Event' 'Change' 'CBSineWave')
+ 'F1.lblNTMR'eWC'Label' 'Pause Timer'('Posn' (10 150))('Size' (20 100))
+ 'F1.noTimer'eWC'Button'('Style' 'Check')('Value' 0)('Posn' (10 260))
+
  'F1.BAR'eWC'ApexChart'(50 10)(540 780)series'line' ('Options' options)
  'F1.TM'eWC'Timer' 10 ('Active' 1)('Event' 'Timer' 'CBSineWave')

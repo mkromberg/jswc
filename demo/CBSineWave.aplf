@@ -1,3 +1,12 @@
- CBSineWave args
- series←1⌽series
- 'F1.BAR'eWS'Series'series
+ CBSineWave args;offset
+ :Select 1⊃args
+ :Case 'F1.TM'  ⍝ Timer
+     :If ~'F1.noTimer'eWG'State'   ⍝ only repond to timer if we're not disabled
+         series←1⌽series
+         'F1.BAR'eWS'Series'series
+     :EndIf
+ :Case 'F1.inpOFF'   ⍝ user entered a new offset
+     offset←3⊃args
+     series←offset∆⌽series
+     'F1.BAR'eWS'Series'series
+ :EndSelect
