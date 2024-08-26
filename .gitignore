@@ -1,1 +1,3 @@
 JSWC/server/*
+# mkdocs output
+/site/

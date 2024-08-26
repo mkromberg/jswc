@@ -1,0 +1,29 @@
+site_name: EWC User Guide
+repo_url: https://github.com/mkromberg/jswc
+repo_name: mkromberg/jswc
+nav:
+  - Overview:
+    - index.md
+    
+theme:
+  favicon: 'img/favicon-32.png'
+  logo: 'img/dyalog-white.svg'
+  features:
+    - navigation.sections
+    - navigation.instant
+  name: material
+  
+extra:
+  version:
+    provider: mike
+
+extra_css:
+  - style/main.css
+  - style/admonition-ucmdhelp.css
+
+plugins:
+  - search
+
+markdown_extensions:
+  - admonition
+  - abbr

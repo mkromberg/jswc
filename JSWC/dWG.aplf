@@ -10,23 +10,17 @@
  :If (⊂,Name)∊,¨'⎕SE' '#' '.' ⍝ Pass WG of System properties through
      :If (⊃Name)≠'⎕'
      :AndIf (⎕C Props)≡'devcaps'
-        :If (MODE>0)∧(⊂3↑'.'⎕WG'APLVersion')∊'Win' 'Lin'
-         :AndIf 0<≢⊃SESSIONS
-             z←((2+ID⍳⍨⊃SESSIONS)⊃SESSIONS).devCaps
-             size←⊂(1+MODE≠0)⊃z.(ScreenSize ViewPort) ⍝ Browser Size or Screen Size
-             →0⊣R←(⌊0.5+size÷1(z.PPI÷25.4)),¯1 100
-         :Else ⍝ No relevant browser session
-             :If 'Win'≡3↑⊃'.'⎕WG'APLVersion'
-                 →0⊣R←Name ⎕WG Props
-             :Else
-                 m←⎕D∊⍨z←⊃⎕SH'xdpyinfo | grep dimensions'
-                 →0⊣R←(1 0 1 0⊂2⊃⎕VFI m\m/z),¯1 100
-             :EndIf
-         :EndIf
+        :If (MODE>0)∨'Mac'≡3↑⊃'.' ⎕WG 'APLVersion'
+        :AndIf 0<≢⊃SESSIONS
+           z←((2+ID⍳⍨⊃SESSIONS)⊃SESSIONS).devCaps
+           size←⊂(1+MODE≠0)⊃z.(ScreenSize ViewPort) ⍝ Browser Size or Screen Size
+           →0⊣R←(⌊0.5+size÷1(z.PPI÷25.4)),¯1 100
+        :Else ⍝ No relevant browser session
+           →0⊣R←DevCaps
+        :EndIf
      :Else
          →0⊣R←Name ⎕WG Props
      :EndIf
-
  :EndIf
 
  WG←⎕NS''

@@ -31,7 +31,12 @@
  :EndIf
 
  :Trap 6
-     event←gui⍎z←ID,'.Event'
+     :If ID≡⊂'null'
+         'E'Log'Client sent null ID'
+         →0
+     :Else
+         event←gui⍎z←ID,'.Event'
+     :EndIf
  :Else
      'E'Log'*** Unable to find ',z,', cannot process ',⎕JSON ns
      →0

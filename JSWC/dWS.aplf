@@ -7,7 +7,12 @@
  ⎕TRAP←0 'S'
  LogCalls Name 'WS' Props
  :If (⊂,Name)∊,¨'⎕SE' '#' '.' ⍝ Pass WS of System properties through
-     →0⊣R←Name ⎕WS Props
+    :Trap 0
+       →0⊣R←Name ⎕WS Props
+    :Else
+       'E' Log 'Unable to set ',(,⍕Props),' on ',Name
+       →0
+    :EndTrap
  :EndIf
 
  caller←findCaller
