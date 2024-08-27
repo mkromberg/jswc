@@ -1,0 +1,12 @@
+ DemoText2 connected
+ ⍝ changing the value from a 1-row mat to a vector could be a challenge, so let's make sure it works ;)
+
+ JSWC.CONNECTED←connected
+ ⎕PW←1000
+
+ 'F1'eWC'Form' 'Changing the text property'('Coord' 'Pixel')
+ 'F1.FNT'eWC'Font' 'Segoe UI'('Size' 20)
+
+ 'F1.T1'eWC('Type' 'Text')('Text' (,[.5]'Hello world!'))('Points'(40 20))('FCol' ¯18)('FontObj' 'F1.FNT')
+ 'F1.T1'eWS'Text' (,[.5]'I am a test')
+ 'F1.T1'eWS'Text' 'finally...a vector!'
