@@ -9,10 +9,6 @@
       
       
       
-        <link rel="prev" href="../Installation/">
-      
-      
-        <link rel="next" href="../Configuration/">
       
       
       <link rel="icon" href="../../img/favicon-32.png">
@@ -20,7 +16,7 @@
     
     
       
-        <title>Initialising an EWC session - EWC User Guide</title>
+        <title>The Demo Application - EWC User Guide</title>
       
     
     
@@ -66,7 +62,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#initialising-an-ewc-session" class="md-skip">
+        <a href="#the-demo-application" class="md-skip">
           Skip to content
         </a>
       
@@ -105,7 +101,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Initialising an EWC session
+              The Demo Application
             
           </span>
         </div>
@@ -349,8 +345,6 @@
       
   
   
-    
-  
   
   
     
@@ -362,11 +356,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
         
           
           <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
@@ -380,7 +374,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             Getting Started
@@ -412,19 +406,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../Initialisation/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -433,7 +418,6 @@
   
 
       </a>
-      
     </li>
   
 
@@ -1327,37 +1311,24 @@
   
 
 
-<h1 id="initialising-an-ewc-session">Initialising an EWC session</h1>
-<p>Once you have a folder on your machine containing EWC, you can load it into a Dyalog APL session (18.2 or later is required):</p>
-<p><code>]link.import # /path/to/ewc</code></p>
-<p>Where <code>/path/to/ewc</code> is the name of the folder that you created during <a href="../Installation/">installation</a>.</p>
-<h1 id="ewcinit">EWC.Init</h1>
-<p>The function EWC.Init takes a right argument of the mode that you want to 
-enable: </p>
-<ul>
-<li>'Desktop' to run each form in an HTMLRenderer</li>
-<li>'Browser' to allow a single session from a browser</li>
-<li>'Multi' to allow multiple sessions from browsers (more about that later)</li>
-</ul>
-<p>For example:</p>
-<p><code>EWC.Init 'Desktop'</code></p>
-<p><code>EWC.Init</code> will also create cover-functions <code>eWC</code>, <code>eWS</code> and so on, in the 
-namespace from which Init was called. These are intended to be used
-as replacements for the system functions <code>⎕WC</code>, <code>⎕WS</code>, etc.</p>
-<p>If you would like to use a different prefix letter for these functions, you can 
-provide a left argument to change the names. For example,</p>
-<p><code>'x' EWC.Init 'Browser'</code></p>
-<p>Will create functions <code>xWC</code>, <code>xWS</code> etc, and start EWC in Browser mode.</p>
-<h1 id="multi-mode">'Multi' Mode</h1>
-<p>In Desktop and Browser mode, your application can call EWC.Init and then immediately
-continue to create GUI components using <code>eWC</code>. In browser mode, EWC.Init will not
-return until a browser is connected.</p>
-<p>However, in Multi mode, your application namespace must contain a 
-function called <code>Initialise</code> which will be called when each new browser session starts,
-to create the GUI for the new session.</p>
-<p>If your application namespace contains a function called <code>onClose</code>, then it will be 
-called when the browser session is terminated.</p>
-<p>Note that in Multi mode, the only permitted prefix is 'e'.</p>
+<h1 id="the-demo-application">The Demo Application</h1>
+<p>The EWC repository contains a folder named <code>demo</code>, which contains a
+collection of forms that have been used to test EWC during development,
+After linking the EWC folder to your active workspace, you can launch
+this application by calling <code>demo.Run</code> with a right argument that selects
+the mode (one of 'Desktop', 'Browser' or 'Multi'):</p>
+<p><code>]link.create # /path/to/ewc</code>
+<code>demo.Run 'Desktop'</code></p>
+<p>Every window that is created by the Demo app contains a drop-down at the
+top right, which allows you to pick one of the sample apps. There is also
+a button with the caption "Stop", which can be used to end the demo.
+Finally, for use by developers (or curious users), and when running in
+Desktop modde, there is a button with the caption "Inspect", which will
+open a DevTools window for the active HTMLRenderer window.</p>
+<p>The demo application also works in 'Multi' mode, which means you can 
+connect several browser sessions to it and see how cloning works. The <code>demo</code>
+namespace contains both an <code>Initialise</code> function that starts a new session
+in Multi mode, and an <code>onClose</code> function that is called when a session ends.</p>
 
 
 

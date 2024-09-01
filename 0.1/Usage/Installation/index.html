@@ -449,6 +449,24 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#the-demo-application" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Demo Application
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#building-your-own-application" class="md-nav__link">
+    <span class="md-ellipsis">
+      Building your Own Application
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#ewc-development" class="md-nav__link">
     <span class="md-ellipsis">
       EWC Development
@@ -1375,6 +1393,24 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#the-demo-application" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Demo Application
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#building-your-own-application" class="md-nav__link">
+    <span class="md-ellipsis">
+      Building your Own Application
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#ewc-development" class="md-nav__link">
     <span class="md-ellipsis">
       EWC Development
@@ -1408,11 +1444,16 @@
 <h2 id="verify-installation">Verify Installation</h2>
 <p>The simplest way to verify installtion is to run the demo application:</p>
 <p><code>]link.create # /path/to/ewc</code>
-<code>demo.Run ''</code></p>
+<code>demo.Run 'Desktop'</code></p>
 <p>This will pop up a form with a Dyalog logo and a dropdown on the right which allows
 you to select a variety of simple test applications that have been used to test
 EWC during development.</p>
-<p>Alternatively, after linking ewc, you can create a form as follows:</p>
+<h2 id="the-demo-application">The Demo Application</h2>
+<p>The <a href="../Demo/">demo application</a> provides several examples that illustrate the use of
+EWC. It supports Desktop, Browser and Multi modes - and will run in the mode that you
+select using the right argument.</p>
+<h2 id="building-your-own-application">Building your Own Application</h2>
+<p>After linking ewc, you can create a form as follows:</p>
 <p><code>EWC.Init 'Desktop'</code>
 <code>'F1' eWC 'Form' 'Hello World' (10 10) (400 600)</code></p>
 <p>This should create an HTMLRenderer window with the caption "Hello World". For more
