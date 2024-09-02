@@ -1,4 +1,4 @@
- JSWCUpdate args;e;scores;cols;fcol;pass;ii;ids;target;row;col;scroll;sel;mouse;changed;newval;txt;ns;split;z;ct;in;input;seltext;move;curcell;values
+ EWCUpdate args;e;scores;cols;fcol;pass;ii;ids;target;row;col;scroll;sel;mouse;changed;newval;txt;ns;split;z;ct;in;input;seltext;move;curcell;values
  Event←⎕NS''
  e←Event.Event←⎕NS''
  e.(ID EventName Info)←(2↑args),⊂2↓args
@@ -18,18 +18,18 @@
 
  :Select 1⊃args
  :Case 'F1.Holdings'
-     :If ~#.JSWC.CONNECTED
+     :If ~#.EWC.CONNECTED
      :AndIf 'CellChanged'≡2⊃args
          ns←⎕NS''
          ns.FormatCell←⎕NS''
          ns.FormatCell.(ID Cell Value)←(1⊃args)(args[3 4])(5⊃args)
          ⎕←'Testing formatCell:'
          ⎕←'  In:  ',⎕JSON ns
-         ⎕←'  Out: ',⎕THIS #.JSWC.formatCell ns
+         ⎕←'  Out: ',⎕THIS #.EWC.formatCell ns
      :EndIf
 
      :If 'CellMove'≡2⊃args
-         ⎕←'JSWCUpdate: CellMove to ',⍕2↓args
+         ⎕←'EWCUpdate: CellMove to ',⍕2↓args
      :EndIf
 
  :Case 'F1.Home'

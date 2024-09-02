@@ -1,5 +1,5 @@
  DemoFonts connected;size;italic;uline;weight;rotate;f;fonts;t;cols;fs;row;col;fontobj;p
- JSWC.CONNECTED←connected
+ EWC.CONNECTED←connected
  ⎕PW←1000
 
  fonts←'Segoe UI' 'Courier New' 'Times New Roman' 'Arial' 'APL385 Unicode'

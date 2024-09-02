@@ -1,5 +1,5 @@
  Demo_Issue171 connected;folder;tn;cn;name;op;parms;ids;ix;heights
- JSWC.CONNECTED←connected
+ EWC.CONNECTED←connected
 
  folder←⊃⎕NPARTS 4⊃5179⌶⊃⎕SI
  tn←(folder,'/replay_logs/issue_162')⎕FSTIE 0

@@ -1,5 +1,5 @@
  DemoScroll connected;inputs;scores;TBL;GRID;z
- JSWC.CONNECTED←connected
+ EWC.CONNECTED←connected
  ⎕PW←1000
  n←10
  max←1000
@@ -7,7 +7,7 @@
  :If connected=0
      eWC←⎕WC ⋄ eWG←⎕WG ⋄ eWS←⎕WS
  :Else
-     eWC←JSWC.∆WC ⋄ eWG←JSWC.∆WG ⋄ eWS←JSWC.∆WS
+     eWC←EWC.∆WC ⋄ eWG←EWC.∆WG ⋄ eWS←EWC.∆WS
  :EndIf
 
  'F1'eWC'Form' 'Virtual Grid'(50 50)(500 800)('Coord' 'Pixel')('Event' 'KeyPress' 'CBUpdateScroll')

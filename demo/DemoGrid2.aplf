@@ -1,5 +1,5 @@
  DemoGrid2 connected;cols
- JSWC.CONNECTED←connected
+ EWC.CONNECTED←connected
  ⎕PW←1000
 
  'F1'eWC'Form' 'Grid Movement'(50 50)(450 600)('Coord' 'Pixel')

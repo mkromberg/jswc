@@ -1,5 +1,5 @@
  DemoTabs connected;f;i;tb;sf
- JSWC.CONNECTED←connected
+ EWC.CONNECTED←connected
  ⎕PW←1000
 
  fonts←'Courier New' 'Times New Roman' 'Arial' 'APL385 Unicode'

@@ -1,0 +1,19 @@
+ DemoFlexLogin connected;formsize;vert;horz;series
+
+ formsize←340 200
+ USERID←'' ⍝ Global state
+
+ vert←'flex-direction: column, margin: 5px'
+ horz←'flex-direction: row, flex-wrap: wrap, justify-content: space-between, gap: 5px, align-items: end'
+
+ 'F1'eWC'Form' 'Please Login'(50 50)formsize('Coord' 'Pixel')('Flex' 2)('Styles'vert)
+
+ 'F1.INPUT'eWC'SubForm'('Size'(100,1↓formsize))('Border' 1)('Flex' 1)('Styles'horz)
+
+ 'F1.INPUT.DEMO' eWC 'SubForm' ('Flex' 1) vert    ⍝ Make container for Demo Menu
+ 'F1.INPUT.USERID' 'User ID'  LabelAbove 'Edit' ''
+ 'F1.INPUT.PWD'    'Password' LabelAbove 'Edit' '' ('Password' '*')
+ 'F1.INPUT.DATA'   'Data'     LabelAbove 'Edit' (⍕?12⍴100)
+
+ 'F1.INPUT.LOGIN'eWC'Button' 'Login'('Size'(23 80))('Event' 'Select' 'CBLogin')
+ 'F1.INPUT.CHART'eWC'Button' 'Chart'('Size'(23 80))('Event' 'Select' 'CBLogin')

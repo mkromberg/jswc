@@ -1,6 +1,0 @@
-r←Help
-r←'For documentation on JSWC:' ''
-r,←⊂'     JSWC.Doc.Differences    ⍝ for a general list of differences to the original implementation'
-r,←⊂'     JSWC.Doc.Classes        ⍝ for a list of supported classes'
-r,←⊂'     JSWC.Doc.Details ''Edit'' ⍝ for details of support for one class (in this case Edit)'
-r←⍪r

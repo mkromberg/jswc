@@ -1,5 +1,0 @@
-r←findCaller
-r←⊃⎕RSI~TOOLSPACES
-:If 9=⎕NC 'r._JSWC_GUI_NS'
-    r←r._JSWC_GUI_NS
-:EndIf

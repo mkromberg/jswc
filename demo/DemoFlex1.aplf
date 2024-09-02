@@ -1,5 +1,5 @@
  DemoFlex1 connected;formsize;formcss;namecss;emailcss;buttoncss
- JSWC.CONNECTED←connected
+ EWC.CONNECTED←connected
  ⎕PW←1000
 
  formsize←600 600

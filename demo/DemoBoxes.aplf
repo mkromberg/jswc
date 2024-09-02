@@ -1,5 +1,5 @@
  DemoBoxes connected;BY;BX;RY;RX;P;formsize;cols;rows;points;sizes;radii;colours
- JSWC.CONNECTED←connected
+ EWC.CONNECTED←connected
  ⎕PW←1000
 
  formsize←600 400

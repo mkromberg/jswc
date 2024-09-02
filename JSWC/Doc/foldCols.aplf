@@ -1,3 +1,0 @@
-r←n foldCols names;rows
-rows←⌈(≢names)÷n
-r←↓⍕⍉(n,rows)⍴(n×rows)↑names

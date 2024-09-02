@@ -1,5 +1,5 @@
  Demo_Issue151 connected;inputs;scores;TBL;GRID;z;colors
- JSWC.CONNECTED←connected
+ EWC.CONNECTED←connected
  ⎕PW←1000
 
  'F1'eWC'Form'('BCol'(255 255 255))('Coord' 'Pixel')('Size'(500 900))

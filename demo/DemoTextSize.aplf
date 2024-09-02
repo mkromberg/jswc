@@ -1,5 +1,5 @@
  DemoTextSize connected;BY;BX;RY;RX;P;formsize;cols;rows;points;sizes;radii;colours;z;txt
- JSWC.CONNECTED←connected
+ EWC.CONNECTED←connected
  ⎕PW←1000
 
  formsize←600 400
@@ -55,7 +55,7 @@
  'F1.HWBX' eWC 'Rect' (55 10) z
 
  :Trap 6
-     z←2 eNQ'F1' 'GetTextSize' (txt←'Hello everyone, JSWC Rocks!') 'F1.FNT'
+     z←2 eNQ'F1' 'GetTextSize' (txt←'Hello everyone, EWC Rocks!') 'F1.FNT'
  :Else
      z←'No response'
  :EndTrap

@@ -1,5 +1,5 @@
  Demo_Issue53 connected;e
- JSWC.CONNECTED←connected
+ EWC.CONNECTED←connected
  ⎕PW←1000
 
  e←'Event' 'Select' 'CBEcho'

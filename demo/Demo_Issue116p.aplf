@@ -1,7 +1,7 @@
  Demo_Issue116p connected;txt;size
- JSWC.CONNECTED←connected
+ EWC.CONNECTED←connected
  :If ~connected
-     JSWC.(CONNECTED USEWIN32 LOGMODES)←0 1 ⎕A  ⍝ /// While debugging
+     EWC.(CONNECTED USEWIN32 LOGMODES)←0 1 ⎕A  ⍝ /// While debugging
  :EndIf
  ⎕PW←1000
 

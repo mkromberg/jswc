@@ -1,5 +1,5 @@
  Demo_Issue125 connected;inputs;scores;TBL;GRID;f;n
- JSWC.CONNECTED←connected
+ EWC.CONNECTED←connected
  ⎕PW←1000
  n←10
 
@@ -56,7 +56,7 @@
 ⍝                   class.Supported
 ⍝ Type  Align  Event  Range  Thumb  Visible
 ⍝      class
-⍝#.JSWC.classes.scroll
+⍝#.EWC.classes.scroll
 ⍝ 09:51.176 T:  #3: {"WS":{"ID":"F0000.App.⍙3S13.Y1","Properties":{"Posn":[500,0],"Size":[16,968]}}}
 ⍝
 ⍝      'F0000.App.⍙3S13.Y1'xWS('Posn'(50 0))('Size'(16 968))

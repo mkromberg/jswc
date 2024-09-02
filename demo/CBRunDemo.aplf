@@ -4,7 +4,7 @@
  e.(ID EventName Info)←(2↑args),⊂2↓args
  sf←{(1-(⌽⍵)⍳'.')↓⍵}⊃args
  f←{(-(⌽⍵)⍳'.')↓⍵}sf
- JSWC.USEWIN32←0 ⍝ ×(sf,'USEWIN32') eWG 'State'
+ EWC.USEWIN32←0 ⍝ ×(sf,'USEWIN32') eWG 'State'
 
  :Select ¯4↑1⊃args
  :Case 'CALE' ⍝ SCALE
@@ -25,7 +25,7 @@
 
  :If 3=⎕NC demo
      ⎕←''
-     ⎕←'Running "',demo,'" with',((~JSWC.USEWIN32)/'out'),' Win32'
-     (⍎demo)JSWC.CONNECTED
+     ⎕←'Running "',demo,'" with',((~EWC.USEWIN32)/'out'),' Win32'
+     (⍎demo)EWC.CONNECTED
      addDemoMenu'F1'
  :EndIf

@@ -1,5 +1,5 @@
  Demo_Issue82 connected;inputs;scores;TBL;GRID;z;colors;imagefiles;periods;sz;forms;sizes;cap
- JSWC.CONNECTED←connected
+ EWC.CONNECTED←connected
  ⎕PW←1000
 
  'F1'eWC'Form' 'Size Issue'(50 50)(600 500)('Coord' 'Pixel')

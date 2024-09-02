@@ -1,9 +1,0 @@
-r←Classes;names;n;m
-r←'JSWC has some degree of support for the following ⎕WC classes:' ''
-names←##.classes.(⍎¨⎕NL -9).ClassName
-m←(6↑¨names)∊'Ribbon' 'ApexCh'
-r,←4 foldCols '   '∘,¨(~m)/names
-r,←'' 'In addition, JSWC adds the following classes not supported by ⎕WC:' ''
-r,←4 foldCols '   '∘,¨m/names
-r,←'' 'See JSWC.Doc.Details ''classname'' for more details'
-r←⍪r

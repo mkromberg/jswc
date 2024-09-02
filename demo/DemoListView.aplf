@@ -1,5 +1,5 @@
  DemoListView connected;inputs;scores;TBL;GRID;z;colors;imagefiles;periods
- JSWC.CONNECTED←connected
+ EWC.CONNECTED←connected
  ⎕PW←1000
 
  'F1'eWC'Form' 'ListView'(50 50)(800 800)('Coord' 'Pixel')

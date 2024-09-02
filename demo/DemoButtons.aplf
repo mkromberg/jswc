@@ -1,5 +1,5 @@
  DemoButtons connected;F
- JSWC.CONNECTED←connected
+ EWC.CONNECTED←connected
  ⎕PW←1000
 
  F←'F1'

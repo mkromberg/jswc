@@ -1,7 +1,7 @@
  DemoSplitters connected;inputs;scores;TBL;GRID;z;colors;imagefiles;periods;names;expert;type;height;depth;width
- JSWC.CONNECTED←connected
+ EWC.CONNECTED←connected
  :If ~connected
-    JSWC.(CONNECTED USEWIN32 LOGMODES)←0 1 ⎕A  ⍝ /// While debugging
+    EWC.(CONNECTED USEWIN32 LOGMODES)←0 1 ⎕A  ⍝ /// While debugging
  :EndIf
 
  ⎕PW←1000
@@ -19,7 +19,7 @@
 'F1.LEFT'eWC'SubForm'('Posn' (0 0))('Size'(800 200))
  'F1.LEFT.COLORS' eWC 'List' colors (10 10) (100 150)('Border' 1)('SelItems' (0 0 1))('Attach' 'Top' 'Left' 'Top' 'Right')
  periods←'Q1' 'Jan' 'Feb' 'Mar' 'Q2' 'Apr' 'May' 'Jun'
- 'F1.LEFT.Months'eWC'TreeView' periods (150 10)(150 150)('Depth'(8⍴0 1 1 1))('ImageListObj' '#.IL')('ImageIndex' (8⍴1 3 3 3))('Event' ('Expanding' 'Retracting') 'JSWCUpdate')('Attach' 'Top' 'Left' 'Top' 'Left')
+ 'F1.LEFT.Months'eWC'TreeView' periods (150 10)(150 150)('Depth'(8⍴0 1 1 1))('ImageListObj' '#.IL')('ImageIndex' (8⍴1 3 3 3))('Event' ('Expanding' 'Retracting') 'EWCUpdate')('Attach' 'Top' 'Left' 'Top' 'Left')
 
  'F1.RIGHT'eWC'SubForm' ('Visible' 1)('Posn' (0 200))('Size'(800 600))('Attach'('Top' 'Left' 'Bottom' 'Right'))('BCol'(240 240 240))('EdgeStyle' 'None')
 

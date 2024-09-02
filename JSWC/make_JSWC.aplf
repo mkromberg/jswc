@@ -1,6 +1,0 @@
-make_JSWC code;ns
-⍝ Create _JSWC namespace with timer
-
-code.⎕EX'_JSWC'
-ns←⍎'_JSWC'code.⎕NS'' ⍝ Create Session State namespace
-'TIMER' ns.⎕WC'Timer'('Event' 1001 '#.JSWC.dqTimer')

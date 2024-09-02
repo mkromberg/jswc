@@ -1,5 +1,5 @@
  Demo_Issue67 connected;size;sp;sF_Main;Sz;sub
- JSWC.CONNECTED←connected
+ EWC.CONNECTED←connected
  ⎕PW←1000
 
  sF_Main←'F1'
@@ -26,7 +26,7 @@
 ⍝ Original app code follows
 
     ⍝ (sF_Main,'.Tits')#.xWC'SubForm'('Bcol'(SetBCol ¯5))('Coord' 'Pixel')('Visible' 0)('Size' 500 500)
- (sF_Main,'.Tits')#.xWC'SubForm'('Bcol'(SetBCol ¯5))('Coord' 'Pixel')('Visible' 1)('Size' 500 500)('Posn' 200 200) ⍝ /// JSWC
+ (sF_Main,'.Tits')#.xWC'SubForm'('Bcol'(SetBCol ¯5))('Coord' 'Pixel')('Visible' 1)('Size' 500 500)('Posn' 200 200) ⍝ /// EWC
 
  :If 2=⎕NC'sXPstyle'
  :AndIf sXPstyle=1
@@ -39,6 +39,6 @@
 
  (sF_Main,'.Tits.List')#.xWS('ImageListObj'(1⊃ImageLists32)(1⊃ImageLists))⍝('ImageIndex' 1)
 
-     ⍝ Sz←¯28 ¯2+(sF_Main,'.Tits')#.xWG'Size' ⍝ /// JSWC failing to WG Size here
+     ⍝ Sz←¯28 ¯2+(sF_Main,'.Tits')#.xWG'Size' ⍝ /// EWC failing to WG Size here
  Sz←¯28 ¯2+⍎sF_Main,'.Tits.Size'
  (sF_Main,'.Tits.List')#.xWS('Size'Sz)('Posn' 28 1)

@@ -1,7 +1,7 @@
  DemoRibbon connected;inputs;scores;ribbon;captions;icons;sel
  ⍝ Icons to be selected from https://react-icons.github.io/react-icons/
 
- JSWC.CONNECTED←connected
+ EWC.CONNECTED←connected
  ⎕PW←1000
 
  n←10
@@ -46,7 +46,7 @@
  'F1.Ribbon.Item5.GroupItem1' eWC 'RibbonGroupItem' 12
  'F1.Ribbon.Item5.GroupItem1.ButtonGroup1' eWC 'RibbonButtonGroup' ('Local Data Quality' 'Overall Data Quality')('FcHighPriority' 'FcHighPriority') sel
 
- 'F1.Players'eWC'Grid'('ColTitles'('Name' 'Gender' 'Score' 'Expert'))('Posn'(210 10))('Size'(100 480))('TitleWidth' 0)('ShowInput' 1)('Event' 'CellChanged' 'JSWCUpdate')
+ 'F1.Players'eWC'Grid'('ColTitles'('Name' 'Gender' 'Score' 'Expert'))('Posn'(210 10))('Size'(100 480))('TitleWidth' 0)('ShowInput' 1)('Event' 'CellChanged' 'EWCUpdate')
  'F1.Players.Name'eWC'Edit'('Size'(23 100))
  'F1.Players.Gender'eWC'Combo'('Items'('Male' 'Female'))('Size'(10 100))
  'F1.Players.Score'eWC'Edit'('FieldType' 'Numeric')('Size'(23 50))
@@ -58,9 +58,9 @@
 
  'F1.Months'eWC'TreeView'('Q1' 'Jan' 'Feb' 'Mar' 'Q2' 'Apr' 'May' 'Jun')(210 500)(150 200)('Depth'(8⍴0 1 1 1))
 
- 'F1.TableSize'eWC'Edit' '10'(410 10)(23 100)('FieldType' 'Numeric')('Event' 'Change' 'JSWCUpdate')
- 'F1.Function'eWC'Combo'(,¨allf)f(410 120)(23 100)('SelItems'(allf=f))('Event' 'Select' 'JSWCUpdate')
- 'F1.CalcBtn'eWC'Button' 'Calc'(410 230)(23 100)('Event' 'Select' 'JSWCUpdate')
+ 'F1.TableSize'eWC'Edit' '10'(410 10)(23 100)('FieldType' 'Numeric')('Event' 'Change' 'EWCUpdate')
+ 'F1.Function'eWC'Combo'(,¨allf)f(410 120)(23 100)('SelItems'(allf=f))('Event' 'Select' 'EWCUpdate')
+ 'F1.CalcBtn'eWC'Button' 'Calc'(410 230)(23 100)('Event' 'Select' 'EWCUpdate')
  'F1.Table'eWC'Grid'(∘.×⍨⍳n)(440 10)(550 780)
 
- 'F1.PasswordField'eWC'Edit' 'Password'(410 340)(23 100)('Password' '*')('Event' 'Change' 'JSWCUpdate')
+ 'F1.PasswordField'eWC'Edit' 'Password'(410 340)(23 100)('Password' '*')('Event' 'Change' 'EWCUpdate')

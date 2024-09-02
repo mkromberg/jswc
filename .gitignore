@@ -1,1 +1,3 @@
-JSWC/server/*
+EWC/server/*
+# mkdocs output
+/site/

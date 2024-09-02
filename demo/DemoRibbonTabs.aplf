@@ -1,5 +1,5 @@
  DemoRibbonTabs connected;tb;sf;rb;captions;icons;sel;bcol;fcol;titlebcol;bordercol;activebcol;passivebcol;datans
- JSWC.CONNECTED←connected
+ EWC.CONNECTED←connected
  ⎕PW←1000
  ⎕ex 'fonts' ⍝ In case left over by DemoTabs
 

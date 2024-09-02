@@ -1,7 +1,7 @@
  Initialise connected;r
 
- →(JSWC.MODE=0)⍴0 ⍝ Only in webby modes
+ →(EWC.MODE=0)⍴0 ⍝ Only in webby modes
  DemoMenu connected
- :If JSWC.MODE=2
+ :If EWC.MODE=2
      eDQ 'F1'
  :EndIf

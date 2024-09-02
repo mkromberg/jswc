@@ -1,5 +1,5 @@
  DemoLines connected;BY;BX;RY;RX;P
- JSWC.CONNECTED←connected
+ EWC.CONNECTED←connected
  ⎕PW←1000
 
  'F1'eWC'Form' 'PolyRect'(50 50)(320 220)('Coord' 'Pixel')

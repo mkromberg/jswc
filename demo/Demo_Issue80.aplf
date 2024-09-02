@@ -1,5 +1,5 @@
  Demo_Issue80 connected;inputs;scores;ribbon;captions;icons;sel;sz;sf
- JSWC.CONNECTED←connected
+ EWC.CONNECTED←connected
  ⎕PW←1000
 
  n←10

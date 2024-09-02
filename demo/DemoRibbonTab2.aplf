@@ -1,5 +1,5 @@
  DemoRibbonTab2 connected;tb;sf;rb;captions;icons;sel;bcol;fcol;titlebcol;bordercol;activebcol;passivebcol;imagefiles
- JSWC.CONNECTED←connected
+ EWC.CONNECTED←connected
  ⎕PW←1000
  ⎕EX'fonts' ⍝ In case left over by DemoTabs
 
@@ -61,7 +61,7 @@
 
  (rb,'.Item4')eWC'RibbonGroup' 'Shares'('Size' 3)bordercol
  (rb,'.Item4.GroupItem1')eWC'RibbonGroupItem' 12
- (rb,'.Item4.GroupItem1.ButtonGroup1')eWC'RibbonButtonGroup'('Denmark' 'Blue')('ImageListObj' ('IL32' 'IL'))('ImageIndex'(1 1))sel
+ (rb,'.Item4.GroupItem1.ButtonGroup1')eWC'RibbonButtonGroup'('Denmark' 'Blue')('ImageListObj' ('IL32' 'IL'))('ImageIndex'(1 3))sel
 
  (rb,'.Item5')eWC'RibbonGroup' 'Analysis'('Size' 6)bordercol
  (rb,'.Item5.GroupItem1')eWC'RibbonGroupItem' 12

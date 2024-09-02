@@ -1,5 +1,5 @@
  Demo_Issue126 connected;n;size;wd;f
- JSWC.CONNECTED←connected
+ EWC.CONNECTED←connected
  ⎕PW←1000
  n←10
 

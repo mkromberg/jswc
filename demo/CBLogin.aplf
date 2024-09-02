@@ -1,0 +1,30 @@
+ CBLogin args;ctl;sf;series;vert;R;user;pwd;error
+ ctl←'.'(≠⊆⊢)⊃args
+ sf←1↓∊'.',¨¯1↓ctl
+ vert←'flex-direction: column, margin: 5px'
+
+ :Select ⊃⌽ctl
+ :Case 'LOGIN'
+    (user pwd)←'F1.INPUT.USERID.C' 'F1.INPUT.PWD.C' eWG¨⊂'Text'
+    :If (0=≢user)∨'secret'≢⎕C pwd
+        →ERROR ⊣ error←'Incorrect userid or password'
+    :Else
+        USERID←user ⍝ We are logged in
+        'F1' eWS 'Caption' ('Hello ',USERID)
+    :EndIf
+
+ :Case 'CHART'
+    :If 0∧0=≢USERID
+        →ERROR ⊣ error←'You must login first'
+    :EndIf
+    series←2⊃⎕VFI (sf,'.DATA.C') eWG 'Text'
+    'F1.INPUT.BAR' eWC 'SubForm'('Flex' 1)('Size' (100 400))('Styles' vert)
+    'F1.INPUT.BAR.CHART'eWC 'ApexChart' (0 0)(100 400)('Series' series)('ChartType' 'bar')
+ :EndSelect
+ →0
+
+
+ERROR:
+ 'MB1' eWC 'MsgBox' 'Responsive Login Demo' error 'Error' 'OK' ('Event' ('MsgBtn1' 'MsgBtn2' 'MsgBtn3') 1)
+ R←eDQ 'MB1'
+ eEX 'MB1'

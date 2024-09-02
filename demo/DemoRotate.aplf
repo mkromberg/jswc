@@ -1,5 +1,5 @@
  DemoRotate connected;formsize;fnt;angle;rad
- JSWC.CONNECTED←connected
+ EWC.CONNECTED←connected
  ⎕PW←1000
 
  'F1'eWC'Form' 'Rotating Fonts'(50 50)(400 400)('Coord' 'Pixel')('Event' ('MouseUp' 'MouseDown') 'CBRotate')

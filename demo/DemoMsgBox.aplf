@@ -1,5 +1,5 @@
  DemoMsgBox connected;sf;styles;btns
- JSWC.CONNECTED←connected
+ EWC.CONNECTED←connected
  ⎕PW←1000
 
  styles←'Msg' 'Info' 'Query' 'Warn' 'Error'

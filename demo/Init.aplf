@@ -1,7 +1,7 @@
  msg←Init sess;r
  msg←'' ⍝ Success
 
- :Select JSWC.MODE
+ :Select EWC.MODE
  :Case 0 ⍝ Desktop will Init itself
  :Case 1 ⍝ Single User Web
 ⍝     DemoMenu 1

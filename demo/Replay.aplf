@@ -5,21 +5,21 @@
  sendlog←2 ⎕NQ '.' 'GetEnvironment' 'SendLog'
  s←⊃2⊃⎕VFI 2 ⎕NQ '.' 'GetEnvironment' 'Stream'
 
- JSWC←##.JSWC
- JSWC.PORT←22322
- JSWC.USEHR←0
- JSWC.RESOURCES←1 2⍴'images' 'c:\devt\jswc\demo\images'
- 'e'JSWC.Init 'Browser'
+ EWC←##.EWC
+ EWC.PORT←22322
+ EWC.USEHR←0
+ EWC.RESOURCES←1 2⍴'images' 'c:\devt\jswc\demo\images'
+ 'e'EWC.Init 'Browser'
 
- IMAGEFOLDER←JSWC.JSWCFolder,'server/images'
- JSWC.IGNORE1Init←1 ⍝ Make Handler ignore the next Initialise call
+ IMAGEFOLDER←EWC.EWCFolder,'server/images'
+ EWC.IGNORE1Init←1 ⍝ Make Handler ignore the next Initialise call
 
  ⍝ form eWC 'Form' ('Size' (768 1200))
  ⎕←'Please connect browser...'
 
  :Repeat
    ⎕DL 1
- :Until 0≠⎕NC '_JSWC.conn'
+ :Until 0≠⎕NC '_EWC.conn'
  eEX 'F1'
 
  tn←sendlog ⎕FSTIE 0
@@ -31,7 +31,7 @@
      ⍝ z←⍞
      :If stream=s
      :AndIf ~∨/'"F0000.T"'⍷msg
-        z←_JSWC.conn JSWC.WSS.Send ⎕←msg
+        z←_EWC.conn EWC.WSS.Send ⎕←msg
         ⎕DL 1
      :EndIf
  :EndFor

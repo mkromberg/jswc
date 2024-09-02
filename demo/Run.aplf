@@ -1,53 +1,62 @@
- Run web;rc;msg;r;root;seps
+ {mode} Run web;rc;msg;r;root;seps
  ⍝ Initialise the Demo application
  ⍝ web: 'Desktop' (0), 'Browser' (1) or 'Multi' (2)
 
  COORD←'Pixel'
  JSWC←##.JSWC
  :If 0<≢r←2 ⎕NQ'.' 'GetEnvironment' 'EWC_PORT'
-     JSWC.PORT←⍬⍴2⊃⎕VFI r
+     EWC.PORT←⍬⍴2⊃⎕VFI r
  :Else
-     JSWC.PORT←22322
+     EWC.PORT←22322
  :EndIf
  :If 1≡⊃2⊃⎕VFI 2 ⎕NQ'.' 'GetEnvironment' 'EWC_SHOWDEVTOOLS'
-     JSWC.SHOWDEVTOOLS←1
+     EWC.SHOWDEVTOOLS←1
  :Else
-     JSWC.SHOWDEVTOOLS←0
+     EWC.SHOWDEVTOOLS←0
  :EndIf
  root←{⊃⎕NPARTS ¯1↓⍵}⊃⎕NPARTS 4⊃5179⌶⊃⎕SI
- JSWC.RESOURCES←1 2⍴'images'(root,'/demo/images')
+ EWC.RESOURCES←1 2⍴'images'(root,'/demo/images')
+
+ :If 2=⎕NC 'mode'
+     MODE←mode
+ :Else
+     MODE←'Demo' ⍝ Only display demos listed in DEMOS
+ :EndIf
 
  ⎕USING←''
  ⍝ seps←System.Globalization.CultureInfo.CurrentCulture.NumberFormat.(NumberDecimalSeparator NumberGroupSeparator)
- ⍝ JSWC.settings.Locale.(Decimal Thousand)←seps
+ ⍝ EWC.settings.Locale.(Decimal Thousand)←seps
 
  :Trap 0
-     'e'JSWC.Init web
+     'e'EWC.Init web
  :Else
      (⊃⎕DMX.DM)⎕SIGNAL⊃⎕DMX.EN
  :EndTrap
- JSWC.NOIDQ←0 ⍝ Allow interactive DQ while running demo
+ EWC.NOIDQ←0 ⍝ Allow interactive DQ while running demo
 
- JSWC.NOIDQ←'Windows'≢7↑⊃'.'⎕WG'APLVersion' ⍝ Allow interactive DQ under Windows
+ EWC.NOIDQ←'Windows'≢7↑⊃'.'⎕WG'APLVersion' ⍝ Allow interactive DQ under Windows
  ⍝ trace into demo functions?
  :If 1≡⊃2⊃⎕VFI 2 ⎕NQ'.' 'GetEnvironment' 'EWC_TRACEDEMOS'
      #.demo.({'Demo'≡4↑⍵:1 ⎕STOP ⍵}¨(⎕NL-3)~'DemoMenu' 'DemoDefault')
  :EndIf
 
  :Select JSWC.MODE
+ :Select EWC.MODE
  :Case 0 ⍝ Desktop
      ⎕SE.Posn←200 300
      DemoMenu 1
-     :If JSWC.NOIDQ
+     :If EWC.NOIDQ
         r←eDQ'F1'
+        EWC.Stop
+        ⎕EX'F1'
      :EndIf
 
  :Case 1 ⍝ Browser
-     ⎕←'Connect Browser to port ',(⍕JSWC.PORT),' ...'
+     ⎕←'Connect Browser to port ',(⍕EWC.PORT),' ...'
      :Repeat
         ⍞←'.'
         ⎕DL 1
-     :Until 2=⎕NC'_JSWC.ID'
+     :Until 2=⎕NC'_EWC.ID'
      ⎕←''
      :If '''Browser'''≡¯5↑2 ⎕NQ'.' 'GetEnvironment' 'LX'
          ⎕←r←eDQ'.'
@@ -60,5 +69,5 @@
      :EndIf
 
   :Case 2 ⍝ Multi
-     ⎕←'Running in Multi mode on port ',(⍕JSWC.PORT)
+     ⎕←'Running in Multi mode on port ',(⍕EWC.PORT)
   :EndSelect

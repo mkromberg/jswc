@@ -1,5 +1,5 @@
  DemoPie connected;Data;ANGLES;COLS;PATS;ps
- JSWC.CONNECTED←connected
+ EWC.CONNECTED←connected
  ⎕PW←1000
 
  'F1'eWC'Form' 'Pies'(50 50)(480 620)('Coord' 'Pixel')('BCol' 255 255 255)
