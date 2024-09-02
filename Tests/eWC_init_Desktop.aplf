@@ -5,7 +5,7 @@
      ROOT←'http://localhost:22344'
      BRWSR←'HtmlRenderer190'
      CMD_SRV_SUFFIX←' -cef --remote-debugging-port=8080'
-     MODE←0   ⍝ jswc in desktop mode
+     MODE←0   ⍝ use desktop mode
      EWC_SHOWDEVTOOLS←1
  :Else
      r←⎕DMX.Message

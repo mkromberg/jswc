@@ -21,7 +21,7 @@
  ListOfDemos←{((⊂'Demo')≡¨4↑¨⍵)/⍵}ListOfDemos   ⍝ insist on "Demo" prefix (demo... are subroutines!)
  NL←⎕UCS 10
 
- '['⎕NPUT(EWC_HOME,'JSWC/objectlog.json5')1  ⍝ initialise this file so that we can append single log objects to it...
+ '['⎕NPUT(EWC_HOME,'EWC/objectlog.json5')1  ⍝ initialise this file so that we can append single log objects to it...
  r←''
  dl←⍬  ⍝ demo list we want to run
  de←⍬  ⍝ demos we NOT want to run
@@ -195,7 +195,7 @@ restart:
                      ignoreChildren←⊆'Grid'
                      ignoreChildren_of←⍬
 
-                     log←(1⊃⎕NGET(EWC_HOME,'JSWC/objectlog.json5')),']'  ⍝ get the log
+                     log←(1⊃⎕NGET(EWC_HOME,'EWC/objectlog.json5')),']'  ⍝ get the log
                      log←0(⎕JSON⍠'Dialect' 'JSON5')log
                      log←((log.Action≡¨⊂'WC')∧(log.Caller≡¨⊂'Demo',d)∧~log{0=⍺.⎕NC'Type':0 ⋄ (⊂⎕C ⍺.Type)∊⍵}¨⎕C⊂exceptions)/log
                      ⍝ everything ⎕WC'ed by this test
@@ -241,8 +241,8 @@ restart:
  :If ~PROCESS.HasExited
      {}PROCESS.(Kill Proc.Id)
  :EndIf
- ']'⎕NPUT(EWC_HOME,'JSWC/objectlog.json5')2
- data←1⊃⎕NGET f_olog←EWC_HOME,'JSWC/objectlog.json5'
+ ']'⎕NPUT(EWC_HOME,'EWC/objectlog.json5')2
+ data←1⊃⎕NGET f_olog←EWC_HOME,'EWC/objectlog.json5'
  :If 0<≢data   ⍝ unlikely, but better be safe ;)
     ⍝ all demos & tests executed - now check the controls that were created
     ⍝ and the properties that were tested...
@@ -263,9 +263,9 @@ restart:
      :For ctl :In (∪data get'Type')~⊂⍬
          up←(ctl∘≡¨data get'Type')/data get'Properties'   ⍝ used properties
          up←∪⊃,/up
-        ⍝  {}'(overwrite:1)'⎕SE.Link.Import(⎕THIS)(EWC_HOME,'JSWC/Classes/',(⎕C ctl),'/Supported.apla')
-         {}'(overwrite:1)'⎕SE.Link.Import(⎕THIS)(EWC_HOME,'JSWC/Classes/',(⎕C ctl),'/Dynamic.apla')
-         {}'(overwrite:1)'⎕SE.Link.Import(⎕THIS)(EWC_HOME,'JSWC/Classes/',(⎕C ctl),'/PropList.apla')
+        ⍝  {}'(overwrite:1)'⎕SE.Link.Import(⎕THIS)(EWC_HOME,'EWC/Classes/',(⎕C ctl),'/Supported.apla')
+         {}'(overwrite:1)'⎕SE.Link.Import(⎕THIS)(EWC_HOME,'EWC/Classes/',(⎕C ctl),'/Dynamic.apla')
+         {}'(overwrite:1)'⎕SE.Link.Import(⎕THIS)(EWC_HOME,'EWC/Classes/',(⎕C ctl),'/PropList.apla')
         ⍝  sp←Supported∩PropList
          sp←Dynamic∩PropList
          :If ∨/z←~sp∊up

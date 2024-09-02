@@ -3,7 +3,7 @@
  ⍝ web: 'Desktop' (0), 'Browser' (1) or 'Multi' (2)
 
  COORD←'Pixel'
- JSWC←##.JSWC
+ EWC←##.EWC
  :If 0<≢r←2 ⎕NQ'.' 'GetEnvironment' 'EWC_PORT'
      EWC.PORT←⍬⍴2⊃⎕VFI r
  :Else
@@ -40,7 +40,6 @@
      #.demo.({'Demo'≡4↑⍵:1 ⎕STOP ⍵}¨(⎕NL-3)~'DemoMenu' 'DemoDefault')
  :EndIf
 
- :Select JSWC.MODE
  :Select EWC.MODE
  :Case 0 ⍝ Desktop
      ⎕SE.Posn←200 300

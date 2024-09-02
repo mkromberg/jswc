@@ -1,7 +1,7 @@
  DemoLists connected;inputs;scores;TBL;GRID;z;colors;imagefiles;periods;names;expert;type;height;depth;width
- JSWC.CONNECTED←connected
+ EWC.CONNECTED←connected
  :If ~connected
-    JSWC.(CONNECTED USEWIN32 LOGMODES)←0 1 ⎕A  ⍝ /// While debugging
+    EWC.(CONNECTED USEWIN32 LOGMODES)←0 1 ⎕A  ⍝ /// While debugging
  :EndIf
 
  ⎕PW←1000

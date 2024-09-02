@@ -8,7 +8,7 @@
  t←'CssSelector'#.S.Find'body'
  src←t.GetAttribute⊂'outerHTML'
 
- :For t :In 'Hello to' 'all of the World' 'Hello everyone, JSWC Rocks!'
+ :For t :In 'Hello to' 'all of the World' 'Hello everyone, EWC Rocks!'
      t1←t
      t1[⍸t1=' ']←⊂'&nbsp;'
      t1←∊t1

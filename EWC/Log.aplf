@@ -30,5 +30,5 @@
     ⍝  and also adds the "[]" )
      msg←('(:.*,)(.*)$'⎕R('\1 TS: [',(∊(⍕¨¯4↑⎕TS),¨','),'],\2')⍠'Greedy' 0)msg
      msg←(¯2↓msg),',Stack: [',(¯1↓∊{'"',(1⊃⍵),'[',(⍕2⊃⍵),']",'}¨↓⎕si,[1.5]⎕lc),']},'
-     (⊂msg)⎕NPUT(JSWCFolder,'objectlog.json5')2
+     (⊂msg)⎕NPUT(EWCFolder,'objectlog.json5')2
  :EndIf

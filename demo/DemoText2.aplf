@@ -1,7 +1,7 @@
  DemoText2 connected
  ⍝ changing the value from a 1-row mat to a vector could be a challenge, so let's make sure it works ;)
 
- JSWC.CONNECTED←connected
+ EWC.CONNECTED←connected
  ⎕PW←1000
 
  'F1'eWC'Form' 'Changing the text property'('Coord' 'Pixel')
