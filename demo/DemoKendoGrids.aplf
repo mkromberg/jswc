@@ -1,0 +1,17 @@
+ DemoKendoGrids connected;inputs;cc;e;fmts;ticker;fixed;value;price;quantity;comments;titles;g;values;widths;inputix;types;fmtix;ws;fcols;bcols;fcolix;bcolix;fontix;fonts
+
+ 'F1'eWC'Form' 'KendoGrids'(50 50)(800 800)('Coord' 'Pixel')
+
+ ticker←'ABCD' 'DEFG' 'HIJL'
+ fixed←0 1 0
+ quantity←5123 6750 11231
+ price←1.23 2.34 3.45
+ value←quantity×price
+ comments←'' 'Cannot buy or sell any of these'
+
+ titles←'Ticker' 'Fixed' 'Price' 'Quantity' 'Value' 'Comments'
+ widths←40 30 50 60 100 200
+
+ values←⍉↑ticker fixed price quantity value comments
+
+ 'F1.Grid'eWC'KendoGrid'(values)(50 10)(550 780)('Coord' 'Pixel')('ColTitles' titles)
