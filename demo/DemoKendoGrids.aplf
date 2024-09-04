@@ -14,4 +14,4 @@
 
  values←⍉↑ticker fixed price quantity value comments
 
- 'F1.Grid'eWC'KendoGrid'(values)(50 10)(550 780)('Coord' 'Pixel')('ColTitles' titles)
+ 'F1.Grid'eWC'KendoGrid'values(50 10)(550 780)('Coord' 'Pixel')('ColTitles' titles)
