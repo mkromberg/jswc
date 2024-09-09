@@ -1439,12 +1439,14 @@
 
 <h1 id="installation">Installation</h1>
 <p>EWC is developed as an open-sourcen GitHub repository. To download the code, you can either install Git and clone the repository using the following command:</p>
-<p><code>git clone https://github.com/dyalog/ewc.git</code></p>
+<pre><code>git clone https://github.com/dyalog/ewc.git
+</code></pre>
 <p>Alternatively, you can just download a <a href="https://github.com/dyalog/ewc/archive/refs/heads/main.zip">zip file</a> containing all the code.</p>
 <h2 id="verify-installation">Verify Installation</h2>
-<p>The simplest way to verify installtion is to run the demo application:</p>
-<p><code>]link.create # /path/to/ewc</code>
-<code>demo.Run 'Desktop'</code></p>
+<p>The simplest way to verify installation is to run the demo application:</p>
+<pre><code>]link.create # /path/to/ewc
+demo.Run 'Desktop'
+</code></pre>
 <p>This will pop up a form with a Dyalog logo and a dropdown on the right which allows
 you to select a variety of simple test applications that have been used to test
 EWC during development.</p>
@@ -1454,8 +1456,9 @@ EWC. It supports Desktop, Browser and Multi modes - and will run in the mode tha
 select using the right argument.</p>
 <h2 id="building-your-own-application">Building your Own Application</h2>
 <p>After linking ewc, you can create a form as follows:</p>
-<p><code>EWC.Init 'Desktop'</code>
-<code>'F1' eWC 'Form' 'Hello World' (10 10) (400 600)</code></p>
+<pre><code>EWC.Init 'Desktop'
+'F1' eWC 'Form' 'Hello World' (10 10) (400 600)
+</code></pre>
 <p>This should create an HTMLRenderer window with the caption "Hello World". For more
 information on getting started, see <a href="../Initialisation/">initialisation</a>.</p>
 <h2 id="ewc-development">EWC Development</h2>
@@ -1464,7 +1467,8 @@ quickly pick up changes to the JavaScript client, it may be a good idea to clone
 the client code separately. In order for EWC to automatically find this code,
 it must be located in a folder called ewc-client, in the same folder as EWC itself.</p>
 <p>You can achieve this using:</p>
-<p><code>git clone https://github.com/dyalog/ewc-client.git</code></p>
+<pre><code>git clone https://github.com/dyalog/ewc-client.git
+</code></pre>
 
 
 
