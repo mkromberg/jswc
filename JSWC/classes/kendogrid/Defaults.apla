@@ -104,6 +104,7 @@
  1
  (0⋄)
  0
+ ()
  (
   'Detach'
   'ChooseFont'
@@ -300,5 +301,6 @@
   'ChildList'
   'EventList'
   'PropList'
+  'Attributes'
  )
 )

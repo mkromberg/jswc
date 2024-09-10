@@ -92,4 +92,5 @@
  'ChildList'
  'EventList'
  'PropList'
+ 'Attributes'
 )

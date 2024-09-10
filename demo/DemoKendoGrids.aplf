@@ -9,9 +9,9 @@
  value←quantity×price
  comments←'' 'Cannot buy or sell any of these'
 
- titles←'Ticker' 'Fixed' 'Price' 'Quantity' 'Value' 'Comments'
+ headers←'Ticker' 'Fixed' 'Price' 'Quantity' 'Value' 'Comments'
  widths←40 30 50 60 100 200
 
  values←⍉↑ticker fixed price quantity value comments
 
- 'F1.Grid'eWC'KendoGrid'values(50 10)(550 780)('Coord' 'Pixel')('ColTitles' titles)
+ 'F1.Grid'eWC'KendoGrid'values(50 10)(550 780)('Coord' 'Pixel')('ColTitles' headers)('Attributes' ('filterable' 1) ('sortable' 1))

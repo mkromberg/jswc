@@ -26,4 +26,5 @@
  'HScroll'
  'VScroll'
  'Attach'
+ 'Attributes'
 )
