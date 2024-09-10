@@ -2,7 +2,8 @@
  EWC.CONNECTED←connected
  ⎕PW←1000
 
- fonts←'Segoe UI' 'Courier New' 'Times New Roman' 'Arial' 'APL385 Unicode'
+ fonts←'Noto Sans' 'Nimbus Mono' 'Merriweather' 'APL385 Unicode'
+
  cols←40+100×¯1+⍳≢fonts
  uline←0 1
  weight←400 700

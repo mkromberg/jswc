@@ -1,4 +1,4 @@
- r←con Handler payload;ns;Event;ID;Info;events;fns;fn;event;reqfn;info;sns;i;code;conn;coni;sock;z;m;msg;sessionspace;form;hr;CALLER;app;new;old;token;TID
+ r←con Handler payload;ns;Event;ID;Info;events;fns;fn;event;reqfn;info;sns;i;code;conn;coni;sock;z;m;msg;sessionspace;form;hr;CALLER;app;new;old;token;TID;URL
  ⎕TRAP←0 'S'
  'R'Log'#',(⍕con),': ',payload
  i←(2⊃SESSIONS)⍳con
@@ -8,15 +8,26 @@
  :EndIf
  code←(sessionspace←(2+i)⊃SESSIONS).code
 
- :If (⊂10↑payload)∊'Initialise' 'Initialize'
+ :If (⊂10↑payload)∊'Initialise' 'Initialize' '{"Initiali'
      :If 2=⎕NC'IGNORE1Init'
      :AndIf IGNORE1Init≠0
          IGNORE1Init←0
          :Return
      :EndIf
-     fn←reqfn←(10↓payload)~'()'
+
+     :If '{'=⊃payload
+     :AndIf 0≠≢ns←{0::⍬ ⋄ (⎕JSON ⍵).Initialise}payload
+         :If 2=ns.⎕NC 'Version' ⋄ CLIENTVERSION←ns.Version ⋄ :EndIf
+         :If 2=ns.⎕NC 'Function' ⋄ fn←reqfn←ns.Function ⋄ :Else ⋄ fn←'' ⋄ :EndIf
+         :If 2=ns.⎕NC 'URL' ⋄ URL←ns.URL ⋄ :Else ⋄ URL←'' ⋄ :EndIf
+     :Else
+         fn←reqfn←(10↓payload)~'()'
+     :EndIf
      fn,←(0=≢fn)/'Initialise'
      app←code
+     app._EWC.URL←URL
+     app._EWC.QUERY←ParseQueryString (URL⍳'?')↓URL
+     app._EWC.HDRS←⊃WSS.Conx[(¯8↑¨WSS.Conx[;1])⍳⊂,'ZI8' ⎕FMT con;2]
      :If 0≠app.⎕NC 'workNamespace' ⍝ /// change this name in DWI
         app←app.workNamespace
      :EndIf
@@ -32,7 +43,15 @@
              →0
          :EndIf
          sns←code._EWC ⍝ Session Namespace
-         ns←0 ⎕JSON payload
+         :Trap 11 ⍝ DOMAIN ERROR
+             ns←0 ⎕JSON sns.buffer,payload
+             sns.buffer←''
+         :Else
+             :If 1=⎕DMX.ENX ⍝ unexpected end of input
+                 sns.buffer,←payload
+                 →0         ⍝ fight another day
+             :EndIf
+         :EndTrap
 
          :Select ,ns.⎕NL 9
          :Case 'Event'

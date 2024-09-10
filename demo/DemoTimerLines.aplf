@@ -1,4 +1,4 @@
- DemoLines connected;BY;BX;RY;RX;P
+ DemoTimerLines connected;BY;BX;RY;RX;P
  EWC.CONNECTED←connected
  ⎕PW←1000
 

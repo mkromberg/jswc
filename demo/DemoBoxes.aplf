@@ -14,8 +14,8 @@
 
  'F1.ROWS'eWC'Edit'(⍕rows)(30 10)(23 50)('FieldType' 'Numeric') ('Event' 'GotFocus' 'CBEchoGotFocus')('FontObj' 'F1.FNT')('EdgeStyle' 'Ridge')
  'F1.COLS'eWC'Edit'(⍕cols)(30 70)(23 50)('FieldType' 'Numeric') ('Event' 'GotFocus' 'CBEchoGotFocus')('FontObj' 'F1.FNT')('EdgeStyle' 'Ridge')
- 'F1.GO'eWC'Button' 'Draw Boxes' (30 140)(23 80)('Event' 'Select' 'CBUpdateLines')
- 'F1.CLR'eWC'Button' 'Clear' (30 225)(23 50)('Event' 'Select' 'CBUpdateLines')
+ 'F1.GO'eWC'Button' 'Draw Boxes' (30 135)(23 80)('Event' 'Select' 'CBUpdateLines')
+ 'F1.CLR'eWC'Button' 'Clear' (30 220)(23 50)('Event' 'Select' 'CBUpdateLines')
  'F1.HIDE' eWC 'Button' 'Hide Graphics' (55 130)(23 110)('Style' 'Check')('Event' 'Select' 'CBUpdateLines')
 
  BY←10 10 50 10
@@ -23,7 +23,7 @@
  RY←15 15 40 15
  RX←25 55 40 25
 
- P←'Poly'((⊂35,formsize[2]-80)+(BY BX)(RY RX))((0 0 255)(255 0 0))
+ P←'Poly'((⊂40,formsize[2]-80)+(BY BX)(RY RX))((0 0 255)(255 0 0))
  'F1.LOGO'eWC P,('LWidth'(3 6))('FStyle'(¯1 0))('FillCol'(2⍴⊂0 255 0))
 
  ⍝ eNQ 'F1.ROWS' 'GotFocus'

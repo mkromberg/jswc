@@ -1,4 +1,4 @@
- DemoColors connected;ixs;rc;i;cols;code;name;rgb
+ DemoStdColors connected;ixs;rc;i;cols;code;name;rgb
  EWC.CONNECTED←connected
  ⎕PW←1000
 

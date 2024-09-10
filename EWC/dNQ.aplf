@@ -1,4 +1,4 @@
- {R}←{Mode}∆NQ Event;caller;NQ;nq;msg;z;⎕TRAP;ID;conn;name;tkn;type;class;objref;event;i;fn;ok;hr;hdr;posn;size;methods;method;immediate;j;f
+ {R}←{Mode}∆NQ Event;caller;NQ;nq;msg;z;⎕TRAP;ID;conn;name;tkn;type;class;objref;event;i;fn;ok;hr;hdr;posn;size;methods;method;immediate;f;j;m
 ⍝ Modes:
 ⍝ 0: Add to event queue (default). Result = ''.
 ⍝ 1: Invoke callback function immediately. Enqueue result if relevant. Result = Event (possibly modified).
@@ -16,7 +16,7 @@
  (⊃Event)←caller removeCaller name ⍝ (2×'#.'≡2↑⊃Event)↓⊃Event
 
  :If 0=⎕NC'Mode' ⋄ Mode←0 ⋄ :EndIf
- :If Mode=1 ⋄ Mode←0 ⋄ :EndIf ⍝ /// As an experiment, pretend they are the same
+ ⍝ :If Mode=1 ⋄ Mode←0 ⋄ :EndIf ⍝ /// As an experiment, pretend they are the same
  :If (,¨1↑Event)∊,¨'.' '#' '⎕SE' ⍝ Pass NQ to system objects through
      →0⊣R←Mode ⎕NQ Event
  :EndIf
@@ -37,19 +37,19 @@
 
  :If (≢event)≥i←(⊃¨event)⍳Event[2] ⍝ Object has an event handler defined
      fn←ok←1 ⍝ Action not prohibited
-     :If (Mode≠2)∧(≢event)≥i←⌊/(⊃¨event)⍳hrEvents∩Event[2] ⍝ HTMLrenderer related events
-         fn←⊃(i,2)⊃event
+     :If (Mode=1)∨m←(Mode≠2)∧(≢event)≥j←⌊/(⊃¨event)⍳hrEvents∩Event[2] ⍝ HTMLrenderer related events
+         fn←⊃(((1+m)⊃i j),2)⊃event
          :If isChar fn
          :AndIf 3=caller.⎕NC fn
              :Trap 85
                  f←(⍕caller),'.',fn
                  'N' Log 'Invoking ',f
-                 ok←0(85⌶)f(⊂caller removeCaller ⊃Event),1↓Event'
+                 ok←0(85⌶)f,'(⊂caller removeCaller ⊃Event),1↓Event'
              :EndTrap
          :EndIf
      :EndIf
 
-     :If (¯1≡⊃fn)∨ok≡0 ⍝ Inhibited by property or refused by callback
+     :If (Mode≠1)∧(¯1≡⊃fn)∨ok≡0 ⍝ Inhibited by property or refused by callback
          →0
      :EndIf
  :EndIf
@@ -71,7 +71,7 @@
 
  NQ←⎕NS''
  nq←NQ.NQ←⎕NS''
- nq.(ID Event Info NoCallback)←(2↑Event),(2↓Event) (Mode=2)
+ nq.(ID Event Info NoCallback)←(2↑Event),(2↓Event) (Mode∊1 2)
 
  :If USEWIN32
      R←Mode caller.⎕NQ Event

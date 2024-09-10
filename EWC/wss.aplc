@@ -139,7 +139,7 @@
                       :Leave
                   :EndIf
                   hdrs←ParseHeaders data
-                  Conx⍪←obj(hdrs GetHeader'sec-websocket-key')
+                  Conx⍪←obj hdrs
      
               :Case 'WSReceive'
                   :If 0≠evt RunHandler wres
@@ -198,10 +198,11 @@
 
 
     ∇ obj Serve data;method;url;httpver;headers;file;respheaders;rc;msg;status;payload;close;ind;i
-    ⍝ serve HTML content
+    ⍝ serve HTML content   
       (method url httpver headers)←data
       respheaders←1 2⍴'Server'(deb⍕2↑Version)
       respheaders⍪←'Date'(2⊃LDRC.GetProp'.' 'HttpDate')
+      url←(¯1+url⍳'?')↑url ⍝ Ignore queries
       :If method≡⍥⎕C'get' 
           :If '/'≡⍥,url
               url←DefaultPage

@@ -6,4 +6,5 @@
  'ChartType'
  'Options'
  'Event'
+ 'SVG'
 )

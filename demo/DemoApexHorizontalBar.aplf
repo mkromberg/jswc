@@ -9,4 +9,5 @@
  series←400 430 448 470 540 580 690 1100 1200 1380
 
  'F1'eWC'Form' 'Charts'(50 50)(600 800)('Coord' 'Pixel')
+ addSaveChartButton 'F1.BAR'
  'F1.BAR'eWC'ApexChart'(50 10)(540 780)('Series'series)'bar'('Options'o)

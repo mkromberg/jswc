@@ -22,3 +22,9 @@ S.Options.Properties←⎕NS ''
 S.Options.Properties.Standard←↓{(⍵[;1]<0)⌿⍵}settings.Colors.Standard
 z←CONN WSS.Send msg←⎕JSON S
 'T' Log msg
+
+S.Options.ID←'Fonts'
+S.Options.Properties←⎕NS ''
+S.Options.Properties.Scale←1
+z←CONN WSS.Send msg←⎕JSON S
+'T' Log msg

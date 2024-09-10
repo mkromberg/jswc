@@ -1,4 +1,4 @@
- DemoRibbon connected;inputs;scores;ribbon;captions;icons;sel
+ DemoRibbon0 connected;inputs;scores;ribbon;captions;icons;sel
  ⍝ Icons to be selected from https://react-icons.github.io/react-icons/
 
  EWC.CONNECTED←connected

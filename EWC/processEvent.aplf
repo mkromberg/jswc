@@ -59,7 +59,7 @@
  :Hold 'EWC.processEvent',⍕code
      :If (⊂Event)∊⊆2⊃BREAK
      :OrIf (⊂ID)∊⊆1⊃BREAK
-         ⎕←'BREAK on ',⎕JSON ns
+         ⎕←'Stopping on ',⎕JSON ns
          ∘∘∘
      :EndIf
 

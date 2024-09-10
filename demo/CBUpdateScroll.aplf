@@ -23,9 +23,9 @@
          :EndIf
      :Else                  ⍝ Window needs to move
          :If d=1            ⍝ up/down
-             cc[1]←top←args[4]
+             top←args[4]
          :Else              ⍝ left/right
-             cc[2]←left←args[4]
+             left←args[4]
          :EndIf
      :EndIf
 
