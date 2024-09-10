@@ -14,8 +14,8 @@
 
  values←⍉↑ticker fixed price quantity value comments
 
- attrs←⎕NS''
- attrs.filterable←1
- attrs.sortable←1
+ opts←⎕NS''
+ opts.filterable←1
+ opts.sortable←1
 
- 'F1.Grid'eWC'KendoGrid'values(50 10)(550 780)('Coord' 'Pixel')('ColTitles' headers)('Options' attrs)
+ 'F1.Grid'eWC'KendoGrid'values(50 10)(550 780)('Coord' 'Pixel')('ColTitles' headers)('Options' opts)
