@@ -12,7 +12,7 @@
  :For angle :In 45×¯1+⍳8
      rad←○angle÷¯180
      (fnt←'F1.FNT',⍕angle)eWC'Font' 'Segoe UI'('Size' 20)('Rotate' rad)
-     ('F1.TXT',⍕angle)eWC'Text'('     Rotated ',⍕angle)(200 200)('FontObj'fnt)('FCol' (255 255 255))('BCol'(255 0 0))
+     ('F1.TXT',⍕angle)eWC'Text'('     Rotated ',⍕angle)(200 200)('FontObj'fnt) ⍝ ('FCol' (255 255 255))('BCol'(255 0 0))
  :EndFor
 
  'F1.Status' eWC 'Text' 'Click with the mouse...' (370 20)('FontObj' 'F1.FNT0')

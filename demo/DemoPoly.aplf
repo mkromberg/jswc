@@ -8,5 +8,5 @@
  Y←64,128,0,64,128,208,48,16,128,64
  X←56,232,184,72,144,152,160,256,184,56
 
- 'F1'eWC'Form' 'PolyLine'(50 50)(181 292)('Coord' 'Pixel')
- 'F1.P1'eWC 'Poly' (Y X)('FillCol'(⊂208 138 40))('FStyle' 0)⍝ ('DrawMode' 13)
+ 'F1'eWC'Form' 'PolyLine'(50 50)(300 300)('Coord' 'Pixel')
+ 'F1.P1'eWC 'Poly' (50 0+Y X)('FillCol'(⊂208 138 40))('FStyle' 0)⍝ ('DrawMode' 13)

@@ -1,6 +1,6 @@
  DemoFlexLogin connected;formsize;rows;menucss;purple
 
- formsize←230 300
+ formsize←350 300
 
  USERID←'' ⍝ Global state
 

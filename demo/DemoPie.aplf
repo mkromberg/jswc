@@ -10,7 +10,7 @@
  PATS←0×1 2 3 4
 
  'F1.P1'eWC'Ellipse'(10 10)(200 280)('Start'ANGLES)('ArcMode' 2)('FCol'(⊂0 0 0))('FStyle'PATS)('FillCol'COLS)
- 'F1.P2'eWC'Circle'(150 450)120('Start'ANGLES)('ArcMode' 2)('FCol' COLS)('FStyle' ¯1)
+ 'F1.P2'eWC'Circle'(250 450)120('Start'ANGLES)('ArcMode' 2)('FCol' COLS)('FStyle' ¯1)
 
  ps←('Points' 250 10)('Size' 200 280)('FCol' (0,0,0))('FStyle' 0)
  'F1.E1'eWC 'Ellipse' ('ArcMode' 2)('DrawMode' 13)('Start' 0)    ('End' 1.167)('FillCol' (173,190,133)),ps
