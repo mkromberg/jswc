@@ -1,4 +1,4 @@
- {presel} CBRunDemo args;e;scores;cols;fcol;pass;ii;ids;target;demo;sf;f;name
+ {presel} CBRunDemo args;e;scores;cols;fcol;pass;ii;ids;target;demo;sf;f;name;sel
  :If 2=⎕NC 'presel'
      →RUN ⊣ demo←presel
  :EndIf
@@ -25,7 +25,8 @@
      →0
  :EndSelect
 
- demo←'Demo',(3⊃args)⊃(⊃args)eWG'Items'
+ sel←(⊃args)eWG'SelItems'
+ demo←'Demo',(sel⍳1)⊃(⊃args)eWG'Items'
 
 RUN:
  :If 3=⎕NC demo
