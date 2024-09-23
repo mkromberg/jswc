@@ -1,7 +1,6 @@
 (
- 'Configure'
- 'MouseUp'
  'MouseDown'
+ 'MouseUp'
  'MouseEnter'
  'MouseMove'
  'MouseLeave'
