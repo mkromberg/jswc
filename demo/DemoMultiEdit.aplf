@@ -2,8 +2,6 @@
  EWC.CONNECTED←connected
  ⎕PW←1000
 
- eWC←⎕WC ⋄ eWS←⎕WS ⋄ eWG←⎕WG
-
  text←⊂'Lorem ipsum dolor sit amet, consectetur adipiscing elit,'
  text,←⊂'sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
  text,←⊂'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris'
