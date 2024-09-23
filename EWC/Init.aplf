@@ -59,6 +59,8 @@
  :If 0=⎕NC'JSClientFolder'
      :If ⎕NEXISTS folder←'ewc-client/dist/',⍨⊃⎕NPARTS ¯1↓FOLDER ⍝ Is there a separate checkout of client?
          JSClientFolder←folder
+     :ElseIf ⎕NEXISTS folder←'jswc-client/dist/',⍨⊃⎕NPARTS ¯1↓FOLDER ⍝ Is there a separate checkout of client?
+         JSClientFolder←folder
      :ElseIf ⎕NEXISTS folder←FOLDER,'client/dist/'
          JSClientFolder←folder
      :Else
