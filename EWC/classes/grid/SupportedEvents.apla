@@ -2,4 +2,9 @@
  'CellChanged'
  'CellMove'
  'KeyPress'
+ 'MouseDown'
+ 'MouseUp'
+ 'MouseEnter'
+ 'MouseMove'
+ 'MouseLeave'
 )

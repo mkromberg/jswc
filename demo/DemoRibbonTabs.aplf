@@ -65,8 +65,6 @@
 
  (rb,'.Item5')eWC'RibbonGroup' 'Analysis'('Size' 6)bordercol
  (rb,'.Item5.GroupItem1')eWC'RibbonGroupItem' 12
- captions←'Black and Scholes' 'Checking prices' 'VAR Analysis' 'Calculate Option Prices'
- icons←'FcPodiumWithSpeaker' 'FcMoneyTransfer' 'FcSearch' 'FcTreeStructure'
  (rb,'.Item5.GroupItem1.ButtonGroup1')eWC'RibbonButtonGroup'('Red' 'Green' 'Blue')('ImageIndex'(1 2 3))sel
 
  eNQ'F1.TC.T1' 'Select'
