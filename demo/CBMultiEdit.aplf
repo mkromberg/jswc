@@ -1,0 +1,8 @@
+CBMultiEdit args;edit;end;start;seltext
+
+⎕←args
+edit←⊃args
+(start end)←edit eWG 'SelText'
+
+seltext←'Selected from row ',(⍕1⊃start),' col ',(⍕2⊃start),' to line ',(⍕1⊃end),' col ',(⍕¯1+2⊃end)
+'F1.L1' eWS 'Caption' ('Mouseup at ',(⍕2↑2↓args),': ',seltext)
