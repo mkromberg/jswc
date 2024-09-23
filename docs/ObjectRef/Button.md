@@ -4,9 +4,9 @@ The EWC implementation of [`⎕WC` class Button](https://help.dyalog.com/19.0/in
 
 | Properties|  |  |  |
 |--|--|--|--|
- |  [Align](https://help.dyalog.com/19.0/index.htm#GUI/Properties/Align.htm)      |  [Event](https://help.dyalog.com/19.0/index.htm#GUI/Properties/Event.htm)      |  [Size](https://help.dyalog.com/19.0/index.htm#GUI/Properties/Size.htm)    |  [Styles](https://help.dyalog.com/19.0/index.htm#GUI/Properties/Styles.htm)   |
- |  [Attach](https://help.dyalog.com/19.0/index.htm#GUI/Properties/Attach.htm)    |  [Picture](https://help.dyalog.com/19.0/index.htm#GUI/Properties/Picture.htm)  |  [State](https://help.dyalog.com/19.0/index.htm#GUI/Properties/State.htm)  |  [Visible](https://help.dyalog.com/19.0/index.htm#GUI/Properties/Visible.htm) |
- |  [Caption](https://help.dyalog.com/19.0/index.htm#GUI/Properties/Caption.htm)  |  [Posn](https://help.dyalog.com/19.0/index.htm#GUI/Properties/Posn.htm)        |  [Style](https://help.dyalog.com/19.0/index.htm#GUI/Properties/Style.htm)  |                                                                               |
+ |  [Align](https://help.dyalog.com/19.0/index.htm#GUI/Properties/Align.htm)    |  [Caption](https://help.dyalog.com/19.0/index.htm#GUI/Properties/Caption.htm)  |  [Posn](https://help.dyalog.com/19.0/index.htm#GUI/Properties/Posn.htm)    |  [Style](https://help.dyalog.com/19.0/index.htm#GUI/Properties/Style.htm)     |
+ |  [Attach](https://help.dyalog.com/19.0/index.htm#GUI/Properties/Attach.htm)  |  [Event](https://help.dyalog.com/19.0/index.htm#GUI/Properties/Event.htm)      |  [Size](https://help.dyalog.com/19.0/index.htm#GUI/Properties/Size.htm)    |  [Visible](https://help.dyalog.com/19.0/index.htm#GUI/Properties/Visible.htm) |
+ |  [CSS](https://help.dyalog.com/19.0/index.htm#GUI/Properties/CSS.htm)        |  [Picture](https://help.dyalog.com/19.0/index.htm#GUI/Properties/Picture.htm)  |  [State](https://help.dyalog.com/19.0/index.htm#GUI/Properties/State.htm)  |                                                                               |
 
 
 | Events|  |  |  |

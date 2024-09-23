@@ -4,8 +4,8 @@ The EWC implementation of [`⎕WC` class Group](https://help.dyalog.com/19.0/ind
 
 | Properties|  |  |  |
 |--|--|--|--|
- |  [Attach](https://help.dyalog.com/19.0/index.htm#GUI/Properties/Attach.htm)  |  [Caption](https://help.dyalog.com/19.0/index.htm#GUI/Properties/Caption.htm)  |  [Posn](https://help.dyalog.com/19.0/index.htm#GUI/Properties/Posn.htm)  |  [Styles](https://help.dyalog.com/19.0/index.htm#GUI/Properties/Styles.htm)   |
- |  [Border](https://help.dyalog.com/19.0/index.htm#GUI/Properties/Border.htm)  |  [Flex](https://help.dyalog.com/19.0/index.htm#GUI/Properties/Flex.htm)        |  [Size](https://help.dyalog.com/19.0/index.htm#GUI/Properties/Size.htm)  |  [Visible](https://help.dyalog.com/19.0/index.htm#GUI/Properties/Visible.htm) |
+ |  [Attach](https://help.dyalog.com/19.0/index.htm#GUI/Properties/Attach.htm)  |  [CSS](https://help.dyalog.com/19.0/index.htm#GUI/Properties/CSS.htm)          |  [Flex](https://help.dyalog.com/19.0/index.htm#GUI/Properties/Flex.htm)  |  [Size](https://help.dyalog.com/19.0/index.htm#GUI/Properties/Size.htm)       |
+ |  [Border](https://help.dyalog.com/19.0/index.htm#GUI/Properties/Border.htm)  |  [Caption](https://help.dyalog.com/19.0/index.htm#GUI/Properties/Caption.htm)  |  [Posn](https://help.dyalog.com/19.0/index.htm#GUI/Properties/Posn.htm)  |  [Visible](https://help.dyalog.com/19.0/index.htm#GUI/Properties/Visible.htm) |
 
 
 | Events|  |  |  |

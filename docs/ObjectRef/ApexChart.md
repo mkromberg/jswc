@@ -4,8 +4,8 @@ The EWC implementation of ApexChart supports:
 
 | Properties|  |  |  |
 |--|--|--|--|
- |  ChartType  |  Options  |  Series  |            |
- |  Event      |  Posn     |  Size    |            |
+ |  ChartType  |  Options  |  SVG     |  Size      |
+ |  Event      |  Posn     |  Series  |            |
 
 
 | Events|  |  |  |

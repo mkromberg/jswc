@@ -19,5 +19,3 @@ EWC adds the following classes not supported by `⎕WC`:
 |--|--|--|--|
  |   [ApexChart](ApexChart.md)  |   [RibbonButton](RibbonButton.md)            |   [RibbonGroup](RibbonGroup.md)          |                             |
  |   [Ribbon](Ribbon.md)        |   [RibbonButtonGroup](RibbonButtonGroup.md)  |   [RibbonGroupItem](RibbonGroupItem.md)  |                             |
-
-See EWC.Doc.Details 'classname' for more details
