@@ -31,10 +31,10 @@
  widths←40 30 50 60 100 200
 
  e←'Event'('MouseDblClick' 'MouseDown' 'MouseUp' 'MouseEnter' 'MouseLeave' 'MouseMove' 'MouseWheel')'CBMouse'
- (g←'F1.Holdings')eWC'Grid'('ColTitles'titles)('Posn'(40 10))('Size'(100,(1+≢widths)++/widths))('TitleWidth' 0)e('CellWidths'widths)
+ (g←'F1.Holdings')eWC'Grid'('ColTitles'titles)('Posn'(40 10))('Size'(100,(1+≢widths)++/widths))('TitleWidth' 0)('CellWidths'widths)
  g eWS'ShowInput' 0
 
- e←'Event' 'KeyPress' 'EWCUpdate'
+ ⍝ e←'Event' 'KeyPress' 'EWCUpdate'
  (g,'.OUTPUT')eWC'Label'e
  (g,'.TEXT')eWC'Edit'e
  (g,'.INT')eWC'Edit'('FieldType' 'Numeric')('Decimals' 0)e
@@ -70,7 +70,7 @@
  'F1.Where'eWC'Button' 'CurCell'(145 120)(23 100)('Event' 'Select' 'EWCUpdate')
  'F1.SelText'eWC'Button' 'SelText'(145 230)(23 100)('Event' 'Select' 'EWCUpdate')
 
- 'F1.TableSize'eWC'Edit' '10'(210 10)(23 100)('FieldType' 'Numeric')('Event' 'Change' 'EWCUpdate')e
+ 'F1.TableSize'eWC'Edit' '10'(210 10)(23 100)('FieldType' 'Numeric')e
  'F1.Function'eWC'Combo'(,¨allf)f(210 120)(23 100)('SelItems'(allf=f))('Event' 'Select' 'EWCUpdate')
  'F1.CalcBtn'eWC'Button' 'Calc'(210 230)(23 100)('Event' 'Select' 'EWCUpdate')
  'F1.Table'eWC'Grid'(∘.×⍨⍳n)(240 10)(550 780)
