@@ -7,4 +7,6 @@
  'MouseEnter'
  'MouseMove'
  'MouseLeave'
+ 'MouseDblClick'
+ 'MouseWheel'
 )

@@ -5,7 +5,7 @@ defaultPosnSize ns
     ns.Coord←'Pixel' ⍝ /// This is wrong, of course
 :EndIf
 
-'Coord must be ''Pixel'' or ''ScaledPixel'' at this time' ⎕SIGNAL ((⊂⎕C ns.Coord)∊'pixel' 'scaledpixel')↓11
+'Coord must be ''Pixel'' or ''ScaledPixel'' at this time' ⎕SIGNAL ((⊂⎕C ⍕ns.Coord)∊'pixel' 'scaledpixel')↓11
 :If 0=⎕NC 'ns.Size'
     ns.Size←⌊devCaps.ScreenSize÷2
 :EndIf

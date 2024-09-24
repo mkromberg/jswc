@@ -5,7 +5,7 @@
  top←(¯1+name⍳'.')↑name
 
  :If 9=caller.⎕NC n←top,'.HR._EWC'
-     r←(caller⍎n).(ID conn)
+     r←(present caller⍎n).(ID conn)
 
  :ElseIf MODE=2 ⍝ Multi
      :If 9=caller.⎕NC'_EWC'

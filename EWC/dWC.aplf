@@ -1,4 +1,4 @@
- {R}←Name ∆WC Props;p;m;WC;msg;length;m2;m3;z;type;class;ref;propnames;temp;proplist;expr;caller;deprecatedprops;props;pn;f;tn;i;ns;okprops;⎕TRAP;depth;valid;values;lcp;pi;ix;PropList;allprops;AllProps;n;cp;v;conn;folder;form;WS;hr;modal
+ {R}←Name ∆WC Props;p;m;WC;msg;length;m2;m3;z;type;class;ref;propnames;temp;proplist;expr;caller;deprecatedprops;props;pn;f;tn;i;ns;okprops;⎕TRAP;depth;valid;values;lcp;pi;ix;PropList;allprops;AllProps;n;cp;v;conn;folder;form;WS;hr;modal;fullname
  ⎕TRAP←0 'S'
  R←⍬
  deprecatedprops←,⊂'3D' ⍝ No longer appear in PropList
@@ -82,8 +82,11 @@
      m←~PropList∊propnames
      v←values,m/class.Defaults
      expr←'.(',(⍕propnames,m/PropList),')←',(1≠≢v)↓'⊃v'
-     ⍎(⍕caller),'.',Name,expr ⍝ Set properties in the "server-side DOM"
-     ⍝ (⍎R).⎕FX _trigger_ ⍝ Define trigger function
+     fullname←(⍕caller),'.',Name
+     ⍎fullname,expr ⍝ Set properties in the "server-side DOM"
+     fullname ⎕NS proxySpace
+     ⍎fullname,'.(EWC Dynamic)←⎕THIS class.Dynamic'
+     z←1 (700⌶) ⍎fullname   ⍝ "Magic" it
  :EndIf
 
  modal←(⊂type)∊⎕C modalClasses

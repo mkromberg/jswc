@@ -1,16 +1,29 @@
-﻿ iEvaluate←{z←{0::0 ⋄ 2503⌶⍵}3 ⍝ Thread and its children are un-interruptible
-     ⍺←⊢
-     data←⍺ iSpace.encode ⍵
-     ID←iD.numid
-     ss←{iSpace.session}⍣home⊢home←2∊⎕NC'iSpace.session.started' ⍝ is this true ?
-     z←{iso←ss.assoc.iso
-         (≢iso)≤i←iso⍳⍵:'ISOLATE: No longer accessible'⎕SIGNAL 6
-         (i⊃ss.assoc.busy)←1}⍣home⊢ID
-     (rc res)←z←iSend iD.tgt data      ⍝ the biz
-     ok←0=rc
-     ~home:{rc=0:⍵ ⋄ ⍎'#.Iso',(⍕ID),'error←rc ⍵' ⋄ ⎕SIGNAL rc}res   ⍝ call back? then we're done
-     z←ss.assoc.{((iso⍳⍵)⊃busy)←0}ID
-     ok:⊢res                           ⍝ spiffing!
-     (,⍕(⍕rc),': ',(0⊃res),{(⍵∨.≠' ')/': ',⍵}1⊃res,'' '')iSpace.qsignal rc
-        ⍝ execute expression supplied to isolate
- }
+﻿ r←iEvaluate args;z;n;m;v
+⍝ Missing support for onEvent←
+⍝         and Method invocation
+
+ z←{0::0 ⋄ 2503⌶⍵}3 ⍝ Thread and its children are un-interruptible
+ n←' '(≠⊆⊢)⊃args    ⍝ Names
+
+
+ :If 3=2⊃args       ⍝ Function?
+   ⎕TRAP←0 'S' ⋄ ∘∘∘
+ :EndIf
+
+ :If 3=≢args        ⍝ Get
+     :If ∨/m←n∊Dynamic ⍝ Need to ask client for an update
+         v←(⍕⎕THIS)EWC.∆WG n←m/n
+         ⍎n,'←v'
+     :EndIf
+     r←⍎⊃args
+
+ :Else              ⍝ Set
+
+     r←⍎⊃args       ⍝ Values before updates
+     ⍎'(',(⊃args),')←⊃⌽args'
+
+     :If ∨/m←n∊PropList ⍝ Need to communicate changes to client
+         n←m/n
+         EWC.sendWSns EWC.makeWSns(⍕⎕THIS)n(⍎(',⊂'/⍨1=≢n),⍕n)
+     :EndIf
+ :EndIf
