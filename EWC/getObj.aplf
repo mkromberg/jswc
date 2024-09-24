@@ -2,7 +2,7 @@
 
  :Trap 0
      objref←present caller⍎Name
-     type←objref.Type
+     type←present ⍎(⍕objref),'.Type'
      :If 9=classes.⎕NC t←⎕C type
          class←classes⍎t
      :Else

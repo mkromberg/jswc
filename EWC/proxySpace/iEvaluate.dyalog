@@ -6,8 +6,15 @@
  n←' '(≠⊆⊢)⊃args    ⍝ Names
 
 
- :If 3=2⊃args       ⍝ Function?
-   ⎕TRAP←0 'S' ⋄ ∘∘∘
+ :If 3=2⊃args       ⍝ Function - currently monadic only
+ :Select 3⊃args
+     :Case 32
+         r←⍎⊃args
+     :Case 52 ⍝ System function
+         r←(⍎⊃args)4⊃args
+     :Else
+        ...
+     :EndSelect
  :EndIf
 
  :If 3=≢args        ⍝ Get

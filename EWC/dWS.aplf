@@ -1,4 +1,4 @@
- {R}←Name ∆WS Props;WS;msg;ws;i;z;ref;expr;caller;⎕TRAP;proplist;pname;names;values;PropList;m;class;type;ix;HR;e;objref
+ {R}←Name ∆WS Props;WS;msg;ws;i;z;ref;expr;caller;⎕TRAP;proplist;pname;names;values;PropList;m;class;type;ix;HR;e;objref;fullname
  R←⍬
  ⎕SIGNAL (2>|≡Props)/11
  Props←,Props
@@ -62,7 +62,7 @@
  values←names((⎕C type) fixUpProps)values       ⍝ Regularise things for the poor JS code
  :If 0≠i←(1+≢names)-(⌽names)⍳⊂'Event'      ⍝ Last Event
  :AndIf 0 0≢i⊃values                       ⍝ Reset
- :AndIf 0≢⍴e←caller⍎Name,'.Event'          ⍝ Event property is "additive"
+ :AndIf 0≢⍴e←present caller⍎Name,'.Event'          ⍝ Event property is "additive"
      e←((e≢0 0)/e),i⊃values
      (i⊃values)←e[{⊢/⍵}⌸⊃¨e] ⍝ Pick last occurrence of each event
  :EndIf
@@ -73,8 +73,8 @@
      R←Name caller.⎕WS Props
  :ElseIf 0≠≢names
      expr←'.(',(⍕names),')←',(1≠≢values)↓'⊃values'
-     z←0 (700⌶) ref←present ⍎(⍕caller),'.',Name  ⍝ Unmagic the namespace to update
-     ⍎'ref',expr ⍝ Update "server-side DOM"
+     z←0 (700⌶) ref←present ⍎fullname←(⍕caller),'.',Name  ⍝ Unmagic the namespace to update
+     ⍎fullname,expr ⍝ Update "server-side DOM"
      z (700⌶) ref                        ⍝ Remagic
  :EndIf
 

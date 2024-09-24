@@ -87,7 +87,7 @@
             ⍝ (i⊃R)-←HRBorder
          :EndIf
      :Else
-         :Select (caller⍎Name,'.Type')Props
+         :Select present (caller⍎Name,'.Type')Props
          :Case 'SubForm' 'Size'
              'W'Log'Working around failed WG Size on Subform ',Name
              R←,⊂caller⍎Name,'.Size'
