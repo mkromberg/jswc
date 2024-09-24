@@ -35,7 +35,7 @@
          'E'Log'Client sent null ID'
          →0
      :Else
-         event←gui⍎z←ID,'.Event'
+         event←present gui⍎z←ID,'.Event'
      :EndIf
  :Else
      'E'Log'*** Unable to find ',z,', cannot process ',⎕JSON ns
@@ -101,7 +101,7 @@
 
  :If 1 ⍝ Recording events
  :AndIf 9=⎕NC(⍕code),'.',ID
- :AndIf 9=⎕NC class←'classes.',⎕C code⍎ID,'.Type'
+ :AndIf 9=⎕NC class←'classes.',⎕C present code⍎ID,'.Type'
      class←⍎class
      e←{0::⍵ ⋄ class.SupportedEvents}''
      :If ~(⊂Event)∊e

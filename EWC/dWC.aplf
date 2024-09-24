@@ -1,4 +1,4 @@
- {R}←Name ∆WC Props;p;m;WC;msg;length;m2;m3;z;type;class;ref;propnames;temp;proplist;expr;caller;deprecatedprops;props;pn;f;tn;i;ns;okprops;⎕TRAP;depth;valid;values;lcp;pi;ix;PropList;allprops;AllProps;n;cp;v;conn;folder;form;WS;hr;modal;fullname
+ {R}←Name ∆WC Props;p;m;WC;msg;length;m2;m3;z;type;class;ref;propnames;temp;proplist;expr;caller;deprecatedprops;props;pn;f;tn;i;ns;okprops;⎕TRAP;depth;valid;values;lcp;pi;ix;PropList;allprops;AllProps;n;cp;v;conn;folder;form;WS;hr;modal;fullname;top
  ⎕TRAP←0 'S'
  R←⍬
  deprecatedprops←,⊂'3D' ⍝ No longer appear in PropList
@@ -83,10 +83,13 @@
      v←values,m/class.Defaults
      expr←'.(',(⍕propnames,m/PropList),')←',(1≠≢v)↓'⊃v'
      fullname←(⍕caller),'.',Name
-     ⍎fullname,expr ⍝ Set properties in the "server-side DOM"
+     z←0 (700⌶) top←⍎(¯1+(+\fullname='.')⍳3)↑fullname
+     ref←present ⍎fullname
+     z←z (700⌶) top
+     ⍎'ref',expr ⍝ Set properties in the "server-side DOM"
      fullname ⎕NS proxySpace
-     ⍎fullname,'.(EWC Dynamic)←⎕THIS class.Dynamic'
-     z←1 (700⌶) ⍎fullname   ⍝ "Magic" it
+     ⍎'ref.(EWC Dynamic)←⎕THIS class.Dynamic'
+     z←1 (700⌶) ref   ⍝ "Magic" it
  :EndIf
 
  modal←(⊂type)∊⎕C modalClasses
@@ -104,7 +107,7 @@
      WS.WS.Properties.Posn←(1+USEHR)⊃(caller⍎form,'.Posn') MENUOffset
      sendObject WS form
  :AndIf USEHR       ⍝ Need to adjust size of HTMLRenderer
-     hr←caller⍎form,'.HR'
+     hr←present caller⍎form,'.HR'
      hr.Size+←MENUOffset
  :EndIf
 

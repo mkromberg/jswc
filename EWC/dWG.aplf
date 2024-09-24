@@ -1,4 +1,4 @@
- R←Name ∆WG Props;msg;WG;wg;z;caller;p;class;remote;dynamic;r;d;i;⎕TRAP;proplist;PropList;m;ix;ID;conn;n;cp;size;lp;m
+ R←Name ∆WG Props;msg;WG;wg;z;caller;p;class;remote;dynamic;r;d;i;⎕TRAP;proplist;PropList;m;ix;ID;conn;n;cp;size;lp;m;ref
  ⎕TRAP←0 'S'
 
  Name←⍕∊Name
@@ -61,7 +61,8 @@
      R←(≢p)⍴⊂⍬
      :If 0≠≢i←⍸~dynamic
          :Trap 6
-             R[i]←caller⍎((1=≢i)/'⊂'),Name,'.(',(⍕p[i]),')'
+             ref←present ⍎(⍕caller),'.',Name
+             R[i]←⍎(1≠≢i)↓'⊂ref.(',(⍕p[i]),')'
          :Else
              ⎕DMX.Message ⎕SIGNAL 6
          :EndTrap

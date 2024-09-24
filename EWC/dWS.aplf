@@ -73,8 +73,8 @@
      R←Name caller.⎕WS Props
  :ElseIf 0≠≢names
      expr←'.(',(⍕names),')←',(1≠≢values)↓'⊃values'
-     z←0 (700⌶) ref←⍎(⍕caller),'.',Name  ⍝ Unmagic the namespace to update
-     ⍎ref,expr ⍝ Update "server-side DOM"
+     z←0 (700⌶) ref←present ⍎(⍕caller),'.',Name  ⍝ Unmagic the namespace to update
+     ⍎'ref',expr ⍝ Update "server-side DOM"
      z (700⌶) ref                        ⍝ Remagic
  :EndIf
 
