@@ -44,5 +44,6 @@
  'ChildList'
  'EventList'
  'PropList'
- 'CSS'
+ 'Css'
+ 'CssClass'
 )

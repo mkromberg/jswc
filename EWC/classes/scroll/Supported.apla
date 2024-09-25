@@ -10,4 +10,6 @@
  'HScroll'
  'VScroll'
  'Attach'
+ 'Css'
+ 'CssStyle'
 )

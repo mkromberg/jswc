@@ -10,5 +10,6 @@
  'State'
  'Align'
  'Attach'
- 'CSS'
+ 'Css'
+ 'CssClass'
 )

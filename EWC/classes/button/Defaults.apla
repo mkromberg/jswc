@@ -149,6 +149,9 @@
   'ChildList'
   'EventList'
   'PropList'
+  'Css'
+  'CssStyle'
  )
+ ''
  ''
 )
