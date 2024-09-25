@@ -1,11 +1,12 @@
- r←iEvaluate args;z;m;v;a;i;n;o
+ r←iEvaluate args;z;m;v;a;i;n;o;this;exec;dot;d;e;f
 ⍝ Missing support for onEvent←
 ⍝         and Method invocation
 
  z←{0::0 ⋄ 2503⌶⍵}3 ⍝ Thread and its children are un-interruptible
+ exec←{0=≢⍺:⍎⍵ ⋄ ⍺⍎⍵}
  a←⊃args    ⍝ Names
- :If (≢a)<i←(⌽a)⍳'.' ⍝ No dot?
-     o←⍕⎕THIS
+ :If this←(≢a)<i←(⌽a)⍳'.' ⍝ No dot?
+     o←'' ⍝ This space
  :Else ⍝ There was a dot
      o←(-i)↓a ⋄ a←(1-i)↑a
  :EndIf
@@ -16,10 +17,11 @@
      :Case 32
          r←⍎a
      :Case 52 ⍝ Function
+         f←⍎(0=≢o)↓'o⍎a'
          :If 4=≢args
-             r←(o⍎a)4⊃args
+             r←f 4⊃args
          :Else
-             r←o⍎a
+             r←f
          :EndIf
      :Else
          ...
@@ -33,17 +35,24 @@
          v←(⍕⎕THIS)EWC.∆WG n←m/n
          ⍎n,'←v'
      :EndIf
-     r←o⍎a
+     r←o exec a
 
  :Else              ⍝ Set
 
      :Trap 6
-         r←o⍎a      ⍝ Values before updates
+         r←o exec a      ⍝ Values before updates
      :Else
          r←(≢n)⍴⊂⍬
      :EndTrap
 
-     o⍎'.(',a,')←⊃⌽args'   ⍝ Set the variables
+     :Trap 0
+         dot←(0≠≢o)/'.'
+         m←1≠≢d←⊃⌽args
+         e←(⍕o),dot,(m/'('),a,(m/')'),'←d'   ⍝ Set the variables
+         ⍕e
+     :Else
+         ...
+     :EndTrap
 
      :If ∨/m←n∊o⍎PropList ⍝ Need to communicate changes to client
          n←m/n
