@@ -1,0 +1,21 @@
+ test_proxySpace;Monadic;prefix;abc;def;spaces;f;z
+ ⎕FX ##.EWC.proxySpace.⎕CR'iSyntax'   ⍝ Move a copy here
+ ⎕FX ##.EWC.proxySpace.⎕CR'iEvaluate' ⍝ Move a copy here
+ ⎕FX'R←Monadic X' 'R←2+2'
+ (abc def)←42 'Hello'
+ 'A' 'A.B' ⎕NS¨⊂'Monadic' 'abc' 'def'
+ spaces←'' 'A.' 'A.B.'
+
+ spaces pSTest'abc'(2 0)'plain variable'
+ spaces pSTest'(abc def)'(2 0)'multiple variables'
+ spaces pSTest'Monadic'(3 52)'function'
+ spaces pSTest'(Monadic abc)'(3 52)'monadic function call'
+ spaces pSTest'(abc×2)'(3 32)'expression'
+
+ ⍝ Check for changes during testing :P
+ :For f :In 'iSyntax' 'iEvaluate'
+     :If (⎕NR f)≢##.EWC.proxySpace.⎕NR f
+         z←##.EWC.proxySpace.⎕FX ⎕NR f
+         ⎕SE.Link.Add (⍕##.EWC.proxySpace),'.',f
+     :EndIf
+ :EndFor
