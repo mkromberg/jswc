@@ -9,7 +9,7 @@
 
  :If ~∧/names∊'.' '#'
      ⎕SIGNAL(∨/~(caller.⎕NC z←names,¨⊂'.Type')∊2.1 ¯2.6)/11
-     types←caller⍎¨z
+     types←,⊆caller⍎⍕z
      :If modal←∧/types∊modalClasses
         'Only one modal object at a time' ⎕SIGNAL (1≠≢names)/11
         R←,⊆dWX (⊃names) 'OnlyDQ' (⊃names)

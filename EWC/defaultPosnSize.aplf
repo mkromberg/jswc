@@ -1,7 +1,7 @@
 defaultPosnSize ns
 ⍝ Implement defaults for properties Coord, Posn, Size
 
-:If 0=⎕NC 'ns.Coord'
+:If 0=ns.⎕NC 'Coord'
     ns.Coord←'Pixel' ⍝ /// This is wrong, of course
 :EndIf
 

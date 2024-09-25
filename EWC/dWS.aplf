@@ -72,9 +72,14 @@
  :If USEWIN32
      R←Name caller.⎕WS Props
  :ElseIf 0≠≢names
-     expr←'.(',(⍕names),')←',(1≠≢values)↓'⊃values'
+     m←1≠≢values ⍝ multi
+     expr←'.',(m/'('),(⍕names),(~m)↓')←',m↓'⊃values'
      z←0 (700⌶) ref←present ⍎fullname←(⍕caller),'.',Name  ⍝ Unmagic the namespace to update
-     ⍎fullname,expr ⍝ Update "server-side DOM"
+     :Trap 2
+         ⍎fullname,expr ⍝ Update "server-side DOM"
+     :Else
+         ⍎'ref',expr
+     :EndTrap
      z (700⌶) ref                        ⍝ Remagic
  :EndIf
 
