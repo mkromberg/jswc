@@ -2,9 +2,9 @@
      ⎕ML←⎕IO←1
      c←{⌽(+/∧\' '=⍵)↓⍵}⍣2⊢⍵                 ⍝ Drop leading & trailing blanks
      '⎕'=⊃c:⊢{0::0 0 ⋄ x←⍎⍵ ⋄ c←⎕NC'x' ⋄ (2 3⍳c)⊃(2 0)(3 52)(0 0)}⍵ ⍝ assumes ⎕FNS all ambivalent
-     nc←⎕NC n←' '(≠⊆⊢)' '@(⍸c∊'().')⊢c      ⍝ Potential names
+     nc←⎕NC (⊂c),n←' '(≠⊆⊢)' '@(⍸c∊'().')⊢c ⍝ Potential names
      3∊⌊|nc:3 52                            ⍝ Assume user-defined fns also ambivalent
-     ¯1∊nc:3 32                             ⍝ Anything not just a name is an expression
+     ¯1∊1↓nc:3 32                           ⍝ Anything not just a name is an expression
      2 0                                    ⍝ Looks like a valid list of names
 
      ⍝ ↓↓↓ Original isolate code

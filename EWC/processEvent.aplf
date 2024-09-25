@@ -15,6 +15,11 @@
  end←0
  (Event ID Info)←ns.Event.(EventName ID({0::⍵ ⋄ Info}⍬))
 
+ :If Event≡'Configure'
+     'E' Log 'Ignoring Configure event'
+     →0
+ :EndIf
+
  :If Event≡'KeyPress'
  :AndIf (≢JSKeys)≥z←JSKeys⍳Info[1]
      shift←4⊃Info

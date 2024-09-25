@@ -86,7 +86,8 @@
              :If MODE=0 ⍝ Desktop
                  :For form :In 'Form'∆WN code
                      :If 9=⎕NC form,'.HR'
-                         z←0 (700⌶) f←⍎form
+                         f←⍎form                   
+                         z←0 (700⌶) f
                          hr←f.HR
                          CALLER←code
                          old←f.(Posn,Size)

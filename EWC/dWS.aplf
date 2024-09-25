@@ -74,13 +74,18 @@
  :ElseIf 0≠≢names
      m←1≠≢values ⍝ multi
      expr←'.',(m/'('),(⍕names),(~m)↓')←',m↓'⊃values'
-     z←0 (700⌶) ref←present ⍎fullname←(⍕caller),'.',Name  ⍝ Unmagic the namespace to update
-     :Trap 2
-         ⍎fullname,expr ⍝ Update "server-side DOM"
+     fullname←(⍕caller),'.',Name
+     :If DIRECT
+         z←0 (700⌶) ref←present ⍎fullname  ⍝ Unmagic the namespace to update
+         :Trap 2
+             ⍎fullname,expr ⍝ Update "server-side DOM"
+         :Else
+             ⍎'ref',expr
+         :EndTrap
+         z (700⌶) ref                        ⍝ Remagic
      :Else
-         ⍎'ref',expr
-     :EndTrap
-     z (700⌶) ref                        ⍝ Remagic
+         ⍎fullname,expr ⍝ Update "server-side DOM"
+     :EndIf
  :EndIf
 
  :If type≡'imagelist'
@@ -99,4 +104,4 @@
      ∘∘∘
  :EndIf
 
- sendWSns WS
+ caller sendWSns WS

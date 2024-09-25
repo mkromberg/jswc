@@ -1,0 +1,14 @@
+ (wgid msg)←sendWGmsg(conn Name Props);WG;wg;z
+
+ wgid←⍕WGID←WGID+1
+ WG←⎕NS''
+ wg←WG.WG←⎕NS''
+
+ wg.(WGID ID Properties)←wgid Name Props
+ msg←⎕JSON WG
+ :If CONNECTED
+     'T'Log'#',(⍕conn),': ',msg
+     z←conn WSS.Send msg
+ :Else
+     'T'Log'(no connection): ',msg
+ :EndIf

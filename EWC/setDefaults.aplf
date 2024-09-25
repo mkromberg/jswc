@@ -9,3 +9,4 @@ setDefaults
  'BREAK'        default ⍬ ⍬ ⍝ IDs Events
  'SHOWDEVTOOLS' default 0
  'FONTMAP'      default FontMap
+ 'DIRECT'       default 0   ⍝ No direct property access

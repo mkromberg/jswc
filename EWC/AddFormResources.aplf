@@ -17,5 +17,5 @@
      res←((⍕caller),'.'){((≢⍺)×⍺≡(≢⍺)↑⍵)↓⍵}res
      WC.WC.(ID Properties)←res (⎕NS'')
      ⍎'WC.WC.Properties',expr←'.(',(⍕propnames),')←present r.(',(⍕propnames),')'
-     sendObject WC WC.WC.ID
+     caller sendObject WC WC.WC.ID
  :EndFor

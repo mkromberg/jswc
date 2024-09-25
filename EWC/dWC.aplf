@@ -2,7 +2,7 @@
  ⎕TRAP←0 'S'
  R←⍬
  deprecatedprops←,⊂'3D' ⍝ No longer appear in PropList
- LogCalls Name 'WC' Props
+ LogCalls Name'WC'Props
  caller←findCaller
  Name←caller removeCaller Name
 
@@ -18,8 +18,8 @@
  :EndIf
 
  :If 9≠classes.⎕NC type
-     Warning 'WC ',Name,' - unsupported class "',type,'"'
-     ⎕←⎕SE.UCMD 'disp ⍪Props'
+     Warning'WC ',Name,' - unsupported class "',type,'"'
+     ⎕←⎕SE.UCMD'disp ⍪Props'
      Name caller.⎕NS''
      (caller⍎Name).Type←type
      →0
@@ -83,13 +83,17 @@
      v←values,m/class.Defaults
      expr←'.(',(⍕propnames,m/PropList),')←',(1≠≢v)↓'⊃v'
      fullname←(⍕caller),'.',Name
-     z←0 (700⌶) top←⍎(¯1+(+\fullname='.')⍳3)↑fullname
-     ref←present ⍎fullname
-     z←z (700⌶) top
-     ⍎'ref',expr ⍝ Set properties in the "server-side DOM"
-     fullname ⎕NS proxySpace
-     ⍎'ref.(EWC Dynamic)←⎕THIS class.Dynamic'
-     z←1 (700⌶) ref   ⍝ "Magic" it
+     ⍎fullname,expr ⍝ Set properties in the "server-side DOM"
+
+     :If DIRECT     ⍝ Enable direct property references?
+         fullname ⎕NS proxySpace
+         ⍎fullname,'.(EWC Dynamic)←⎕THIS class.Dynamic'
+         :Trap 0
+             z←1(700⌶)present⍎fullname   ⍝ "Magic" it
+         :Else
+             'E'Log'Unable to enable assignment on ',fullname
+         :EndTrap
+     :EndIf
  :EndIf
 
  modal←(⊂type)∊⎕C modalClasses
@@ -104,8 +108,8 @@
      WS←⎕NS''
      WS.WS←⎕NS''
      WS.WS.(ID Properties)←form(⎕NS'')
-     WS.WS.Properties.Posn←(1+USEHR)⊃(caller⍎form,'.Posn') MENUOffset
-     sendObject WS form
+     WS.WS.Properties.Posn←(1+USEHR)⊃(caller⍎form,'.Posn')MENUOffset
+     caller sendObject WS form
  :AndIf USEHR       ⍝ Need to adjust size of HTMLRenderer
      hr←present caller⍎form,'.HR'
      hr.Size+←MENUOffset
@@ -141,9 +145,9 @@
      ∘∘∘
  :EndIf
 
- 'D' Log '*** CREATE ',WC.WC.Properties.Type,' ',WC.WC.ID,' at ',⍕3↑showCallStack
+ 'D'Log'*** CREATE ',WC.WC.Properties.Type,' ',WC.WC.ID,' at ',⍕3↑showCallStack
  fixSendEvents WC.WC.(ID Properties)
- sendObject WC WC.WC.ID
+ caller sendObject WC WC.WC.ID
 
  :If USEHR∧type≡'form'
      AddFormResources caller
