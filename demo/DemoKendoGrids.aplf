@@ -13,9 +13,11 @@
 
  opts←⎕NS''
  opts.filterable←1
+⍝  '' as the filter type is equivalent to using the default undefined filter in JS
  opts.filterableCols←('Buttons' '') ('Numbers' 'numeric')
  opts.sortable←1
  opts.sortableCols←'Buttons' 'Numbers'
+⍝  Column to column type - there is a lookup table on the JS side for ButtonCell/VideoCell/ImageCell
  opts.columnTypes←('Buttons' 'Button') ('Videos' 'Video') ('Images' 'Image')
 
  'F1.Grid'eWC'KendoGrid'values(50 10)(550 780)('Coord' 'Pixel')('ColTitles'headers)('Options'opts)
