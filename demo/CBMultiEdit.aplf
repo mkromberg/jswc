@@ -1,8 +1,14 @@
-CBMultiEdit args;edit;end;start;seltext
+ CBMultiEdit args;edit;end;start;seltext
 
-⎕←args
-edit←⊃args
-(start end)←edit eWG 'SelText'
+ ⎕←args
 
-seltext←'Selected from row ',(⍕1⊃start),' col ',(⍕2⊃start),' to line ',(⍕1⊃end),' col ',(⍕¯1+2⊃end)
-'F1.L1' eWS 'Caption' ('Mouseup at ',(⍕2↑2↓args),': ',seltext)
+ :If 'MouseUp'≡¯7↑2⊃args
+     edit←⊃args
+     (start end)←edit eWG'SelText'
+     :If 1=≢end
+        seltext←'SelText is not a 2-element list of 2-element lists!'
+     :Else
+        seltext←'Selected from row ',(⍕1⊃start),' col ',(⍕2⊃start),' to line ',(⍕1⊃end),' col ',(⍕¯1+2⊃end)
+     :EndIf
+     'F1.L1'eWS'Caption'('Mouseup at ',(⍕2↑2↓args),': ',seltext)
+ :EndIf

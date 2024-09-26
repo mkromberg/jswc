@@ -116,7 +116,7 @@
  QUEUEIDS←QUEUEDATA←⍬
 
  (EVENTNUMS EVENTNAMES)←↓⍉EVENTS
- eventNames←⎕C EVENTNAMES
+ onEventNames←'on'∘,¨eventNames←⎕C EVENTNAMES
 
  (JSKeys APLKeys)←1 1 0 0⊂keyMap ⋄ JSKeys←,JSKeys
 
