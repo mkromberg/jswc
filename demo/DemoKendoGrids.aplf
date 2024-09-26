@@ -4,8 +4,9 @@
 
  buttons←'ABCD' 'DEFG' 'HIJL'
  numbers←5123 6750 11231
- videos←'' 'http://localhost:22322/images/scrolling_text.mp4' ''
- images←'http://localhost:22322/images/dyalog-logo.jpg' '' ''
+⍝  TODO! If run using vite for the JS frontend, hardcode localhost:22322 right now
+ videos←'' '/videos/scrolling_text.mp4' ''
+ images←'/images/dyalog-logo.jpg' '' ''
 
  headers←'Buttons' 'Numbers' 'Videos' 'Images'
 
