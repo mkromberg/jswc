@@ -12,5 +12,6 @@
 
  'F1'eWC'Form' 'Text Editor'(50 50)(800 800)('Coord' 'Pixel')
  'F1.L1'eWC'Label' 'Edit the text'(10 10)(23 780)
- font←'Font' ('Courier New' 20)
+ font←'Font' ('Courier New' 17)
  'F1.NotePad'eWC'Edit'text(50 10)(740 780)('Style' 'Multi') ('Event' 'MouseUp' 'CBMultiEdit') font
+ 'F1.NotePad'eWS'Event' 'MouseDown' 'CBMultiEdit'
