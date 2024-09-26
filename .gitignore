@@ -1,3 +1,5 @@
 EWC/server/*
 # mkdocs output
 /site/
+.DS_Store
+.linkconfig

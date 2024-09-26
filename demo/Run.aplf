@@ -16,7 +16,11 @@
      ('image folder "',images,'" not found') ⎕SIGNAL 11
  :EndIf
 
- EWC.RESOURCES←1 2⍴'images' images
+ :If ~⎕NEXISTS videos←∊1 ⎕NPARTS root,'/demo/videos'
+     ('video folder "',videos,'" not found') ⎕SIGNAL 11
+ :EndIf
+
+ EWC.RESOURCES←2 2⍴'images' images 'videos' videos
 
  :If 2=⎕NC 'mode'
      MODE←mode
