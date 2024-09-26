@@ -1,4 +1,4 @@
- DemoMultiEdit connected;text;font
+ DemoMultiEdit connected;text;font;t
  EWC.CONNECTED←connected
  ⎕PW←1000
 
@@ -15,3 +15,8 @@
  font←'Font' ('Courier New' 17)
  'F1.NotePad'eWC'Edit'text(50 10)(740 780)('Style' 'Multi') ('Event' 'MouseUp' 'CBMultiEdit') font
  'F1.NotePad'eWS'Event' 'MouseDown' 'CBMultiEdit'
+
+ t←'F1.NotePad' eWG 'Text'
+ :If t≢text
+     ⎕←'*** WG Text does not match original ***'
+ :EndIf
