@@ -2,6 +2,7 @@
  EWC.CONNECTED←connected
  ⎕PW←1000
 
+ EWC.DIRECT←1
  text←⊂'Lorem ipsum dolor sit amet, consectetur adipiscing elit,'
  text,←⊂'sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
  text,←⊂'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris'
@@ -16,6 +17,7 @@
  'F1.NotePad'eWC'Edit'text(50 10)(740 780)('Style' 'Multi')('Event' 'MouseUp' 'CBMultiEdit')font
 
  :If EWC.DIRECT
+     ...
      F1.NotePad.onMouseDown←'CBMultiEdit'
  :Else
      'F1.NotePad'eWS'Event' 'onMouseDown' 'CBMultiEdit'

@@ -1,4 +1,4 @@
- r←iEvaluate args;z;m;v;a;i;n;o;this;exec;dot;d;e;f;caller;name;p;wgid;msg;conn;s
+ r←iEvaluate args;z;m;v;a;i;n;o;this;exec;dot;d;e;f;caller;name;p;wgid;msg;conn;s;t
 ⍝ Missing support for onEvent←
 ⍝         and Method invocation
 
@@ -62,6 +62,11 @@
          m←' '∊a
          e←(⍕o),dot,(m/'('),a,(m/')'),'←d'   ⍝ Set the variables
          ⍎e
+         :If ∨/m←(2↑¨n)∊⊂'on'
+         :AndIf ∨/m←((2×m)↓¨n)∊EventList     ⍝ onEvent...
+             Event←EWC.updateEvent (t←Event) (m/n) (m/⊆d)
+             n,←(t≢Event)/⊂'Event'           ⍝ Add Event to list
+         :EndIf
      :Else
          ...
      :EndTrap

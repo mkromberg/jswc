@@ -1,0 +1,3 @@
+Event←updateEvent (old names values);m
+m←~(⊃¨old)∊names,2↓¨names
+Event←(m/old),↓names,⍪values
