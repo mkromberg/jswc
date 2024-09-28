@@ -118,7 +118,11 @@
               :Select evt
               :Case 'Error'             
                   ⎕←wres
-                  _stop←ServerName≡obj
+                  :If ~_stop←ServerName≡obj
+                  :AndIf 0≠evt RunHandler wres
+                      :Leave
+                  :EndIf
+     
                   :If 0≠4⊃wres
                       Log'Server: DRC.Wait reported error ',(⍕4⊃wres),' on ',(2⊃wres)
                   :EndIf
@@ -154,7 +158,6 @@
      
               :Case 'Close'   
                   ⎕←wres  
-                  ∘∘∘
                   :If 0≠evt RunHandler wres
                       :Leave
                   :EndIf

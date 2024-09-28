@@ -1,0 +1,3 @@
+r←event onError wres
+⍝ Return 0 if completely handled
+...
