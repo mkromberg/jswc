@@ -52,7 +52,7 @@
  :If mode=2
      :If CODELOCATION∊# ⎕SE
      :OrIf 3≠CODELOCATION.⎕NC'Initialise'
-         'Multi-mode must be initialised from a namespace containing a function Init'⎕SIGNAL 11
+         'Multi-mode must be initialised from a namespace containing a function Initialise'⎕SIGNAL 11
      :EndIf
  :EndIf
 
