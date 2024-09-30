@@ -4,9 +4,9 @@ home.⎕EX '_EWC.conn'
 cb←(⍕⎕THIS),'.HRCallbacks'
 dpr←DPR
 defaultPosnSize ns
-z←0 (700⌶) ns
+⍝ z←0 (700⌶) ns
 'HR' ns.⎕WC 'HTMLRenderer' ('Caption' ns.Caption) ('URL' ('localhost:',⍕PORT)) ('Size' (dpr×ns.Size+HRBorder))('Coord' ns.Coord)('Posn' (dpr×ns.Posn))('Event' ('Close' 'Configure') cb)('Visible' (~modal))
-z←z (700⌶) ns
+⍝ z←z (700⌶) ns
 'D' Log 'Created HTMLRenderer ',(⍕ns),'.HR'
 
 :If SHOWDEVTOOLS

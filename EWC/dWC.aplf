@@ -89,7 +89,7 @@
          fullname ⎕NS proxySpace
          ⍎fullname,'.(EWC Dynamic)←⎕THIS class.Dynamic'
          :Trap 0
-             z←1(700⌶)present⍎fullname   ⍝ "Magic" it
+             z←2(700⌶)present⍎fullname   ⍝ "Magic" it
          :Else
              'E'Log'Unable to enable assignment on ',fullname
          :EndTrap

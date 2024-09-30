@@ -11,6 +11,8 @@
      'Please set EWC.FOLDER to identify the EWC source folder' ⎕SIGNAL 11
  :EndIf
 
+ DIRECT←{0::0 ⋄ 0=2 (700⌶) ⍵} ⎕NS ''
+
  FOLDER←∊1 ⎕NPARTS folder,'/'
 
  :If ~⎕NEXISTS FOLDER

@@ -87,12 +87,10 @@
                  :For form :In 'Form'∆WN code
                      :If 9=⎕NC form,'.HR'
                          f←⍎form                   
-                         z←0 (700⌶) f
                          hr←f.HR
                          CALLER←code
                          old←f.(Posn,Size)
                          new←hr.Posn,hr.Size-HRBorder
-                         z←z (700⌶) f
                          :If old≢new
                              ∆NQ form 'Configure',new
                          :EndIf

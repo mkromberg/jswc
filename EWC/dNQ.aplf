@@ -62,9 +62,7 @@
          →0
      :Case 'configure'
          (hdr posn size)←1 0 1 0 1 0⊂6↑Event
-         z←0 (700⌶) objref
          t←objref.HR.(Posn Size)←0 (HRBorder)+posn size
-         z←z (700⌶) objref
          'N' Log '    Configure HTMLRenderer → ',⍕t
          Event[3 4]←MENUOffset ⍝ We always tell the client that Posn is (0,0) + Offset for Menu
      :EndSelect
