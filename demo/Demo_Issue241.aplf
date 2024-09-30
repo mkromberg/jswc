@@ -1,0 +1,9 @@
+ Demo_Issue241 connected;inputs;scores
+ EWC.CONNECTED←connected
+ ⎕PW←1000
+
+ 'F1'eWC'Form' 'Function Table'(50 50)(800 800)('Coord' 'Pixel')
+
+ 'F1.Players'eWC'Grid'('ColTitles'('Name' 'Gender' 'Score' 'Expert'))('Posn'(10 10))('Size'(100 480))('TitleWidth' 0)
+ scores←12 13
+ 'F1.Players'eWS('Values'('Amir' '','Male' 'Female',scores,⍪'Yes' ''))
