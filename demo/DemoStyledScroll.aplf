@@ -5,7 +5,7 @@
  max←1000
 
  style←'.ewc-thumb { background-color: #3498db; }' '.demo-button { background-color: turquoise; }'
- horzthumb←'background-color: #db9834'                  ⍝ Will override the horizontal one
+ horzthumb←'.ewc-thumb {background-color: red}'          ⍝ Will override the horizontal one
 
  'F1'eWC'Form' 'Virtual Grid'(50 50)(500 800)('Coord' 'Pixel')('Event' 'KeyPress' 'CBUpdateScroll')
  'F1.STYLE'eWC'CssStyle'style
