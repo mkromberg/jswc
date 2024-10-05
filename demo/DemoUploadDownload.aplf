@@ -1,0 +1,23 @@
+ DemoUploadDownload connected;ns
+ EWC.CONNECTED←connected
+ ⎕PW←1000
+
+ ns←'#.DemoUploadDownloadStore'
+
+ :If (⎕NC ns)≠9
+     ns⎕NS''
+     #.DemoUploadDownloadStore.Txt←'Nothing uploaded'
+ :EndIf
+
+ 'F1'eWC'Form' 'Upload and Download'(50 50)(500 500)('Coord' 'Pixel')
+
+ 'F1.DYALOG'eWC'Link' 'http://dyalog.com' 'Dyalog Website' ⍝ ('Target' '_blank')
+
+ 'F1.DLLOGO'eWC'Link' 'images/dyalog-logo.jpg' 'Download Logo' ('Target' '_blank') ('Download' 1)
+
+ 'F1.UPLOAD'eWC'Upload'
+ 'F1.UPLOADBTN'eWC'Button' 'Upload!'(100 0)(20 50)('Event' 'Select' 'CBUpload')
+
+ 'F1.G'eWC'Group'('Posn' (120 0))('Size' (200 200))
+ 'F1.G.UPLOADED'eWC'Text'#.DemoUploadDownloadStore.Txt (100 0)(200 200)
+     
