@@ -3,4 +3,5 @@
  'Retracting'
  'ItemDown'
  'ItemDblClick'
+ 'MouseUp'
 )
