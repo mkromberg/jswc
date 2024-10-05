@@ -1,4 +1,4 @@
- {R}←∆DQ names;⎕TRAP;caller;class;type;HR;timers;event;done;interrupt;tkn;m;i;types;z;modal;ID;conn;e;n
+ {R}←∆DQ names;⎕TRAP;caller;class;type;HR;timers;event;done;interrupt;tkn;m;i;types;z;modal;ID;conn;e;n;id
 
  ⎕TRAP←0 'S'
  names←,⊆names
@@ -46,6 +46,9 @@
                  :EndIf
                  :If MODE=2
                      R.CodeLocation←⍕caller
+                 :EndIf
+                 :If 9=⎕NC 'id'⊣id←R.Event.ID
+                     R.Event.ID←id.ID
                  :EndIf
                  :If 0=caller.⎕NC R.Event.ID
                      'W'Log'Ignoring event on non-existent object ',R.Event.ID
