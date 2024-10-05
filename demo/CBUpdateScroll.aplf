@@ -1,4 +1,4 @@
- r←CBUpdateScroll args;e;scores;cols;fcol;pass;top;left;cc;t;i;scrolls;d
+ r←CBUpdateScroll args;e;scores;cols;fcol;pass;top;left;cc;t;i;scrolls;d;titles;values;curcell
  ⎕←'CBUpdateScroll:'args
  r←1 ⍝ By default OK
  Event←⎕NS''
@@ -78,6 +78,17 @@
  :Case 'F1.GO500'
      eNQ'F1.UPDOWN' 'Scroll' 0 500
      →0
+
+ :Case 'F1.CUTCOL' ⍝ For Demo_Issue249
+     (titles values curcell)←'F1.VGRID' eWG 'ColTitles' 'Values' 'CurCell'
+     titles←¯1↓titles
+     values←0 ¯1↓values
+     curcell[2]⌊←2⊃⍴values
+     'F1.VGRID' eWS ('ColTitles' titles)('Values' values)('CurCell' curcell)
+     curcell←'F1.VGRID' eWG 'CurCell'
+     'F1.Label' eWC 'Label' ('CurCell is ',⍕curcell) (440 270)(23 200)
+     →0
+
  :Else
      ⎕←'Unexpected message: ',args
      →0
