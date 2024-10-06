@@ -1,0 +1,11 @@
+ CBClearCookie args;e;cookietoset
+
+ Event←⎕NS''
+ e←Event.Event←⎕NS''
+ e.(ID EventName Info)←(2↑args),⊂2↓args
+
+ cookietoset←'','F1.COOKIETOSET'eWG'Text'
+
+⍝ Clearing is just setting with a time in the past
+ 2 eNQ 'F1' 'SetCookie' ('democookie=;max-age=-1')
+ 'F1.G.COOKIES'eWS'Text' ('Cookie: CLEARED')

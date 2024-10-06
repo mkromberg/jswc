@@ -1,0 +1,10 @@
+ CBSetCookie args;e;cookietoset
+
+ Event←⎕NS''
+ e←Event.Event←⎕NS''
+ e.(ID EventName Info)←(2↑args),⊂2↓args
+
+ cookietoset←'','F1.COOKIETOSET'eWG'Text'
+
+ 2 eNQ 'F1' 'SetCookie' ('democookie=',cookietoset)
+ 'F1.G.COOKIES'eWS'Text' ('Cookie: ',cookietoset)
