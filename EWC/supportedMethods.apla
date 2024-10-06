@@ -3,4 +3,6 @@
  'GetFocus'
  'SetCookie'
  'GetCookie'
+ 'SetTitle'
+ 'GetTitle'
 )

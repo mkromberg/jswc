@@ -1,0 +1,12 @@
+ DemoTitle connected;title
+ EWC.CONNECTED←connected
+ ⎕PW←1000
+
+ 'F1'eWC'Form' 'Title'(50 50)(170 400)('Coord' 'Pixel')
+
+ 'F1.TITLETOSET'eWC'Edit'('Posn' 50 10)('Size'(20 150))
+ 'F1.SETTITLE'eWC'Button' 'Set Title'('Posn' 75 10)('Size'(20 150))('Event' 'Select' 'CBSetTitle')
+
+ title←2 eNQ 'F1' 'GetTitle'
+ 'F1.G'eWC'Group'('Posn'(100 0))('Size'(20 400))
+ 'F1.G.COOKIES'eWC'Text' ('Original title on demo load: ',title)(0 10)(20 400)
