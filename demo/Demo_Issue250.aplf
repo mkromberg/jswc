@@ -1,4 +1,4 @@
- Demo_Issue249 connected;inputs;scores;TBL;GRID;z
+ Demo_Issue250 connected;inputs;scores;TBL;GRID;z
  EWC.CONNECTED←connected
  ⎕PW←1000
  n←10
