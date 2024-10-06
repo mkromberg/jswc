@@ -1,0 +1,9 @@
+ CBSetTitle args;e;titletoset
+
+ Event←⎕NS''
+ e←Event.Event←⎕NS''
+ e.(ID EventName Info)←(2↑args),⊂2↓args
+
+ titletoset←'','F1.TITLETOSET'eWG'Text'
+
+ 2 eNQ 'F1' 'SetTitle' titletoset

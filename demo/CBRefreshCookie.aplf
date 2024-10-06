@@ -1,0 +1,11 @@
+ CBRefreshCookie args;e;cookie
+
+ Event←⎕NS''
+ e←Event.Event←⎕NS''
+ e.(ID EventName Info)←(2↑args),⊂2↓args
+
+ cookie←2 eNQ 'F1' 'GetCookie' 'democookie'
+ :If 0≠≢cookie
+     cookie←2⊃⊃cookie
+ :EndIf
+ 'F1.G.COOKIES'eWS'Text' ('Cookie: ',cookie)
