@@ -1,0 +1,10 @@
+ CBUpload args;e;b64;txt
+
+ Event←⎕NS''
+ e←Event.Event←⎕NS''
+ e.(ID EventName Info)←(2↑args),⊂2↓args
+ b64←'F1.UPLOAD'eWG'Base64'
+ txt←(EWC.Base64.Decode b64) ⍝ assume no failures and that it is text...
+⍝  Demo global variable for demo'ing 'persistence'
+ #.DemoUploadDownloadStore.Txt←txt
+ 'F1.G.UPLOADED'eWS'Text' txt

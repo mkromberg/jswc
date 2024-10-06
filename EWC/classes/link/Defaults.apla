@@ -1,0 +1,7 @@
+(
+  'Link'
+  ''        ⍝ Href
+   ⍬        ⍝ Label
+   '_blank' ⍝ Target
+   0        ⍝ Download
+)
