@@ -1,0 +1,8 @@
+ DemoFireworks connected;title
+ EWC.CONNECTED←connected
+ ⎕PW←1000
+
+ 'F1'eWC'Form' 'Title'(50 50)(150 200)('Coord' 'Pixel')
+
+ 'F1.STARTFIREWORKS'eWC'Button' '🎆 Start the fireworks! 🎇'('Posn' 50 10)('Size'(20 150))('Event' 'Select' 'CBStartFireworks')
+ 'F1.STOPFIREWORKS'eWC'Button' '😞 Stop the fireworks 😞'('Posn' 75 10)('Size'(20 150))('Event' 'Select' 'CBStopFireworks')
