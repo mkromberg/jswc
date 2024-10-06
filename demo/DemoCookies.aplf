@@ -1,0 +1,19 @@
+ DemoCookies connected;cookie;resp
+ EWC.CONNECTED←connected
+ ⎕PW←1000
+
+ 'F1'eWC'Form' 'Cookies'(50 50)(170 200)('Coord' 'Pixel')
+
+ 'F1.COOKIETOSET'eWC'Edit'('Posn' 50 10)('Size'(20 150))
+ 'F1.SETCOOKIE'eWC'Button' 'Set Cookie'('Posn' 75 10)('Size'(20 150))('Event' 'Select' 'CBSetCookie')
+ 'F1.REFRESHCOOKIE'eWC'Button' 'Refresh Cookie'('Posn' 100 10)('Size'(20 150))('Event' 'Select' 'CBRefreshCookie')
+ 'F1.CLEARCOOKIE'eWC'Button' 'Clear Cookie'('Posn' 125 10)('Size'(20 150))('Event' 'Select' 'CBClearCookie')
+
+ resp←2 eNQ 'F1' 'GetCookie' 'democookie'
+ cookie←2 eNQ 'F1' 'GetCookie' 'democookie'
+ :If 0≠≢cookie
+     cookie←2⊃⊃cookie
+ :EndIf
+
+ 'F1.G'eWC'Group'('Posn'(150 0))('Size'(20 200))
+ 'F1.G.COOKIES'eWC'Text' ('Cookie: ',cookie)(0 10)(20 400)

@@ -1,4 +1,6 @@
 (
  'GetTextSize'
  'GetFocus'
+ 'SetCookie'
+ 'GetCookie'
 )
