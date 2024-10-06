@@ -1,5 +1,9 @@
 (
   'Type'
   'Event'
-  'Base64'
+  'LastModified'
+  'FileName'
+  'FileBytes'
+  'FileSize'
+  'FileType'
 )
