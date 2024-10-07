@@ -84,16 +84,6 @@
      expr←'.(',(⍕propnames,m/PropList),')←',(1≠≢v)↓'⊃v'
      fullname←(⍕caller),'.',Name
      ⍎fullname,expr ⍝ Set properties in the "server-side DOM"
-
-     :If DIRECT     ⍝ Enable direct property references?
-         fullname ⎕NS proxySpace
-         ⍎fullname,'.(EWC Dynamic)←⎕THIS class.Dynamic'
-         :Trap 0
-             z←2(700⌶)present⍎fullname   ⍝ "Magic" it
-         :Else
-             'E'Log'Unable to enable assignment on ',fullname
-         :EndTrap
-     :EndIf
  :EndIf
 
  modal←(⊂type)∊⎕C modalClasses
@@ -126,6 +116,17 @@
  :If type≡'imagelist'
      ⍎(⍕caller),'.',Name,'.(ImageCount←≢Files)' ⍝ Update read-only ImageCount
  :EndIf
+
+ :If DIRECT     ⍝ Enable direct property references?
+     fullname ⎕NS proxySpace
+     ⍎fullname,'.(EWC Dynamic)←⎕THIS class.Dynamic'
+     :Trap 0
+         z←2(700⌶)present⍎fullname   ⍝ "Magic" it
+     :Else
+         'E'Log'Unable to enable assignment on ',fullname
+     :EndTrap
+ :EndIf
+
 
  :If RECORD ⍝ Collecting lists
      :If ~9=⎕NC class←'Classes.',type←WC.WC.Properties.Type
