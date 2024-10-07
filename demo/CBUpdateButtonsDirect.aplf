@@ -1,0 +1,13 @@
+ CBUpdateButtonsDirect args;obj;fruit;optstate;opts;txt;fruits
+
+ obj←1⊃args
+
+ fruit←(fruits←F1.FRUIT.(C1 C2 C3)).State
+ optstate←(opts←F1.(ICE CHOKO)).State
+
+ txt←'You selected ',fruits[fruit⍳1].Caption
+ :If ∨/optstate
+     txt,←' with ',{5↓∊' and '∘,¨⍵}(optstate/opts).Caption
+ :EndIf
+
+ F1.STATUS.Caption←txt

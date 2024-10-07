@@ -11,7 +11,7 @@
      'Please set EWC.FOLDER to identify the EWC source folder' ⎕SIGNAL 11
  :EndIf
 
- DIRECT←{0::0 ⋄ 0=2 (700⌶) ⍵} ⎕NS ''
+ DIRECT←{0::0 ⋄ 0=2 (700⌶) ⍵} ⎕NS '' ⍝ Enable DIRECT mode if available
 
  FOLDER←∊1 ⎕NPARTS folder,'/'
 
