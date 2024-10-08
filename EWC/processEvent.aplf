@@ -1,4 +1,4 @@
- {end}←processEvent ns;Info;ID;Event;event;events;fns;info;fn;z;async;class;e;code;res;gui;shift;k;i
+ {end}←processEvent ns;Info;ID;Event;event;events;fns;info;fn;z;async;class;e;code;res;gui;shift;k;i;m;t
 
  :If 2=ns.⎕NC'CodeLocation'
      code←⍎ns.CodeLocation
@@ -14,6 +14,11 @@
 
  end←0
  (Event ID Info)←ns.Event.(EventName ID({0::⍵ ⋄ Info}⍬))
+
+ :If Event≡'Configure'
+     'E' Log 'Ignoring Configure event'
+     →0
+ :EndIf
 
  :If Event≡'KeyPress'
  :AndIf (≢JSKeys)≥z←JSKeys⍳Info[1]
@@ -35,7 +40,7 @@
          'E'Log'Client sent null ID'
          →0
      :Else
-         event←gui⍎z←ID,'.Event'
+         event←present gui⍎z←ID,'.Event'
      :EndIf
  :Else
      'E'Log'*** Unable to find ',z,', cannot process ',⎕JSON ns
@@ -43,11 +48,12 @@
  :EndTrap
 
  (events fns)←↓⍉↑event
- :If ~(⊂Event)∊events
+ :If ~∨/m←(t←'' 'on',¨⊂Event)∊events
      'E'Log'*** No callback defined for event ',Event,' on object ',ID
      →0
  :EndIf
 
+ Event←⊃m/t ⍝ Event or onEvent
  fn←⊃info←(events⍳⊂Event)⊃fns
  'P' Log 'Action = ',(⍕fn),' for ',(⎕JSON ns.Event),' at ',⎕SI,¨'[',¨(⍕¨⎕LC),¨']'
  →((fn≡¯1)∨end←fn≡1)⍴0
@@ -101,7 +107,7 @@
 
  :If 1 ⍝ Recording events
  :AndIf 9=⎕NC(⍕code),'.',ID
- :AndIf 9=⎕NC class←'classes.',⎕C code⍎ID,'.Type'
+ :AndIf 9=⎕NC class←'classes.',⎕C present code⍎ID,'.Type'
      class←⍎class
      e←{0::⍵ ⋄ class.SupportedEvents}''
      :If ~(⊂Event)∊e

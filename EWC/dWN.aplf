@@ -1,4 +1,4 @@
-r←{X} ∆WN Y;⎕TRAP;caller
+r←{X} ∆WN Y;⎕TRAP;caller;z;t
 caller←findCaller
 
 :If Y∧.=' '
@@ -13,7 +13,7 @@ caller←findCaller
 :If 0≠≢r←Y.⎕NL -9
 :AndIf 0≠≢r←(2=⌊Y.⎕NC r,¨⊂'.Type')/r
 :AndIf 2=⎕NC 'X'
-   r←((Y.⍎¨r,¨⊂'.Type')∊⊆X)/r
+   t←,⊆⍎⍕((⊂(⍕Y),'.'),¨r),¨⊂'.Type'
+   r←(t∊⊆X)/r
 :EndIf
-
 r←((⍕Y),'.')∘,¨r

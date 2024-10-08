@@ -1,8 +1,8 @@
  (type class objref)←getObj Name;t
 
  :Trap 0
-     objref←caller⍎Name
-     type←objref.Type
+     objref←present caller⍎Name
+     type←present ⍎(⍕objref),'.Type'
      :If 9=classes.⎕NC t←⎕C type
          class←classes⍎t
      :Else

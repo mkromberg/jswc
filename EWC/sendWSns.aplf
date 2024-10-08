@@ -1,0 +1,5 @@
+caller sendWSns WS
+fixSendEvents WS.WS.(ID Properties)
+ :If 0≠≢WS.WS.Properties.⎕NL-2
+     caller sendObject WS WS.WS.ID
+ :EndIf

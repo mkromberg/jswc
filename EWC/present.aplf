@@ -1,0 +1,3 @@
+r←present x
+⍝ Bring a future into the present
+r←x ⍝ r←⊃⊂x ⍝ no longer needed?

@@ -1,4 +1,4 @@
- R←Name ∆WG Props;msg;WG;wg;z;caller;p;class;remote;dynamic;r;d;i;⎕TRAP;proplist;PropList;m;ix;ID;conn;n;cp;size;lp;m
+ R←Name ∆WG Props;msg;WG;wg;z;caller;p;class;remote;dynamic;r;d;i;⎕TRAP;proplist;PropList;m;ix;ID;conn;n;cp;size;lp;m;ref;wgid
  ⎕TRAP←0 'S'
 
  Name←⍕∊Name
@@ -23,9 +23,6 @@
      :EndIf
  :EndIf
 
- WG←⎕NS''
- wg←WG.WG←⎕NS''
- WGID+←1
  p←,⊆Props
  :Trap 2 6
      class←GetClass caller Name
@@ -45,14 +42,7 @@
  p[ix]←PropList[i[ix←⍸~m]]
 
  :If remote←∨/,dynamic←p∊⍥⎕C class.Dynamic,⊂'NoSuchProperty' ⍝ Any reason to ask remote client for values?
-     wg.(WGID ID Properties)←(⍕WGID)((2×'#.'≡2↑Name)↓Name)(d←dynamic/p)
-     msg←⎕JSON WG
-     :If CONNECTED
-         'T'Log'#',(⍕conn),': ',msg
-         z←conn WSS.Send msg
-     :Else
-         'T'Log'(no connection): ',msg
-     :EndIf
+     (wgid msg)←sendWGmsg conn ((2×'#.'≡2↑Name)↓Name) (d←dynamic/p)
  :EndIf
 
  :If USEWIN32
@@ -61,7 +51,8 @@
      R←(≢p)⍴⊂⍬
      :If 0≠≢i←⍸~dynamic
          :Trap 6
-             R[i]←caller⍎((1=≢i)/'⊂'),Name,'.(',(⍕p[i]),')'
+             ref←present ⍎(⍕caller),'.',Name
+             R[i]←⍎(1≠≢i)↓'⊂ref.(',(⍕p[i]),')'
          :Else
              ⎕DMX.Message ⎕SIGNAL 6
          :EndTrap
@@ -78,7 +69,7 @@
 
  :If remote∧CONNECTED
      :Trap 6 ⍝ Request for unsupported property
-         r←msg WaitForWG d ID(⍕WGID)
+         r←msg WaitForWG d ID wgid
          R[p⍳d]←r
          :If (≢p)≥i←p⍳⊂'Size'
          :AndIf USEHR
@@ -86,7 +77,7 @@
             ⍝ (i⊃R)-←HRBorder
          :EndIf
      :Else
-         :Select (caller⍎Name,'.Type')Props
+         :Select present (caller⍎Name,'.Type')Props
          :Case 'SubForm' 'Size'
              'W'Log'Working around failed WG Size on Subform ',Name
              R←,⊂caller⍎Name,'.Size'

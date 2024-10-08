@@ -1,4 +1,4 @@
- {R}←Name ∆WS Props;WS;msg;ws;i;z;ref;expr;caller;⎕TRAP;proplist;pname;names;values;PropList;m;class;type;ix;HR;e;objref
+ {R}←Name ∆WS Props;WS;msg;ws;i;z;ref;expr;caller;⎕TRAP;proplist;pname;names;values;PropList;m;class;type;ix;HR;e;objref;fullname
  R←⍬
  ⎕SIGNAL (2>|≡Props)/11
  Props←,Props
@@ -62,23 +62,20 @@
  values←names((⎕C type) fixUpProps)values       ⍝ Regularise things for the poor JS code
  :If 0≠i←(1+≢names)-(⌽names)⍳⊂'Event'      ⍝ Last Event
  :AndIf 0 0≢i⊃values                       ⍝ Reset
- :AndIf 0≢⍴e←caller⍎Name,'.Event'          ⍝ Event property is "additive"
+ :AndIf 0≢⍴e←present caller⍎Name,'.Event'          ⍝ Event property is "additive"
      e←((e≢0 0)/e),i⊃values
      (i⊃values)←e[{⊢/⍵}⌸⊃¨e] ⍝ Pick last occurrence of each event
  :EndIf
 
- WS←⎕NS''
- ws←WS.WS←⎕NS''
- ws.(ID Properties)←Name(⎕NS'')
- :If 0≠≢names
-     ⍎'ws.Properties',expr←'.(',(⍕names),')←',(1≠≢values)↓'⊃values'
- :EndIf
+ WS←makeWSns Name names values
 
  :If USEWIN32
      R←Name caller.⎕WS Props
  :ElseIf 0≠≢names
-     expr←'.(',(⍕names),')←',(1≠≢values)↓'⊃values'
-     ⍎(⍕caller),'.',Name,expr ⍝ Update "server-side DOM"
+     m←1≠≢values ⍝ multi
+     expr←'.',(m/'('),(⍕names),(~m)↓')←',m↓'⊃values'
+     fullname←(⍕caller),'.',Name
+     ⍎fullname,expr ⍝ Update "server-side DOM"
  :EndIf
 
  :If type≡'imagelist'
@@ -97,7 +94,4 @@
      ∘∘∘
  :EndIf
 
- fixSendEvents WS.WS.(ID Properties)
- :If ~0=⍴WS.WS.Properties.⎕NL-2
-     sendObject WS WS.WS.ID
- :EndIf
+ caller sendWSns WS

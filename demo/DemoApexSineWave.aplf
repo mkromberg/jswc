@@ -8,4 +8,4 @@
 
  'F1'eWC'Form' 'Charts'(50 50)(600 800)('Coord' 'Pixel')
  'F1.BAR'eWC'ApexChart'(50 10)(540 780)series'line' ('Options' options)
- 'F1.TM'eWC'Timer' 10 ('Active' 1)('Event' 'Timer' 'CBSineWave')
+ 'F1.TM'eWC'Timer' 1000 ('Active' 1)('Event' 'Timer' 'CBSineWave')
