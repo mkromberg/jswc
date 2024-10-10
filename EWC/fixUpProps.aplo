@@ -7,7 +7,6 @@
  :EndIf
  i←⍸names∊special
  (ns ixs)←↓⍉names[i]{⍺ ⍵}⌸i
-
  :For (n ix) :InEach (ns ixs)
      :Select ⊃n
      :Case 'Event'

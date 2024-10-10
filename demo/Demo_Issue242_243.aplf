@@ -2,7 +2,6 @@
  EWC.CONNECTED←connected
  ⎕PW←1000
 
- sel←'Event' 'Select' 'CBUpdateRibbon'
  (fcol bcol titlebcol)←('FCol'(255 255 255))('BCol'(134 171 220))('TitleBCol'(0 0 0)) ⍝ For Ribbon
  bordercol←'BorderCol'(192 192 192) ⍝ For borders between Ribbon Groups
  activebcol←'ActiveBCol'(134 171 220) ⍝ For the active Tab
@@ -34,7 +33,7 @@
 
  (rb,'.DropDownGrp')eWC'RibbonGroup' 'DropDown' bordercol
  (rb,'.DropDownGrp.GrpItem')eWC'RibbonGroupItem' 12
- (rb,'.DropDownGrp.GrpItem.DDBtn')eWC'RibbonDropDownButton' 'Genre' 'FcLibrary' 12 sel
+ (rb,'.DropDownGrp.GrpItem.DDBtn')eWC'RibbonDropDownButton' 'Genre' 'FcLibrary'
  (rb,'.DropDownGrp.GrpItem.DDBtn.MItem')eWC'RibbonMenuItem' 'Romance'('Event' 'Select' 'CB_Issue242_243SelectRomance')
  (rb,'.DropDownGrp.GrpItem.DDBtn.MItem')eWC'RibbonMenuItem' 'Thriller'('Event' 'Select' 'CB_Issue242_243SelectThriller')
 
@@ -52,8 +51,11 @@
 ⍝ we have, so far, approached writing eWC code.
  (rb,'.GalleryGrp')eWC'RibbonGroup' 'Gallery' ('Size' 2) bordercol
  (rb,'.GalleryGrp.GrpItem')eWC'RibbonGroupItem' 12
- (rb,'.GalleryGrp.GrpItem.Gallery')eWC'RibbonGallery' 'Other' 'FcLock' 12 sel
- (rb,'.GalleryGrp.GrpItem.Gallery.MItem')eWC'RibbonMenuItem' 'Foobar' ('Rows' 2)('Cols' 3)('Event' 'Select' 'CB_Issue242_243GalleryItem')
+ (rb,'.GalleryGrp.GrpItem.Gallery')eWC'RibbonGallery' 'Other' ('Cols' 2)
+ (rb,'.GalleryGrp.GrpItem.Gallery.MItem1')eWC'RibbonMenuItem' 'Foo' ('Event' 'Select' 'CB_Issue242_243GalleryItem1')
+ (rb,'.GalleryGrp.GrpItem.Gallery.MItem2')eWC'RibbonMenuItem' 'Bar' ('Event' 'Select' 'CB_Issue242_243GalleryItem2')
+ (rb,'.GalleryGrp.GrpItem.Gallery.MItem3')eWC'RibbonMenuItem' 'Baz' ('Event' 'Select' 'CB_Issue242_243GalleryItem3')
+ (rb,'.GalleryGrp.GrpItem.Gallery.MItem4')eWC'RibbonMenuItem' 'Quux' ('Event' 'Select' 'CB_Issue242_243GalleryItem4')
 
 ⍝ NOTES:
 ⍝ Notably missing, and worth considering that they'll likely be required:
