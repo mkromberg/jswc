@@ -3,7 +3,7 @@
  ⍝ web: 'Desktop' (0), 'Browser' (1) or 'Multi' (2)
 
  COORD←'Pixel'
- EWC←##.EWC
+ EWC←#.EWC
  EWC.PORT←22322
  EWC.SHOWDEVTOOLS←0
 
