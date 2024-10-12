@@ -47,9 +47,6 @@
                  :If MODE=2
                      R.CodeLocation←⍕caller
                  :EndIf
-                 :If 9=⎕NC 'id'⊣id←R.Event.ID
-                     R.Event.ID←id.ID
-                 :EndIf
                  :If 0=caller.⎕NC R.Event.ID
                      'W'Log'Ignoring event on non-existent object ',R.Event.ID
                  :Else
