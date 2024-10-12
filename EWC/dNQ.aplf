@@ -49,7 +49,7 @@
          :EndIf
      :EndIf
 
-     :If (Mode≠1)∧(¯1≡⊃fn)∨ok≡0 ⍝ Inhibited by property or refused by callback
+     :If (Mode=1)∨(¯1≡⊃fn)∨ok≡0 ⍝ Inhibited by property or refused by callback, or Mode=1
          →0
      :EndIf
  :EndIf
