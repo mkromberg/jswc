@@ -1,0 +1,24 @@
+ DemoEventTests connected;text;font
+ EWC.CONNECTED←connected
+ ⎕PW←1000
+
+ text←⊂'Lorem ipsum dolor sit amet, consectetur adipiscing elit,'
+ text,←⊂'sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+ text,←⊂'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris'
+ text,←⊂'nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in'
+ text,←⊂'reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.'
+ text,←⊂'Excepteur sint occaecat cupidatat non proident,'
+ text,←⊂'sunt in culpa qui officia deserunt mollit anim id est laborum.'
+
+ 'F1'eWC'Form' 'Text Editor'(50 50)(800 800)('Coord' 'Pixel')
+ 'F1.L1'eWC'Label' 'Edit the text'(10 10)(23 780)
+ font←'Font'('Courier New' 17)
+ 'F1.NotePad'eWC'Edit'text(50 10)(740 780)('Style' 'Multi')('Event' 'MouseUp' 'CBMultiEdit')font
+
+ :If EWC.DIRECT
+     F1.NotePad.onMouseDown←'CBMultiEdit'
+ :Else
+     'F1.NotePad'eWS'Event' 'onMouseDown' 'CBMultiEdit'
+ :EndIf
+
+... ⍝ Validate F1.NotePad.Event and 'F1.NotePad' eWG 'Event'
