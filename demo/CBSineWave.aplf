@@ -1,3 +1,7 @@
  CBSineWave args
- series←1⌽series
- 'F1.BAR'eWS'Series'series
+ :Trap 0
+    series←1⌽series
+    'F1.BAR'eWS'Series'series
+ :Else
+    ⎕←'Err in CBSineWave - probably delayed callback?'
+ :EndTrap
