@@ -1,4 +1,16 @@
-r←eventOK events;nodups
+r←eventOK events;nodups;m;e
 ⍝ Do these look like a list of usable event ids?
 nodups←(1=≡events)∨events≡∪events ⍝ No duplicates, e.g. 'KeyPress' 'KeyPress'
-r←∧/((~events∊¯1 0 1)∧(10|⎕DR¨events)∊1 3)∨nodups∧(⎕C ⊆⊃⍣(3=≡events)⊢events)∊eventNames
+
+⍝ replace numbers with names
+:If (10|⎕DR events)∊1 3
+    m←⍸events∊EVENTNUMS
+    events←e←eventNames[EVENTNUMS⍳events[m]]@m⊢events
+:Else
+    e←⎕C ⊆⊃⍣(3=≡events)⊢events
+:EndIf
+
+m←((~events∊¯1 0 1)∧(10|⎕DR¨events)∊1 3)∨nodups
+:If ~r←∧/m∧e∊eventNames
+  r←∧/m∧e∊onEventNames
+:EndIf
