@@ -1,0 +1,4 @@
+e←removeOn e;m;i
+⍝ Remove "on" from front of event names
+→(∨/m←(2↑¨⊃¨e)∊⊂'on')↓0
+e[i]←2↓¨e[i←(⍸m),¨1]

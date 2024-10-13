@@ -1,4 +1,4 @@
- DemoEventTests connected;text;font
+ DemoEventTests connected;text;font;d
  EWC.CONNECTED←connected
  ⎕PW←1000
 
@@ -15,10 +15,12 @@
  font←'Font'('Courier New' 17)
  'F1.NotePad'eWC'Edit'text(50 10)(740 780)('Style' 'Multi')('Event' 'MouseUp' 'CBMultiEdit')font
 
- :If EWC.DIRECT
+ :If d←EWC.DIRECT
      F1.NotePad.onMouseDown←'CBMultiEdit'
  :Else
-     'F1.NotePad'eWS'Event' 'onMouseDown' 'CBMultiEdit'
+     'F1.NotePad'eWS'Event' 'MouseDown' 'CBMultiEdit'
  :EndIf
 
-... ⍝ Validate F1.NotePad.Event and 'F1.NotePad' eWG 'Event'
+:If F1.NotePad.Event ≢ ('MouseUp' (,⊂'CBMultiEdit'))(((2×~d)↓'onMouseDown') (,⊂'CBMultiEdit'))
+    ⎕←'Event does not have expected value' ⋄ ∘∘∘
+:EndIf

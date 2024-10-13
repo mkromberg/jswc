@@ -1,0 +1,5 @@
+text assert (expect got)
+→(expect≡got)⍴0
+⎕←text
+⎕←'expected' 'got',⍪expect got
+'assertion failed' ⎕signal 11
