@@ -1,0 +1,31 @@
+ CBStartFireworks args;e;fireworks
+
+ Event←⎕NS''
+ e←Event.Event←⎕NS''
+ e.(ID EventName Info)←(2↑args),⊂2↓args
+
+ fireworks←          '(function () {'
+ fireworks←fireworks,'    if (!document.getElementById("fireworks-js")) {'
+ fireworks←fireworks,'        const script = document.createElement("script");'
+ fireworks←fireworks,'        script.id = "fireworks-js";'
+ fireworks←fireworks,'        script.src = "https://unpkg.com/fireworks-js@2.x/dist/index.umd.js";'
+ fireworks←fireworks,'        script.onload = () => {'
+ fireworks←fireworks,'            const container = document.querySelector("#fireworks-container");'
+ fireworks←fireworks,'            if (container) {'
+ fireworks←fireworks,'                window.EWCFireworks = new Fireworks.default(container);'
+ fireworks←fireworks,'                window.EWCFireworks.start();'
+ fireworks←fireworks,'            }'
+ fireworks←fireworks,'        };'
+ fireworks←fireworks,'        const fireworksContainer = document.createElement("div");'
+ fireworks←fireworks,'        fireworksContainer.id = "fireworks-container";'
+ fireworks←fireworks,'        fireworksContainer.style = "position: absolute; top: 0; left: 0; width: 100%; height:100%; z-index: 99; pointer-events: none";'
+ fireworks←fireworks,'        document.body.appendChild(fireworksContainer);'
+ fireworks←fireworks,'        document.head.appendChild(script);'
+ fireworks←fireworks,'    } else {'
+ fireworks←fireworks,'        const container = document.querySelector("#fireworks-container");'
+ fireworks←fireworks,'        window.EWCFireworks = new Fireworks.default(container);'
+ fireworks←fireworks,'        window.EWCFireworks.start();'
+ fireworks←fireworks,'    }'
+ fireworks←fireworks,'})()'
+
+ ⎕←2 eNQ'F1' 'EvalJS' fireworks
