@@ -1,4 +1,4 @@
- sendObject (obj name);msg;z;conn;ID
+caller sendObject (obj name);msg;z;conn;ID
 
  msg←⎕JSON⍠'HighRank' 'Split'⊢obj
  (ID conn)←getConnection caller name

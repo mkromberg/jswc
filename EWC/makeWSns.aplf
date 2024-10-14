@@ -1,0 +1,7 @@
+ WS←makeWSns (Name names values);ws
+ WS←⎕NS''
+ ws←WS.WS←⎕NS''
+ ws.(ID Properties)←Name(⎕NS'')
+ :If 0≠≢names
+     ⍎'ws.Properties',expr←'.(',(⍕names),')←',(1≠≢values)↓'⊃values'
+ :EndIf

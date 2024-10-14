@@ -1,0 +1,10 @@
+ caller←findTop_EWC name;p
+⍝ Find highest parent which has an _EWC subspace.
+
+ :For p :In ¯1+⍸'.'=name
+     :If 9=⎕NC(p↑name),'._EWC'
+         :Leave
+     :EndIf
+ :EndFor
+
+ caller←⍎p↑name

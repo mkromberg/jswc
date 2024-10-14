@@ -12,7 +12,7 @@
 
  'F1.INPUT.CREDS' eWC 'SubForm' ('Flex' 'column')                        ⍝ Credentials box - UserID above Password
  'F1.INPUT.CREDS.USERID' 'User ID'  LabelAbove 'Edit' ''
- 'F1.INPUT.CREDS.PWD'    'Password' LabelAbove 'Edit' '' ('Password' '*')
+ 'F1.INPUT.CREDS.PWD'    'Password (secret)' LabelAbove 'Edit' '' ('Password' '*')
 
  purple←193 153 190
  menucss←'padding: 5px, gap: 5px'

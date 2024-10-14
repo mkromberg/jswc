@@ -1,0 +1,23 @@
+ DemoButtonsDirect connected;F
+ EWC.CONNECTED←connected
+ ⎕PW←1000
+
+ F←'F1'
+ F eWC'Form' 'Buttons'(50 50)(200 300)('Coord' 'Pixel')
+
+ :If ~EWC.DIRECT
+     (F,'.STATUS')eWC'Label' 'This demo requires DIRECT mode enabled!'(100 10)(23 300)
+     →0
+ :EndIf
+
+ (F,'.FRUIT')eWC'Group' 'Pick a Fruit'('Posn'(10 10))('Size'(80 280))
+ (F,'.FRUIT.C1')eWC'Button' 'Apple'(13 10)(23 100)('Style' 'Radio')('Event' 'Select' 'CBUpdateButtonsDirect')
+ (F,'.FRUIT.C2')eWC'Button' 'Banana'(33 10)(23 100)('Style' 'Radio')('Event' 'Select' 'CBUpdateButtonsDirect')
+ (F,'.FRUIT.C3')eWC'Button' 'Pear'(53 10)(23 100)('Style' 'Radio')('Event' 'Select' 'CBUpdateButtonsDirect')
+
+ (F,'.ICE')eWC'Button' 'Ice Cream'(100 10)(23 100)('Style' 'Check')('Event' 'Select' 'CBUpdateButtonsDirect')('Align' 'Right')
+ (F,'.CHOKO')eWC'Button' 'Chocolate'(125 10)(23 100)('Style' 'Check')('Event' 'Select' 'CBUpdateButtonsDirect')('Align' 'Left')
+
+ (F,'.STATUS')eWC'Label' 'Click on something!'(175 10)(23 300)
+
+ F1.FRUIT.C1.State←1

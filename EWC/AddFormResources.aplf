@@ -1,4 +1,4 @@
- AddFormResources caller;ress;res;r;msg;WC;expr;class;propnames
+ AddFormResources caller;ress;res;r;msg;WC;expr;class;propnames;type
 ⍝ Add resources which need to  be re-created in the new container
 
  ress←'BitMap' 'ImageList' 'Font'∆WN caller
@@ -6,7 +6,7 @@
  :For res :In ress
      r←caller⍎res
      class←classes⍎⎕C r.Type
-     :Select r.Type
+     :Select ⍕r.Type         ⍝ /// ⍕ is 700⌶ work-around
 
      :CaseList 'BitMap' 'ImageList' 'Font'
          propnames←class.Supported
@@ -17,5 +17,5 @@
      res←((⍕caller),'.'){((≢⍺)×⍺≡(≢⍺)↑⍵)↓⍵}res
      WC.WC.(ID Properties)←res (⎕NS'')
      ⍎'WC.WC.Properties',expr←'.(',(⍕propnames),')←r.(',(⍕propnames),')'
-     sendObject WC WC.WC.ID
+     caller sendObject WC WC.WC.ID
  :EndFor

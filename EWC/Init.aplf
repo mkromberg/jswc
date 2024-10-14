@@ -11,6 +11,7 @@
      'Please set EWC.FOLDER to identify the EWC source folder' ⎕SIGNAL 11
  :EndIf
 
+ DIRECT←{0::0 ⋄ 0=2 (700⌶) ⍵} ⎕NS '' ⍝ Enable DIRECT mode if available
  FOLDER←∊1 ⎕NPARTS folder,'/'
 
  :If ~⎕NEXISTS FOLDER
@@ -71,6 +72,10 @@
 
  setDefaults
 
+ :If DIRECT
+     'D' Log 'Direct mode enabled'
+ :EndIf
+
  establishCovers CODELOCATION prefix
 
  CONNECTED←1 ⍝ /// This should go
@@ -116,7 +121,7 @@
  QUEUEIDS←QUEUEDATA←⍬
 
  (EVENTNUMS EVENTNAMES)←↓⍉EVENTS
- eventNames←⎕C EVENTNAMES
+ onEventNames←'on'∘,¨eventNames←⎕C EVENTNAMES
 
  (JSKeys APLKeys)←1 1 0 0⊂keyMap ⋄ JSKeys←,JSKeys
 

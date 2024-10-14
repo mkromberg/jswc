@@ -1,4 +1,4 @@
- {R}←{Mode}∆NQ Event;caller;NQ;nq;msg;z;⎕TRAP;ID;conn;name;tkn;type;class;objref;event;i;fn;ok;hr;hdr;posn;size;methods;method;immediate;f;j;m
+ {R}←{Mode}∆NQ Event;caller;NQ;nq;msg;z;⎕TRAP;ID;conn;name;tkn;type;class;objref;event;i;fn;ok;hr;hdr;posn;size;methods;method;immediate;f;j;m;t
 ⍝ Modes:
 ⍝ 0: Add to event queue (default). Result = ''.
 ⍝ 1: Invoke callback function immediately. Enqueue result if relevant. Result = Event (possibly modified).
@@ -30,7 +30,11 @@
 
  :If (Mode∊2)∧Event[2]∊supportedMethods ⍝ 2 ⎕NQ 'obj' 'Methodname' [args]
     'N' Log 'Invoking client-side method: ',(⎕JSON⍠'HighRank' 'Split') Event
-    →0⊣R←dWX Event
+    :Trap 6 85
+       →0⊣R←dWX Event
+    :Else
+       'Client did not respond' ⎕SIGNAL 6
+    :EndTrap
  :EndIf
 
  event←objref.Event
@@ -62,8 +66,8 @@
          →0
      :Case 'configure'
          (hdr posn size)←1 0 1 0 1 0⊂6↑Event
-         objref.HR.(Posn Size)←0 (HRBorder)+posn size
-         'N' Log '    Configure HTMLRenderer → ',⍕objref.HR.(Posn Size)
+         t←objref.HR.(Posn Size)←0 (HRBorder)+posn size
+         'N' Log '    Configure HTMLRenderer → ',⍕t
          Event[3 4]←MENUOffset ⍝ We always tell the client that Posn is (0,0) + Offset for Menu
      :EndSelect
  :EndIf
