@@ -47,7 +47,7 @@
  :EndTrap
 
  (events fns)←↓⍉↑event
- :If ~∨/m←(t←'' 'on',¨⊂Event)∊events
+ :If ~∨/m←(t←(⊂Event),⊂'on',Event)∊events
      'E'Log'*** No callback defined for event ',Event,' on object ',ID
      →0
  :EndIf
