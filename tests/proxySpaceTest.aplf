@@ -1,11 +1,11 @@
- prefixes pSTest(expr syntax label);prefix;x;is;val
+ prefixes proxySpaceTest(expr syntax label);prefix;x;is;val
 
  :For prefix :In prefixes
      is←iSyntax ⎕←x←prefix,expr
      ('iSyntax: ',expr)assert syntax is
      val←iEvaluate(⊂x),is
-     :If 3=⎕NC 'val'
-         ('iEvaluate: ',expr)assert(⎕VR expr)(⎕VR 'val')
+     :If 3=⎕NC'val'
+         ('iEvaluate: ',expr)assert(⎕VR expr)(⎕VR'val')
      :Else
          ('iEvaluate: ',expr)assert(⍎expr)val
      :EndIf

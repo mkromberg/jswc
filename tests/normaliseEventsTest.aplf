@@ -1,0 +1,3 @@
+ normaliseEventsTest(in out)
+
+ ('normaliseEvents: ',,⍕in)assert out(#.EWC.normaliseEvents in)

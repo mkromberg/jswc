@@ -1,0 +1,26 @@
+r←test_normaliseEvents;t;e1;e2;e;in;out;signal;lm;i;failed
+
+e1←'MsgBtn1' 'MsgBtn2' 'MsgBtn3'
+e2←'CellChanged' 'CellDown' 'CellDblClick' 'CellMove' 'KeyPress'
+
+⍝ input event                                expected normalised output
+t←1 2⍴e                                      (e←(999 1)(1204  'cb1204')('Close' 1))
+t⍪←e                                         (e←('BadValue' ¯1)('KeyPress' '#.KeyPress'))
+t⍪←e                                         (e←,⊂'Select' 'CBRunDemo')
+t⍪←(,⊂e1 1)                                  (↓(⍪e1),1)
+t⍪←(,⊂e2 'EWCUpdate')                        (↓(⍪e2),⊂'EWCUpdate')
+t⍪←(,⊂'MouseDown' 'onMouseDown' 1)           (,⊂'MouseDown' ('onMouseDown' 1))
+t⍪←(,⊂'ContextMenu' 'doPopup' 'E')           (,⊂'ContextMenu' ('doPopup' 'E'))
+t⍪←(,⊂0 0)                                   (,⊂0 0)
+t⍪←(,⊂1 2 1000 0)                            ((1 0)(2 0)(1000 0))
+
+(failed signal)←0 0 ⍝ Do not crash
+lm←#.EWC.LOGMODES
+#.EWC.LOGMODES~←'U' ⍝ Do not log "unsupported" warnings
+:For i :In ⍳≢t
+    (in out)←t[i;]
+    normaliseEventsTest in (((¯1+≢in)⍴⊂⍬),⊂out)
+:EndFor
+#.EWC.LOGMODES←lm
+
+r←(⍕≢t),' tests run, ',(⍕failed),' failure(s)'
