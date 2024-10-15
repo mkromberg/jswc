@@ -21,6 +21,6 @@
      'F1.NotePad'eWS'Event' 'MouseDown' 'CBMultiEdit'
  :EndIf
 
-:If F1.NotePad.Event ≢ ('MouseUp' (,⊂'CBMultiEdit'))(((2×~d)↓'onMouseDown') (,⊂'CBMultiEdit'))
+:If F1.NotePad.Event ≢ ('MouseUp' 'CBMultiEdit')(((2×~d)↓'onMouseDown') 'CBMultiEdit')
     ⎕←'Event does not have expected value' ⋄ ∘∘∘
 :EndIf

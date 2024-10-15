@@ -1,17 +1,12 @@
- r←normaliseEvents events;i;num;n
- :If events≡,⊂0 0 ⍝ Reset
-     →0 ⊣ r←events
+ r←normaliseEvents events;e;int;m
+ r←⊃,/normaliseEvent¨events
+
+ e←⌽⊃¨r ⍝ Extract individual events (in reverse order)
+ :If ∨/int←⍸(10|⎕DR¨e)∊1 3      ⍝ Numeric codes
+    m←int[⍸e[int]∊EVENTNUMS]    ⍝ Recognised numeric events
+    e[m]←eventNames[EVENTNUMS⍳e[m]]
  :EndIf
- :If 1=n←≢events
- :AndIf ∧/eventOK ⊃¨⊃events ⍝ Single element with multiple events
-     r←,/normaliseEvents¨⊃events
-  :ElseIf (4≥≢events)∧∧/eventOK 1⊃,⊆events ⍝ Multiple event names - but not one of the numeric event codes
-     r←↓(⍪⊆1⊃events),⊂1↓events
- :ElseIf ∧/eventOK ⊃¨events
-     r←⊃,/normaliseEvents¨events
-     r←((¯1+≢events)⍴⊂⍬),⊂r
- :Else
-     'U' Log 'Unsupported event setting at ',showCallStack
-     'U' Log '    'events
-     r←⍬
- :EndIf
+ e←⎕c (2×(2↑¨e)∊⊂'on')↓¨e ⍝ Drop leading 'on'
+ r←(⌽(⍳≢e)=e⍳e)/r         ⍝ Pick last
+
+ r←((¯1+≢events)⍴⊂⍬),⊂r   ⍝ Everything merged into last element (in case there were several Event property values)

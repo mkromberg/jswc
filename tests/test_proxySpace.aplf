@@ -6,13 +6,13 @@
  'A' 'A.B' ⎕NS¨⊂'Monadic' 'abc' 'def'
  spaces←'' 'A.' 'A.B.'
 
- spaces pSTest'abc'(2 0)'plain variable'
- spaces pSTest'(abc def)'(2 0)'multiple variables'
- spaces pSTest'Monadic'(3 52)'function'
- spaces pSTest'(Monadic abc)'(3 52)'monadic function call'
- spaces pSTest'(abc×2)'(3 32)'expression'
+ spaces proxySpaceTest 'abc'(2 0)'plain variable'
+ spaces proxySpaceTest '(abc def)'(2 0)'multiple variables'
+ spaces proxySpaceTest 'Monadic'(3 52)'function'
+ spaces proxySpaceTest '(Monadic abc)'(3 52)'monadic function call'
+ spaces proxySpaceTest '(abc×2)'(3 32)'expression'
 
- ⍝ Check for changes during testing :P
+ ⍝ Check for code changes during testing :P
  :For f :In 'iSyntax' 'iEvaluate'
      :If (⎕NR f)≢##.EWC.proxySpace.⎕NR f
          z←##.EWC.proxySpace.⎕FX ⎕NR f

@@ -1,0 +1,8 @@
+r←normaliseEvent event;int;n;d;e
+
+int←(10|⎕DR¨event)∊1 3
+n←1⌈(¯1+≢int)⌊+/∧\int ⍝ Event is all leading numbers (but not the last element)
+e←n↑event ⋄ d←n↓event
+e←⊃⍣(3=≡e)⊢e          ⍝ Disclose vector of vectors or event names
+d←⊃⍣(1=≢d)⊢d          ⍝ Disclose when no left argument
+r←↓(⍪e),⊂d
