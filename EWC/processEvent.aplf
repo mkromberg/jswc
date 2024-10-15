@@ -53,7 +53,7 @@
  :EndIf
 
  Event←⊃m/t ⍝ Event or onEvent
- fn←⊃info←(events⍳⊂Event)⊃fns
+ fn←⊃info←,⊆(events⍳⊂Event)⊃fns
  'P' Log 'Action = ',(⍕fn),' for ',(⎕JSON ns.Event),' at ',⎕SI,¨'[',¨(⍕¨⎕LC),¨']'
  →((fn≡¯1)∨end←fn≡1)⍴0
 
