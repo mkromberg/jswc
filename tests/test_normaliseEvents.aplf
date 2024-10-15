@@ -13,6 +13,7 @@ t⍪←(,⊂'MouseDown' 'onMouseDown' 1)           (,⊂'MouseDown' ('onMouseDow
 t⍪←(,⊂'ContextMenu' 'doPopup' 'E')           (,⊂'ContextMenu' ('doPopup' 'E'))
 t⍪←(,⊂0 0)                                   (,⊂0 0)
 t⍪←(,⊂1 2 1000 0)                            ((1 0)(2 0)(1000 0))
+t⍪←(,⊂(1002 'SelText')(1005 'sExec'))        ((1002 'SelText')(1005 'sExec'))
 
 (failed signal)←0 0 ⍝ Do not crash
 lm←#.EWC.LOGMODES

@@ -42,7 +42,7 @@
  :If (≢event)≥i←(⊃¨event)⍳Event[2] ⍝ Object has an event handler defined
      fn←ok←1 ⍝ Action not prohibited
      :If (Mode=1)∨m←(Mode≠2)∧(≢event)≥j←⌊/(⊃¨event)⍳hrEvents∩Event[2] ⍝ HTMLrenderer related events
-         fn←⊃(((1+m)⊃i j),2)⊃event
+         fn←⊃⊆(((1+m)⊃i j),2)⊃event
          :If isChar fn
          :AndIf 3=caller.⎕NC fn
              :Trap 85
