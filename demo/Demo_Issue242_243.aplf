@@ -1,0 +1,69 @@
+ Demo_Issue242_243 connected;inputs;scores
+ EWC.CONNECTED←connected
+ ⎕PW←1000
+
+ (fcol bcol titlebcol)←('FCol'(255 255 255))('BCol'(134 171 220))('TitleBCol'(0 0 0)) ⍝ For Ribbon
+ bordercol←'BorderCol'(192 192 192) ⍝ For borders between Ribbon Groups
+ activebcol←'ActiveBCol'(134 171 220) ⍝ For the active Tab
+ passivebcol←'BCol'(⌊0.5×134 171 220)
+
+ imagefiles←'/images/logos/'∘,¨'GAMA_R.ICO' 'GAMA_G.ICO' 'GAMA_B.ICO'
+ 'IL'eWC'ImageList'('Size'(32 32))('Masked' 2)('Files'imagefiles)
+ imagefiles←'/images/flags32/'∘,¨'dk.png' 'uk.png' 'us.png'
+ 'IL32'eWC'ImageList'('Size'(32 32))('Masked' 2)('Files'imagefiles)
+
+ 'F1'eWC'Form' 'Tabbed Ribbon'(50 50)(600 800)('Coord' 'Pixel')
+ 'F1.Average'eWC'Label' 'Click on something!'(210 10)(50 400)
+ 'F1.TC'eWC'TabControl'('Posn'(0 0))('Size'(200 800))('Attach'('Top' 'Left' 'Bottom' 'Right'))('MultiLine' 1)activebcol passivebcol fcol
+
+ (tb←'F1.TC.T1')eWC'TabButton'('Caption' 'Locks and Macros')('Event' 'Select' 'CBUpdateTabs')
+ (sf←'F1.TC.SF1')eWC'SubForm'('TabObj'tb),⊂bcol
+
+ (rb←sf,'.Ribbon')eWC'Ribbon'fcol bcol titlebcol
+
+⍝ Drop down buttons
+⍝ Sample existing code is roughly:
+⍝   btn←bar.CreateSplitButton((1⊃B)(menu←⎕NEW PopupMenu))
+⍝ with these attributes:
+⍝   Description, Hint, Id, LargeImageIndex/ImageIndex (choose how to display based on which provided), Name,
+⍝   RibbonStyle, ShortcutDisplayString, ItemShortcut (to add the shortcut), Tag, onItemClick
+⍝ I think we'll want to keep Select as our 'click' action here.
+⍝ Main deviation from customer code is that we're using DropDownButton as a
+⍝ name, but this lines up with Windows32 era documentation for this. So it's OK.
+
+ (rb,'.DropDownGrp')eWC'RibbonGroup' 'DropDown' bordercol
+ (rb,'.DropDownGrp.GrpItem')eWC'RibbonGroupItem' 12
+ (rb,'.DropDownGrp.GrpItem.DDBtn')eWC'RibbonDropDownButton' 'Genre' 'FcLibrary'
+ (rb,'.DropDownGrp.GrpItem.DDBtn.MItem')eWC'RibbonMenuItem' 'Romance'('Event' 'Select' 'CB_Issue242_243SelectRomance')
+ (rb,'.DropDownGrp.GrpItem.DDBtn.MItem')eWC'RibbonMenuItem' 'Thriller'('Event' 'Select' 'CB_Issue242_243SelectThriller')
+
+⍝ Gallery _in_ the ribbon itself
+⍝ NB that a full replication of all Windows ribbon functionality over time
+⍝ would allow a gallery to be nested to an arbitrary depth within in a dropdown
+⍝ button's menu of menus of menus.
+⍝ Sample existing code shown uses plenty of convenience functions and is approx.
+⍝ as follows (simplified for demonstration)
+⍝  ⍝ Convenience function for new 'gallery bar' in Ribbon
+⍝   btn←someRibbonControl CreateGalleryBar ⍝ ... options as positioned arguments
+⍝  ⍝ Add button to group
+⍝   btn.Gallery.Groups.Add(someGroup←⎕NEW GalleryItemGroup)
+⍝ I think conceptually the below is close. The difference being the normal way
+⍝ we have, so far, approached writing eWC code.
+ (rb,'.GalleryGrp')eWC'RibbonGroup' 'Gallery' ('Size' 2) bordercol
+ (rb,'.GalleryGrp.GrpItem')eWC'RibbonGroupItem' 12
+ (rb,'.GalleryGrp.GrpItem.Gallery')eWC'RibbonGallery' 'Other' ('Cols' 2)
+ (rb,'.GalleryGrp.GrpItem.Gallery.MItem1')eWC'RibbonMenuItem' 'Foo' ('Event' 'Select' 'CB_Issue242_243GalleryItem1')
+ (rb,'.GalleryGrp.GrpItem.Gallery.MItem2')eWC'RibbonMenuItem' 'Bar' ('Event' 'Select' 'CB_Issue242_243GalleryItem2')
+ (rb,'.GalleryGrp.GrpItem.Gallery.MItem3')eWC'RibbonMenuItem' 'Baz' ('Event' 'Select' 'CB_Issue242_243GalleryItem3')
+ (rb,'.GalleryGrp.GrpItem.Gallery.MItem4')eWC'RibbonMenuItem' 'Quux' ('Event' 'Select' 'CB_Issue242_243GalleryItem4')
+
+⍝ NOTES:
+⍝ Notably missing, and worth considering that they'll likely be required:
+⍝  * A concept of a RibbonMenuGroup which wraps RibbonMenuItems - A menu may or
+⍝    may not be split into groups. I believe bare items is fine.
+⍝ Warnings on needing to reconcile with the Windows API:
+⍝  * Almost all the ribbon components can be embedded within one another. For
+⍝    example: DropDownButton can be a parent and a child of DropDownButton. It's
+⍝    possible (theoretically) to recursive to any depth. Evidence of this being
+⍝    actively used is probably necessary before we support this arbitrary
+⍝    nesting.
