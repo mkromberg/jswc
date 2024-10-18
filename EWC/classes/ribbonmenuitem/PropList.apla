@@ -1,6 +1,7 @@
 (
  'Type'
  'Caption'
- 'Icon'
+ 'LargeImage'
+ 'SmallImage'
  'Event'
 )
